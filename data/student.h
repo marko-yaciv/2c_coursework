@@ -3,34 +3,38 @@
 
 #include <QVector>
 #include <QMap>
+#include <QStringList>
+
 #include "account.h"
-#include "teacher.h"
-#include "discipline.h"
-class Student: protected Account
+#include "human.h"
+
+
+class Discipline;
+class Teacher;
+
+class Student: public Account, public Human
 {
-    struct Initials{
-        QString fName;
-        QString lName;
-        QString fthName;
-    }inits;
-    int course;
-    QString group;
-    QMap<Discipline, Teacher> studyMap;
+    int m_course;
+    QString m_group;
+    QMap<Discipline, Teacher> m_studyMap;
 
 public:
     Student();
-    Student(const QString fName, const QString lName, const QString fthName,
-            const int course, const QString group);
+    Student(const QString& fName, const QString& lName, const QString& fthName,
+            const QString& group, const QString& password);
     ~Student();
 
-    void setInitials(const QString fname, const QString lname, const QString fthname);
-    void setCourse(const int course);
     void setGroup(const QString group);
-    void addStudyTarget(const Discipline& discipline, const Teacher& Teacher);
+    void setInitials(const QString fname, const QString lname, const QString fthname);
+    void addStudyTarget(Discipline& discipline,Teacher& Teacher);
 
-    const Initials& getInitials() const;
+    const QVector<QString>* getInitials() const;
     const QString& getGroup() const;
     int getCourse() const;
+
+    const QMap<Discipline, Teacher>& getStudyMap() const;
+
+    bool operator==(const Student& other) const;
 };
 
 #endif // STUDENT_H

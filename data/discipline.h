@@ -2,18 +2,19 @@
 #define DISCIPLINE_H
 #include <QString>
 #include <QVector>
-#include "teacher.h"
 class Discipline
 {
-    QString name;
-    QVector<Teacher> teachersOfDiscipline;
+    QString m_name;
 public:
+    Discipline();
     Discipline(QString& name);
-    int addTeacher(const Teacher& teacher);
+    ~Discipline();
+
     void rename(QString& newName);
 
     QString getName() const;
-    const QVector<Teacher>& getTeachersList() const;
+
+    bool operator<(const Discipline& other) const;
 };
 
 #endif // DISCIPLINE_H

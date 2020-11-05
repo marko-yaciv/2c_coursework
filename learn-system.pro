@@ -1,16 +1,18 @@
 QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
-CONFIG += c++11
+CONFIG += c++20
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    account.cpp \
+    data/account.cpp \
+    #data/data.cpp \
     data/discipline.cpp \
+    data/flparser.cpp \
+    data/human.cpp \
     data/student.cpp \
     data/teacher.cpp \
     main.cpp \
@@ -19,8 +21,11 @@ SOURCES += \
     teacherdialog.cpp
 
 HEADERS += \
-    account.h \
+    data/account.h \
+    #data/data.h \
     data/discipline.h \
+    data/flparser.h \
+    data/human.h \
     data/student.h \
     data/teacher.h \
     learnsystem.h \

@@ -1,28 +1,31 @@
 #include "discipline.h"
 
-Discipline::Discipline(QString& name)
+Discipline::Discipline()
 {
-    this->name = name;
+    this->m_name = "None";
 }
 
-int Discipline::addTeacher(const Teacher &teacher)
+Discipline::Discipline(QString& name)
 {
-    this->teachersOfDiscipline.append(teacher);
+    this->m_name = name;
+}
 
-    return teachersOfDiscipline.size();
+Discipline::~Discipline()
+{
+
 }
 
 void Discipline::rename(QString& newName)
 {
-    this->name = newName;
+    this->m_name = newName;
 }
 
 QString Discipline::getName() const
 {
-    return this->name;
+    return this->m_name;
 }
 
-const QVector<Teacher>& Discipline::getTeachersList() const
+bool Discipline::operator<(const Discipline &other) const
 {
-    return this->teachersOfDiscipline;
+    return (this->m_name < other.m_name);
 }

@@ -22,6 +22,8 @@ public:
     Student();
     Student(const QString& fName, const QString& lName, const QString& fthName,
             const QString& group, const QString& password);
+    Student(const QString& fName, const QString& lName, const QString& fthName,
+            const QString& password);
     ~Student();
 
     void setGroup(const QString group);

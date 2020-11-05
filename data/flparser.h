@@ -15,10 +15,12 @@ public:
     void writeData(const QString&);
     void writeData(const Student&);
     void writeData(const Teacher&);
+    //void writeData(const Discipline&);
 
     void readData(QList<QString>& data);
-    void readData(QVector<Student>& data);
-    void readData(QVector<Teacher>& data);
+    void readData(QVector<Student>& students);
+    void readData(QVector<Teacher>& teachers);
+    void readData(QVector<Discipline>& disciplines);
 };
 
 #endif // FLPARSER_H

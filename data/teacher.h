@@ -29,6 +29,8 @@ public:
     Teacher();
     Teacher(const QString& fname, const QString& lname, const QString& fthname, const QString& post,
             const int stage, const QString& password);
+    Teacher(const QString& fname, const QString& lname, const QString& fthname,
+            const QString& password);
     ~Teacher();
 
     void setInitials(const QString& fname, const QString& lname, const QString& fthname);

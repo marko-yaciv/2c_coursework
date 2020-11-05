@@ -18,11 +18,15 @@ TeacherDialog* teachDialog;
 
 QVector<Student> allStudents;
 QVector<Teacher> allTeachers;
+QVector<Discipline> allDisciplines;
 public:
     LearnSystem(QWidget *parent = nullptr);
     ~LearnSystem();
     bool isAccountExist(const Student&);
     bool isAccountExist(const Teacher&);
+
+    bool isStudentDataCorrect(const QVector<QString>& studentDataToEnter, QString accountPassword);
+    bool isTeacherDataCorrect(const QVector<QString>& teacherDataToEnter, QString accountPassword);
 private slots:
 
     void on_signUpB_clicked();

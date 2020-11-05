@@ -9,7 +9,6 @@ CONFIG += c++20
 
 SOURCES += \
     data/account.cpp \
-    #data/data.cpp \
     data/discipline.cpp \
     data/flparser.cpp \
     data/human.cpp \
@@ -22,7 +21,6 @@ SOURCES += \
 
 HEADERS += \
     data/account.h \
-    #data/data.h \
     data/discipline.h \
     data/flparser.h \
     data/human.h \

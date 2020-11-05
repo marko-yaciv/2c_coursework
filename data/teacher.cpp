@@ -18,6 +18,13 @@ Teacher::Teacher(const QString& fname, const QString& lname, const QString& fthn
     //this->m_courseStudents = new QMultiMap<Discipline,Student>;
 }
 
+Teacher::Teacher(const QString &fname, const QString &lname, const QString &fthname,
+                 const QString &password):
+                 Account(password), Human(fname, lname,fthname)
+{
+
+}
+
 Teacher::~Teacher()
 {
     //delete this->m_courseStudents;
@@ -84,7 +91,7 @@ const QList<Student> *Teacher::getSudents() const
 
 bool Teacher::operator==(const Teacher &other) const
 {
-//    return (*this->getInitials() == *other.getInitials()) &&
-//            (this->getPost() == other.getPost());
-    return this->getId() == other.getId();
+    return (*this->getInitials() == *other.getInitials()) &&
+            (this->getPasword() == other.getPasword());
+    //return this->getId() == other.getId();
 }

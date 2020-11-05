@@ -55,7 +55,14 @@ void FlParser::writeData(const Teacher & teach)
     file.close();
 }
 
+//void FlParser::writeData(const Discipline& discipline)
+//{
+//    file.open(QIODevice::Append);
 
+//    file.write((discipline.getName() + "\n").toUtf8());
+
+//    file.close();
+//}
 
 
 void FlParser::readData(QList<QString> &data)
@@ -95,6 +102,18 @@ void FlParser::readData(QVector<Teacher> &teachers)
                                 teachInfo.at(4).toInt(),
                                 teachInfo.at(6)));
         teachers.last().setId(teachInfo.at(5).toLong());
+    }
+    file.close();
+}
+
+void FlParser::readData(QVector<Discipline>& disciplines)
+{
+    file.open(QIODevice::ReadOnly);
+    while(!file.atEnd()){
+        QString data(file.readLine());
+        data.remove(data.length()-1,1);
+
+        disciplines.append(Discipline(data));
     }
     file.close();
 }

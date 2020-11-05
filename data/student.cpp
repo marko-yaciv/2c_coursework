@@ -16,6 +16,13 @@ Student::Student(const QString& fname, const QString& lname, const QString& fthn
     //this->m_studyMap = new QMap<Discipline, Teacher>;
 }
 
+Student::Student(const QString &fname, const QString &lname, const QString &fthname,
+                 const QString &password):
+                Account(password),Human(fname, lname,fthname)
+{
+
+}
+
 Student::~Student()
 {
     //delete this->m_studyMap;
@@ -61,7 +68,7 @@ const QMap<Discipline, Teacher>& Student::getStudyMap() const
 
 bool Student::operator==(const Student &other) const
 {
-//    return (*this->getInitials() == *other.getInitials()) &&
-//            (this->getGroup()==other.getGroup());
-    return this->getId() == other.getId();
+    return (*this->getInitials() == *other.getInitials()) &&
+            (this->getPasword()==other.getPasword());
+    //return this->getId() == other.getId();
 }

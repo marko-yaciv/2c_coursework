@@ -2,101 +2,73 @@
 #include "ui_learnsystem.h"
 
 #include <QMessageBox>
-
+#include <QCheckBox>
 #include "data/flparser.h"
-#define GROUPS_FILE "datafiles/groups.txt"
-#define STUDENTS_FILE "datafiles/students.txt"
-#define TEACHERS_FILE "datafiles/teachers.txt"
 
 const int COURSES = 4;
+QList<QString> groups;
+QVector<Student> allStudents;
+QVector<Teacher> allTeachers;
+QVector<QVector<Discipline>> allDisciplines;
+
 LearnSystem::LearnSystem(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::LearnSystem)
 {
     ui->setupUi(this);
 
+    this->setMaximumSize(500,580);
+    this->setBaseSize(500,550);
 
     ui->teachInfo->hide();
     ui->studGroup->hide();
     ui->enterB->hide();
     ui->backToRegister->hide();
-
-    QStringList groups;
-    FlParser dataReader(GROUPS_FILE);
-
-    dataReader.readData(groups);
     ui->group->addItems(groups);
+    QVBoxLayout* layout = new QVBoxLayout;
+    layout->setMargin(0);
+    layout->setContentsMargins(1,0,0,1);
+    for(auto& courseDiscipls: allDisciplines){
+        for(auto& discipl: courseDiscipls){
+            QCheckBox* courseName = new QCheckBox;
+            courseName->setText(discipl.getName());
+            layout->addWidget(courseName);
+            layout->update();
+            teacherCoursesWidg.append(courseName);
 
-    dataReader.changeFilename(STUDENTS_FILE);
-    dataReader.readData(allStudents);
-
-    dataReader.changeFilename(TEACHERS_FILE);
-    dataReader.readData(allTeachers);
-
-    for(int i = 1; i <=COURSES; ++i){
-        dataReader.changeFilename("datafiles/course" + QString::number(i) + "_discipl.txt");
-        dataReader.readData(allDisciplines);
+            connect(courseName,&QCheckBox::clicked,this,[=](){
+               if(courseName->isChecked())
+                    addCoursesToTeacher(discipl);
+            });
+        }
     }
+    ui->scrollAreaWidgetContents->setLayout(layout);
 
-    for(auto discipl: allDisciplines){
-        ui->discipline->addItem(discipl.getName());
-    }
 
 }
 LearnSystem::~LearnSystem()
 {
+    FlParser studWriter(STUDENTS_FILE);
+    studWriter.writeStudents(allStudents);
+    FlParser teacherWriter(TEACHERS_FILE);
+    teacherWriter.writeTeachers(allTeachers);
     delete ui;
 }
 
-bool LearnSystem::isAccountExist(const Student& newStudent)
-{
-    for(auto&i:allStudents){
-        if(i == newStudent){
-            return true;
-        }
-    }
-    return false;
+void LearnSystem::clearItems(){
+    ui->Fname->clear();
+    ui->Lname->clear();
+    ui->FthName->clear();
+    ui->password->clear();
+    ui->group->clear();
+    ui->post->clear();
+    ui->stand->clear();
 }
 
-bool LearnSystem::isAccountExist(const Teacher & newTeacher)
+void LearnSystem::addCoursesToTeacher(const Discipline &course)
 {
-    for(auto&i:allTeachers){
-        if(i == newTeacher){
-            return true;
-        }
-    }
-    return false;
+    newTeach.setDiscipline(course);
 }
-
-bool LearnSystem::isStudentDataCorrect(const QVector<QString> &studentDataToEnter, QString accountPassword)
-{
-
-
-    for(auto student : allStudents){
-        auto inits = student.getInitials();
-        if(studentDataToEnter == *inits){
-            delete inits;
-            if(accountPassword == student.getPasword()){
-                studDialog = new StudentDialog(nullptr,student);
-                return true;
-            }else{
-                QMessageBox::warning(this,"Entering failed",
-                                     "Probably you entered incorrect password."
-                                     "Please, check and try again");
-                return false;
-            }
-        }
-    }
-    return false;
-}
-
-bool LearnSystem::isTeacherDataCorrect(const QVector<QString> &teacherDataToEnter, QString accountPassword)
-{
-    return false;
-}
-
-
-
 
 void LearnSystem::on_iamstud_clicked()
 {
@@ -129,7 +101,6 @@ void LearnSystem::on_logInB_clicked()
     ui->backToRegister->show();
 }
 
-
 void LearnSystem::on_signUpB_clicked()
 {
     if(ui->iamstud->isChecked()){
@@ -138,7 +109,7 @@ void LearnSystem::on_signUpB_clicked()
                            ui->FthName->text(),
                            ui->group->currentText(),
                            ui->password->text());
-        if(isAccountExist(newStudent)){
+        if(std::find(allStudents.begin(),allStudents.end(),newStudent) != allStudents.end()){
             QMessageBox::warning(this,"Failed to Create",
                                  "Failed to create account."
                                  "It is already exists. "
@@ -147,10 +118,9 @@ void LearnSystem::on_signUpB_clicked()
         }
 
         allStudents.append(newStudent);
-        FlParser writeStudent(STUDENTS_FILE);
-        writeStudent.writeData(newStudent);
 
-        studDialog = new StudentDialog(nullptr,allStudents.last());
+        studDialog = new StudentDialog(this,allStudents.last());
+        clearItems();
         studDialog->show();
 
     }else if(ui->iamteach->isChecked()){
@@ -160,19 +130,20 @@ void LearnSystem::on_signUpB_clicked()
                            ui->post->text(),
                            ui->stand->text().toInt(),
                            ui->password->text());
-        if(isAccountExist(newTeacher)){
+        for(auto &i : *newTeach.getDissciplines()){
+            newTeacher.setDiscipline(i);
+        }
+        if(std::find(allTeachers.begin(),allTeachers.end(),newTeacher) != allTeachers.end()){
             QMessageBox::warning(this,"Failed to Create",
                                  "Failed to create account."
                                  "It is already exists. "
                                  "Try to enter your account");
             return;
         }
-
         allTeachers.append(newTeacher);
-        FlParser writeTeacher(TEACHERS_FILE);
-        writeTeacher.writeData(newTeacher);
 
-        teachDialog = new TeacherDialog(nullptr,allTeachers.last());
+        teachDialog = new TeacherDialog(this,allTeachers.last());
+        clearItems();
         teachDialog->show();
     }
     this->hide();
@@ -191,7 +162,8 @@ void LearnSystem::on_enterB_clicked()
         auto studInList = std::find(allStudents.begin(),allStudents.end(),studToEnter);
 
         if(studInList != allStudents.end()){
-            studDialog = new StudentDialog(nullptr,*studInList);
+            studDialog = new StudentDialog(this,*studInList);
+            clearItems();
             studDialog->show();
         }else{
             QMessageBox::warning(this,"Entering failed",
@@ -206,10 +178,11 @@ void LearnSystem::on_enterB_clicked()
                             ui->Lname->text(),
                             ui->FthName->text(),
                             ui->password->text());
-        auto teachInList = std::find(allTeachers.begin(),allTeachers.end()+1,TeachToEnter);
+        auto teachInList = std::find(allTeachers.begin(),allTeachers.end(),TeachToEnter);
 
-        if(teachInList != allTeachers.end()+1){
-            teachDialog = new TeacherDialog(nullptr,*teachInList);
+        if(teachInList != allTeachers.end()){
+            teachDialog = new TeacherDialog(this,*teachInList);
+            clearItems();
             teachDialog->show();
         }else{
             QMessageBox::warning(this,"Entering failed",

@@ -5,7 +5,7 @@ Discipline::Discipline()
     this->m_name = "None";
 }
 
-Discipline::Discipline(QString& name)
+Discipline::Discipline(const QString& name)
 {
     this->m_name = name;
 }
@@ -28,4 +28,25 @@ QString Discipline::getName() const
 bool Discipline::operator<(const Discipline &other) const
 {
     return (this->m_name < other.m_name);
+}
+
+bool Discipline::operator==(const Discipline &other) const
+{
+    return this->m_name == other.m_name;
+}
+
+bool Discipline::operator!=(const Discipline &other) const
+{
+    return this->m_name != other.m_name;
+}
+
+void Discipline::write(QJsonObject &json)const
+{
+    json["name"] = m_name;
+}
+
+void Discipline::read(const QJsonObject &json)
+{
+    if(json.contains("name") && json["name"].isString())
+        m_name = json["name"].toString();
 }

@@ -4,6 +4,8 @@
 #include <QString>
 #include <QVector>
 #include <QMultiMap>
+#include <QJsonObject>
+#include <QJsonArray>
 #include "human.h"
 #include "account.h"
 
@@ -16,15 +18,9 @@ class Teacher : public Account, public Human
     QString m_post;
     int m_stage;
 
-    int populatity;
+    int m_populatity;
 
-    QMultiMap<Discipline,Student> m_courseStudents;
-
-
-    //Discipline m_discipline;
-
-    /*The teacher has a list of students who wisit his course*/
-    //QVector<Student> m_courseStudents;
+    QMultiMap<Discipline, Student> m_courseVisitors;
 public:
     Teacher();
     Teacher(const QString& fname, const QString& lname, const QString& fthname, const QString& post,
@@ -36,23 +32,30 @@ public:
     void setInitials(const QString& fname, const QString& lname, const QString& fthname);
     void setPost(const QString& post);
     void setStage(const int stage);
-
+    void setCourseVisitors(QMultiMap<Discipline, Student> map);
     void updateDisciplineWithStuds(Discipline& discipline, Student& stud);
 //    /* Sets thre discipline to Teacher which he/she teaches.*/
-//    void setDiscipline(const Discipline& discipline);
+    void setDiscipline(const Discipline& discipline);
 
 //    /* Appends the student to the teacher's list of students
 //       Returns size of All Students array*/
-//    int addStudent(const Student& newStudent);
+    //int addStudent(const Student& newStudent);
 
+    bool hasDiscipline(const Discipline& discipl) const;
+    const QList<Discipline>* getDissciplines() const;
+    const QList<Student>* getSudents() const;
+    const QList<Student>* getSudents(const Discipline& discipl) const;
+    const QMultiMap<Discipline,Student>& getVisitors() const;
     const QVector<QString>* getInitials() const;
     const QString& getPost() const;
     int getStage() const;
-    int getPopularity();
-    const QList<Student>* getSudents() const;
+    int getPopularity() const;
 
     bool operator==(const Teacher& other) const;
+    bool operator!=(const Teacher& other) const;
 
+    void write(QJsonObject& json) const;
+    void read(const QJsonObject& json);
 };
 
 #endif // TEACHER_H

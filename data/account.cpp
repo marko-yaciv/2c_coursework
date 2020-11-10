@@ -1,9 +1,9 @@
 #include "account.h"
-//#include <QRandomGenerator>
+#include <QRandomGenerator>
 
 Account::Account(const QString pw)
 {
-    this->m_id = qrand()%8999+1001;
+    this->m_id = QRandomGenerator::global()->bounded(1001,8998);
     this->m_password = pw;
 }
 

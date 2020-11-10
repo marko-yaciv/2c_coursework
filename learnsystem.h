@@ -3,8 +3,10 @@
 
 #include <QMainWindow>
 #include <QVector>
+
 #include "studentdialog.h"
 #include "teacherdialog.h"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class LearnSystem; }
@@ -15,10 +17,9 @@ class LearnSystem : public QMainWindow
     Q_OBJECT
 StudentDialog* studDialog;
 TeacherDialog* teachDialog;
+Teacher newTeach;
+QVector<QWidget*> teacherCoursesWidg;
 
-QVector<Student> allStudents;
-QVector<Teacher> allTeachers;
-QVector<Discipline> allDisciplines;
 public:
     LearnSystem(QWidget *parent = nullptr);
     ~LearnSystem();
@@ -27,6 +28,9 @@ public:
 
     bool isStudentDataCorrect(const QVector<QString>& studentDataToEnter, QString accountPassword);
     bool isTeacherDataCorrect(const QVector<QString>& teacherDataToEnter, QString accountPassword);
+
+    void addCoursesToTeacher(const Discipline& course);
+    void  clearItems();
 private slots:
 
     void on_signUpB_clicked();

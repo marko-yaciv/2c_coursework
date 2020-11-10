@@ -4,6 +4,7 @@
 
 class Account
 {
+protected:
     long m_id;
     QString m_password;
 public:

@@ -16,7 +16,6 @@ Teacher::Teacher(const QString& fname, const QString& lname, const QString& fthn
     this->m_post = post;
     this->m_stage = stage;
     this->m_populatity = 0;
-    //this->m_courseStudents = new QMultiMap<Discipline,Student>;
 }
 
 Teacher::Teacher(const QString &fname, const QString &lname, const QString &fthname,

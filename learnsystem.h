@@ -31,6 +31,7 @@ public:
 
     void addCoursesToTeacher(const Discipline& course);
     void  clearItems();
+
 private slots:
 
     void on_signUpB_clicked();

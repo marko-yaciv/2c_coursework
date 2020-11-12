@@ -16,6 +16,8 @@ public:
     explicit TeacherDialog(QWidget *parent = nullptr, const Teacher& teacher = Teacher());
     ~TeacherDialog();
 
+signals:
+    void showMain();
 private:
     Ui::TeacherDialog *ui;
 };

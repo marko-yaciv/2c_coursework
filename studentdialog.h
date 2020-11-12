@@ -32,6 +32,8 @@ public:
     void on_discipl_contxtMenuRequested(const Discipline& discipl);
 
     void addTeachersToList(QVector<Teacher>& teachers);
+signals:
+    void showMain();
 private slots:
     void on_logout_clicked();
 

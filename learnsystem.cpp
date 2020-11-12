@@ -6,7 +6,6 @@
 #include "data/flparser.h"
 
 const int COURSES = 4;
-static short postNumber = 0;
 QList<QString> groups;
 QVector<Student> allStudents;
 QVector<Teacher> allTeachers;
@@ -45,7 +44,11 @@ LearnSystem::LearnSystem(QWidget *parent)
         }
     }
     ui->scrollAreaWidgetContents->setLayout(layout);
-
+    postNames = decltype (postNames)({std::pair<short,QString>(0,"labAssist"),
+                                      std::pair<short,QString>(1,"teacher"),
+                                      std::pair<short,QString>(2,"seniorTeacher"),
+                                      std::pair<short,QString>(3,"docent"),
+                                      std::pair<short,QString>(4,"professor")});
 
 }
 LearnSystem::~LearnSystem()
@@ -121,12 +124,13 @@ void LearnSystem::on_signUpB_clicked()
 
         allStudents.append(newStudent);
 
-        studDialog = new StudentDialog(this,allStudents.last());
+//------------Shows student's window---------------------------------
+        studDialog = new StudentDialog(nullptr,allStudents.last());
+        connect(studDialog,&StudentDialog::finished,this,&QMainWindow::show);
         clearItems();
-        studDialog->show();
+        studDialog->open();
 
     }else if(ui->iamteach->isChecked()){
-        postNames.insert(postNumber++,ui->post->currentText());
         Teacher newTeacher(ui->Fname->text(),
                            ui->Lname->text(),
                            ui->FthName->text(),
@@ -145,11 +149,13 @@ void LearnSystem::on_signUpB_clicked()
         }
         allTeachers.append(newTeacher);
 
-        teachDialog = new TeacherDialog(this,allTeachers.last());
+//--------------------shows teacher's window--------------------------
+        teachDialog = new TeacherDialog(nullptr,allTeachers.last());
+        connect(teachDialog,&TeacherDialog::finished,this,&QMainWindow::show);
         clearItems();
-        teachDialog->show();
+        teachDialog->open();
     }
-    this->hide();
+    this->close();
 }
 
 void LearnSystem::on_enterB_clicked()
@@ -165,9 +171,11 @@ void LearnSystem::on_enterB_clicked()
         auto studInList = std::find(allStudents.begin(),allStudents.end(),studToEnter);
 
         if(studInList != allStudents.end()){
-            studDialog = new StudentDialog(this,*studInList);
+            studDialog = new StudentDialog(nullptr,*studInList);
+
+            connect(studDialog,&StudentDialog::finished,this,&QMainWindow::show);
             clearItems();
-            studDialog->show();
+            studDialog->open();
         }else{
             QMessageBox::warning(this,"Entering failed",
                                  "The student with entered initials doesn't exist,"
@@ -184,9 +192,10 @@ void LearnSystem::on_enterB_clicked()
         auto teachInList = std::find(allTeachers.begin(),allTeachers.end(),TeachToEnter);
 
         if(teachInList != allTeachers.end()){
-            teachDialog = new TeacherDialog(this,*teachInList);
+            teachDialog = new TeacherDialog(nullptr,*teachInList);
+            connect(teachDialog,&TeacherDialog::finished,this,&QMainWindow::show);
             clearItems();
-            teachDialog->show();
+            teachDialog->open();
         }else{
             QMessageBox::warning(this,"Entering failed",
                                  "The teacher with entered initials doesn't exist,"
@@ -197,7 +206,7 @@ void LearnSystem::on_enterB_clicked()
         }
 
     }
-    this->hide();
+    this->close();
 }
 
 void LearnSystem::on_backToRegister_clicked()

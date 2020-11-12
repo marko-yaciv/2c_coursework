@@ -24,6 +24,7 @@ StudentDialog::StudentDialog(QWidget *parent, const Student& stud) :
     ui(new Ui::StudentDialog)
 {
     this->setParent(parent);
+    this->setAttribute(Qt::WidgetAttribute::WA_DeleteOnClose);
 
     ui->setupUi(this);
     this->pageOwner = stud;
@@ -146,6 +147,8 @@ void StudentDialog::showThePopulestTeacher(const Discipline &discipl)
     connect(ui->teachers,&QListWidget::itemDoubleClicked,this,[=](){addTeacherToTarget(theMostPopular, w);});
 
 }
+
+
 void StudentDialog::showTeacherUnderDiscipline(const Teacher &teachItm, QWidget *where)
 {
     if(noTeacherButtons.contains(where)){
@@ -182,8 +185,8 @@ void StudentDialog::on_logout_clicked()
         ui->toolBox->removeItem(i);
     }
 
-    this->nativeParentWidget()->show();
-    this->~StudentDialog();
+    emit this->finished(1);
+    this->close();
 }
 
 bool compareTeachers(const Teacher& first, const Teacher& second){
@@ -255,13 +258,12 @@ void StudentDialog::on_sortB_clicked()
         ui->teachers->selectAll();
 //------Parsing teachers from ListWidget to QVector--------
         QVector<Teacher> teachersToSort;
-        auto items = ui->teachers->selectedItems();
 
-        for(auto &i : items){
-            QVector<QString>inits = i->text().split('\n').first().split(' ').toVector();
-            for(auto &i:allTeachers){
-                if(*i.getInitials() == inits){
-                    teachersToSort.append(i);
+        for(int i = 0; i<ui->teachers->count();++i){
+            QVector<QString>inits = ui->teachers->item(i)->text().split('\n').first().split(' ').toVector();
+            for(auto &j:allTeachers){
+                if(*j.getInitials() == inits){
+                    teachersToSort.append(j);
                 }
             }
         }

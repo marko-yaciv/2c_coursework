@@ -1,6 +1,7 @@
 #include "teacher.h"
 #include "discipline.h"
 #include "student.h"
+extern QMap<short,QString> postNames;
 Teacher::Teacher():Account("None"), Human("None","None","None")
 {
     this->m_post = "None";
@@ -78,7 +79,7 @@ bool Teacher::hasDiscipline(const Discipline &discipl) const
 
 const QVector<QString> *Teacher::getInitials() const
 {
-    return new QVector<QString>({m_fName, m_lName, m_fthName});
+    return new QVector<QString>({m_lName, m_fName, m_fthName});
 }
 
 const QString &Teacher::getPost() const
@@ -126,6 +127,16 @@ bool Teacher::operator!=(const Teacher &other) const
 {
     return (*this->getInitials() != *other.getInitials()) &&
             (this->getPasword() != other.getPasword());
+}
+
+bool Teacher::operator>(const Teacher &other) const
+{
+    return postNames.key(m_post) > postNames.key(other.m_post);
+}
+
+bool Teacher::operator<(const Teacher &other) const
+{
+    return m_lName < other.m_lName;
 }
 
 void Teacher::write(QJsonObject &json) const

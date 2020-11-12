@@ -305,18 +305,52 @@
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="post">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
+             <widget class="QComboBox" name="post">
               <property name="font">
                <font>
-                <pointsize>9</pointsize>
+                <pointsize>10</pointsize>
                </font>
               </property>
+              <property name="cursor">
+               <cursorShape>SplitHCursor</cursorShape>
+              </property>
+              <property name="currentIndex">
+               <number>0</number>
+              </property>
+              <property name="sizeAdjustPolicy">
+               <enum>QComboBox::AdjustToContents</enum>
+              </property>
+              <property name="minimumContentsLength">
+               <number>0</number>
+              </property>
+              <property name="modelColumn">
+               <number>0</number>
+              </property>
+              <item>
+               <property name="text">
+                <string>labAssist</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>teacher</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>seniorTeacher</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>docent</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>professor</string>
+               </property>
+              </item>
              </widget>
             </item>
            </layout>
@@ -712,7 +746,6 @@
   <tabstop>Fname</tabstop>
   <tabstop>FthName</tabstop>
   <tabstop>password</tabstop>
-  <tabstop>post</tabstop>
   <tabstop>scrollArea</tabstop>
   <tabstop>stand</tabstop>
   <tabstop>group</tabstop>

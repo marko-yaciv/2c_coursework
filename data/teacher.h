@@ -9,10 +9,12 @@
 #include "human.h"
 #include "account.h"
 
-
 class Discipline;
 class Student;
-
+enum class Posts
+{
+   nopost, labAssist, teacher, seniorTeacher, docent, professor
+};
 class Teacher : public Account, public Human
 {
     QString m_post;
@@ -53,6 +55,10 @@ public:
 
     bool operator==(const Teacher& other) const;
     bool operator!=(const Teacher& other) const;
+    bool operator>(const Teacher& other) const;
+    bool operator<(const Teacher& other) const;
+
+    friend bool compareTeachers(const Teacher& first, const Teacher& second);
 
     void write(QJsonObject& json) const;
     void read(const QJsonObject& json);

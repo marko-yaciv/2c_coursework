@@ -6,10 +6,12 @@
 #include "data/flparser.h"
 
 const int COURSES = 4;
+static short postNumber = 0;
 QList<QString> groups;
 QVector<Student> allStudents;
 QVector<Teacher> allTeachers;
 QVector<QVector<Discipline>> allDisciplines;
+QMap<short,QString> postNames;
 
 LearnSystem::LearnSystem(QWidget *parent)
     : QMainWindow(parent)
@@ -124,10 +126,11 @@ void LearnSystem::on_signUpB_clicked()
         studDialog->show();
 
     }else if(ui->iamteach->isChecked()){
+        postNames.insert(postNumber++,ui->post->currentText());
         Teacher newTeacher(ui->Fname->text(),
                            ui->Lname->text(),
                            ui->FthName->text(),
-                           ui->post->text(),
+                           ui->post->currentText(),
                            ui->stand->text().toInt(),
                            ui->password->text());
         for(auto &i : *newTeach.getDissciplines()){

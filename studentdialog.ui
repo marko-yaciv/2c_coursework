@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>680</width>
-    <height>529</height>
+    <width>800</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="font">
@@ -18,7 +18,7 @@
   <property name="windowTitle">
    <string>Student Account</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout" columnstretch="1,1">
+  <layout class="QGridLayout" name="gridLayout" columnstretch="4,3">
    <item row="1" column="1">
     <widget class="QWidget" name="courseMap" native="true">
      <property name="sizePolicy">
@@ -59,8 +59,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>284</width>
-           <height>373</height>
+           <width>289</width>
+           <height>444</height>
           </rect>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -100,8 +100,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>262</width>
-               <height>318</height>
+               <width>267</width>
+               <height>389</height>
               </rect>
              </property>
              <attribute name="label">
@@ -250,7 +250,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="shoeTeachMode">
+         <widget class="QComboBox" name="showTeachMode">
           <item>
            <property name="text">
             <string>All Teachers</string>
@@ -261,7 +261,69 @@
             <string>My Teachers</string>
            </property>
           </item>
+          <item>
+           <property name="text">
+            <string>Teachers with 1 course</string>
+           </property>
+          </item>
          </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="2,1">
+        <property name="spacing">
+         <number>10</number>
+        </property>
+        <property name="leftMargin">
+         <number>40</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>40</number>
+        </property>
+        <item>
+         <widget class="QPushButton" name="sortB">
+          <property name="text">
+           <string>Sort by</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QRadioButton" name="sortByName">
+            <property name="font">
+             <font>
+              <pointsize>9</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Name</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="sortByPost">
+            <property name="font">
+             <font>
+              <pointsize>9</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Post</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
        </layout>
       </item>

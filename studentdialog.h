@@ -18,6 +18,7 @@ class StudentDialog : public QDialog
     Student pageOwner;
     int course;
     QMap<QWidget*, QPushButton*> noTeacherButtons;
+    QMap<QWidget*, QPushButton*> popularTeacherButtons;
 public:
     explicit StudentDialog(QWidget *parent = nullptr, const Student& stud = Student());
     ~StudentDialog();
@@ -27,11 +28,18 @@ public:
     void showTeacherUnderDiscipline(const Teacher& teachItm, QWidget* where);
     void addTeacherToTarget(const Teacher& teachItm, QWidget* where);
     void showTeachersList(const Discipline& discipl);
+    void showThePopulestTeacher(const Discipline& discipl);
+    void on_discipl_contxtMenuRequested(const Discipline& discipl);
 
+    void addTeachersToList(QVector<Teacher>& teachers);
 private slots:
-    void on_discipline_customContextMenuRequested(const QPoint& pos);
     void on_logout_clicked();
 
+    //void on_showTeachMode_currentTextChanged(const QString &arg1);
+
+    void on_sortB_clicked();
+
+    void on_showTeachMode_activated(const QString &arg1);
 private:
     Ui::StudentDialog *ui;
 };

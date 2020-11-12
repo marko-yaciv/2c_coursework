@@ -78,8 +78,8 @@ StudentDialog::~StudentDialog()
 void StudentDialog::on_discipl_contxtMenuRequested(const Discipline &discipl)
 {
     QMenu* menu = new QMenu;
-    menu->addAction(tr("Show the most popular teacher"),this,[=](){showThePopulestTeacher(discipl);});
-
+    menu->addAction(tr("Show the most popular teacher"), this, [=](){showThePopulestTeacher(discipl);});
+    menu->addAction(tr("Change Teacher"), this, [=](){showTeachersList(discipl);});
     menu->exec(cursor().pos());
 }
 

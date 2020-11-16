@@ -13,6 +13,7 @@ SOURCES += \
     data/flparser.cpp \
     data/human.cpp \
     data/student.cpp \
+    data/studyprocessdata.cpp \
     data/teacher.cpp \
     main.cpp \
     learnsystem.cpp \
@@ -25,6 +26,7 @@ HEADERS += \
     data/flparser.h \
     data/human.h \
     data/student.h \
+    data/studyprocessdata.h \
     data/teacher.h \
     learnsystem.h \
     studentdialog.h \

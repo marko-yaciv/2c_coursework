@@ -6,7 +6,7 @@
 #include "data/student.h"
 #include "data/discipline.h"
 #include "data/teacher.h"
-
+#include "data/studyprocessdata.h"
 namespace Ui {
 class StudentDialog;
 }
@@ -14,7 +14,7 @@ class StudentDialog;
 class StudentDialog : public QDialog
 {
     Q_OBJECT
-    QMap<Discipline, QWidget*> studentCourses;
+    QMap<Discipline, QWidget*> studCoursesWidgets;
     Student pageOwner;
     int course;
     QMap<QWidget*, QPushButton*> noTeacherButtons;
@@ -26,12 +26,15 @@ public:
     void updateOwnersMap(int course);
 
     void showTeacherUnderDiscipline(const Teacher& teachItm, QWidget* where);
-    void addTeacherToTarget(const Teacher& teachItm, QWidget* where);
+    void addTeacherToTarget(Teacher& teachItm, QWidget* where);
     void showTeachersList(const Discipline& discipl);
+
+    void showTeachersToChange(const Discipline& discipl);
+
     void showThePopulestTeacher(const Discipline& discipl);
     void on_discipl_contxtMenuRequested(const Discipline& discipl);
 
-    void addTeachersToList(QVector<Teacher>& teachers);
+    void addTeachersToList(const QVector<Teacher>& teachers);
 signals:
     void showMain();
 private slots:

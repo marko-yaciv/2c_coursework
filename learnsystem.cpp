@@ -7,10 +7,14 @@
 
 const int COURSES = 4;
 QList<QString> groups;
+
 QVector<Student> allStudents;
 QVector<Teacher> allTeachers;
 QVector<QVector<Discipline>> allDisciplines;
+
 QMap<short,QString> postNames;
+
+StudyProcessData allStudyProcessData;
 
 LearnSystem::LearnSystem(QWidget *parent)
     : QMainWindow(parent)
@@ -49,14 +53,22 @@ LearnSystem::LearnSystem(QWidget *parent)
                                       std::pair<short,QString>(2,"seniorTeacher"),
                                       std::pair<short,QString>(3,"docent"),
                                       std::pair<short,QString>(4,"professor")});
+    ui->post->addItems(postNames.values());
 
 }
 LearnSystem::~LearnSystem()
 {
-    FlParser studWriter(STUDENTS_FILE);
-    studWriter.writeStudents(allStudents);
-    FlParser teacherWriter(TEACHERS_FILE);
-    teacherWriter.writeTeachers(allTeachers);
+    for(auto&i:allStudents){
+        allStudyProcessData.updateMapForStudent(i,i.getStudyMap());
+    }
+    for(auto&i:allTeachers){
+        allStudyProcessData.updateMapForTeacher(i,i.getVisitors());
+    }
+
+    FlParser dataSaver;
+    dataSaver.writeStudents(allStudents);
+    dataSaver.writeTeachers(allTeachers);
+    dataSaver.writeStudyProcess(allStudyProcessData);
     delete ui;
 }
 
@@ -65,8 +77,6 @@ void LearnSystem::clearItems(){
     ui->Lname->clear();
     ui->FthName->clear();
     ui->password->clear();
-    ui->group->clear();
-    ui->post->clear();
     ui->stand->clear();
 }
 
@@ -114,6 +124,7 @@ void LearnSystem::on_signUpB_clicked()
                            ui->FthName->text(),
                            ui->group->currentText(),
                            ui->password->text());
+
         if(std::find(allStudents.begin(),allStudents.end(),newStudent) != allStudents.end()){
             QMessageBox::warning(this,"Failed to Create",
                                  "Failed to create account."
@@ -137,7 +148,7 @@ void LearnSystem::on_signUpB_clicked()
                            ui->post->currentText(),
                            ui->stand->text().toInt(),
                            ui->password->text());
-        for(auto &i : *newTeach.getDissciplines()){
+        for(auto &i : newTeach.getDisciplines()){
             newTeacher.setDiscipline(i);
         }
         if(std::find(allTeachers.begin(),allTeachers.end(),newTeacher) != allTeachers.end()){
@@ -166,7 +177,6 @@ void LearnSystem::on_enterB_clicked()
                             ui->Lname->text(),
                             ui->FthName->text(),
                             ui->password->text());
-
 
         auto studInList = std::find(allStudents.begin(),allStudents.end(),studToEnter);
 

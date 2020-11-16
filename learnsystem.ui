@@ -315,7 +315,7 @@
                <cursorShape>SplitHCursor</cursorShape>
               </property>
               <property name="currentIndex">
-               <number>0</number>
+               <number>-1</number>
               </property>
               <property name="sizeAdjustPolicy">
                <enum>QComboBox::AdjustToContents</enum>
@@ -326,31 +326,6 @@
               <property name="modelColumn">
                <number>0</number>
               </property>
-              <item>
-               <property name="text">
-                <string>labAssist</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>teacher</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>seniorTeacher</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>docent</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>professor</string>
-               </property>
-              </item>
              </widget>
             </item>
            </layout>

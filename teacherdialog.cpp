@@ -11,9 +11,7 @@ TeacherDialog::TeacherDialog(QWidget *parent, const Teacher& teacher) :
     ui(new Ui::TeacherDialog)
 {
     ui->setupUi(this);
-    auto inits = teacher.getInitials();
-    ui->label->setText(inits->at(0));
-    delete inits;
+    ui->label->setText(teacher.getFname());
 }
 
 TeacherDialog::~TeacherDialog()

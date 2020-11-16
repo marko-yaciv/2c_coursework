@@ -52,43 +52,39 @@ void Teacher::setCourseVisitors(QMultiMap<Discipline, Student> map)
     this->m_courseVisitors = map;
 }
 
-void Teacher::updateDisciplineWithStuds(Discipline &discipline,Student &stud)
+void Teacher::addCourseTarget(const Discipline &discipline,const Student &stud)
 {
-    this->m_courseVisitors.insert(discipline, stud);
-    ++m_populatity;
+    if(m_courses.contains(discipline)){
+        if(m_courseVisitors.contains(discipline,stud)){
+            m_courseVisitors.remove(discipline,stud);
+        }else{
+            ++m_populatity;
+        }
+        m_courseVisitors.insert(discipline,stud);
+    }
 }
 
 
 void Teacher::setDiscipline(const Discipline& discipline)
 {
-    this->m_courseVisitors.insert(discipline, Student());
+    m_courses.append(discipline);
+    //m_courseVisitors.insert(discipline,Student());
     ++m_populatity;
 }
 
 bool Teacher::hasDiscipline(const Discipline &discipl) const
 {
-    return this->m_courseVisitors.contains(discipl);
-}
-
-//int Teacher::addStudent(const Student& newStudent)
-//{
-//    this->m_students.append(newStudent);
-//    return m_students.size();
-//}
-
-const QVector<QString> *Teacher::getInitials() const
-{
-    return new QVector<QString>({m_lName, m_fName, m_fthName});
+    return m_courses.contains(discipl);
 }
 
 const QString &Teacher::getPost() const
 {
-    return this->m_post;
+    return m_post;
 }
 
 int Teacher::getStage() const
 {
-    return this->m_stage;
+    return m_stage;
 }
 
 int Teacher::getPopularity() const
@@ -96,36 +92,28 @@ int Teacher::getPopularity() const
     return m_populatity;
 }
 
-const QList<Discipline>* Teacher::getDissciplines() const
-{
-    return new QList<Discipline>(this->m_courseVisitors.keys());
-}
-const QList<Student>* Teacher::getSudents() const
-{
-    return new QList<Student>(this->m_courseVisitors.values());
-}
-
-const QList<Student>* Teacher::getSudents(const Discipline &discipl) const
-{
-    return new QList<Student>(this->m_courseVisitors.values(discipl));
-}
-
 const QMultiMap<Discipline, Student>& Teacher::getVisitors() const
 {
-    return this->m_courseVisitors;
+    return m_courseVisitors;
+}
+
+const QList<Discipline> &Teacher::getDisciplines() const
+{
+    return m_courses;
 }
 
 bool Teacher::operator==(const Teacher &other) const
 {
-    return (*this->getInitials() == *other.getInitials()) &&
+    return (this->getFname() == other.getFname()) &&
+            (this->getLname() == other.getLname()) &&
+            (this->getFthName() == other.getFthName()) &&
             (this->getPasword() == other.getPasword());
     //return this->getId() == other.getId();
 }
 
 bool Teacher::operator!=(const Teacher &other) const
 {
-    return (*this->getInitials() != *other.getInitials()) &&
-            (this->getPasword() != other.getPasword());
+    return !(*this == other);
 }
 
 bool Teacher::operator>(const Teacher &other) const
@@ -148,22 +136,12 @@ void Teacher::write(QJsonObject &json) const
     json["popularity"] = m_populatity;
     json["password"] = m_password;
     json["id"] = (int)m_id;
-
-    QJsonArray courseMap;
-    for(auto i = m_courseVisitors.begin(); i != m_courseVisitors.end(); ++i){
-        //if(i.value().getGroup() == "None") continue;
-        QJsonArray keyVal;
-        QJsonObject key, val;
-
-        i.key().write(key);
-        i.value().write(val);
-
-        keyVal.append(key);
-        keyVal.append(val);
-
-        courseMap.append(keyVal);
+    QJsonArray courses;
+    for(auto&i:m_courses){
+        courses.append(i.getName());
     }
-    json["coursemap"] = courseMap;
+    json["courses"] = courses;
+
 }
 
 void Teacher::read(const QJsonObject &json)
@@ -186,21 +164,12 @@ void Teacher::read(const QJsonObject &json)
         m_password = json["password"].toString();
     if(json.contains("id")&& json["id"].isDouble())
         m_id = json["id"].toInt();
-
-    if(json.contains("coursemap") && json["coursemap"].isArray()){
-        QJsonArray courseMap = json["coursemap"].toArray();
-        m_courseVisitors.clear();
-        for(int i  = 0; i < courseMap.size(); ++i){
-            QJsonArray keyVal = courseMap[i].toArray();
-
-            Discipline dis;
-            Student stud;
-
-            dis.read(keyVal.first().toObject());
-            stud.read(keyVal.last().toObject());
-
-            m_courseVisitors.insert(dis,stud);
+    if(json.contains("courses") && json["courses"].isArray()){
+        QJsonArray courses = json["courses"].toArray();
+        for(auto i:courses){
+            Discipline dis(i.toString());
+            m_courses.append(dis);
         }
     }
-
 }
+

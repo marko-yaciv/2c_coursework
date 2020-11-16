@@ -5,6 +5,7 @@
 #include "data/student.h"
 #include "data/discipline.h"
 #include "data/teacher.h"
+#include "data/studyprocessdata.h"
 namespace Ui {
 class TeacherDialog;
 }

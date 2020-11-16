@@ -5,19 +5,20 @@
 #include <QLayout>
 #include <QMenuBar>
 #include <QtAlgorithms>
+
 extern const int COURSES;
+
 extern QVector<QVector<Discipline>> allDisciplines;
 extern QVector<Teacher> allTeachers;
 extern QVector<Student> allStudents;
 
+extern StudyProcessData allStudyProcessData;
+
 void StudentDialog::updateOwnersMap(int course){
-    for(auto&i: allDisciplines[course-1]){
+    for(const auto&i: allDisciplines[course-1]){
         pageOwner.addDiscipline(i);
     }
 }
-
-
-
 
 StudentDialog::StudentDialog(QWidget *parent, const Student& stud) :
     QDialog(parent),
@@ -29,27 +30,27 @@ StudentDialog::StudentDialog(QWidget *parent, const Student& stud) :
     ui->setupUi(this);
     this->pageOwner = stud;
     this->course = this->pageOwner.getCourse();
-    auto inits = pageOwner.getInitials();
-    for(auto i: *inits){
-        ui->initials->setText(ui->initials->text() + i + "  ");
-    }
+
+    ui->initials->setText(pageOwner.getFname() + "  " +
+                          pageOwner.getLname() + "  " +
+                          pageOwner.getFthName());
     ui->course->setText("Course: " + QString::number(course));
     ui->group->setText("Group: " + pageOwner.getGroup());
     ui->toolBox->removeItem(0);
 
     updateOwnersMap(course);
-    this->pageOwner.setStudyMap(stud.getStudyMap());
+//    pageOwner.setStudyMap(stud.getStudyMap());
     const QMap<Discipline, Teacher> studyMap = pageOwner.getStudyMap();
 
-    for(auto i  = studyMap.begin(); i != studyMap.end(); ++i){
+    for(auto i  = pageOwner.getDisciplines().begin(); i != pageOwner.getDisciplines().end(); ++i){
         QWidget* disciplWidget = new QWidget(ui->courseMap);
 
         disciplWidget->setContextMenuPolicy(Qt::CustomContextMenu);
-        connect(disciplWidget,&QWidget::customContextMenuRequested,this,[=](){on_discipl_contxtMenuRequested(i.key());});
+        connect(disciplWidget,&QWidget::customContextMenuRequested,this,[=](){on_discipl_contxtMenuRequested(*i);});
 
-        this->studentCourses.insert(i.key(),disciplWidget);
+        this->studCoursesWidgets.insert(*i,disciplWidget);
 
-        if(i.value().getInitials()->at(0) == "None"){
+        if(studyMap[*i].getFname() == "None"){
             QPushButton* noTeacherBut = new QPushButton(disciplWidget);
 
             noTeacherBut->setText("Add Teacher");
@@ -58,13 +59,13 @@ StudentDialog::StudentDialog(QWidget *parent, const Student& stud) :
 
             noTeacherButtons.insert(disciplWidget,noTeacherBut);
 
-            connect(noTeacherBut,&QPushButton::clicked,this,[=](){showTeachersList(i.key());});
+            connect(noTeacherBut,&QPushButton::clicked,this,[=](){showTeachersList(*i);});
 
             noTeacherBut->show();
         }else{
-            showTeacherUnderDiscipline(i.value(),disciplWidget);
+            showTeacherUnderDiscipline(studyMap[*i],disciplWidget);
         }
-        ui->toolBox->addItem(disciplWidget,i.key().getName());
+        ui->toolBox->addItem(disciplWidget,i->getName());
     }
 
 
@@ -79,24 +80,24 @@ void StudentDialog::on_discipl_contxtMenuRequested(const Discipline &discipl)
 {
     QMenu* menu = new QMenu;
     menu->addAction(tr("Show the most popular teacher"), this, [=](){showThePopulestTeacher(discipl);});
-    menu->addAction(tr("Change Teacher"), this, [=](){showTeachersList(discipl);});
+    menu->addAction(tr("Change Teacher"), this, [=](){showTeachersToChange(discipl);});
     menu->exec(cursor().pos());
 }
 
-void StudentDialog::addTeachersToList(QVector<Teacher> &teachers)
+void StudentDialog::addTeachersToList(const QVector<Teacher> &teachers)
 {
     ui->teachers->clear();
     for(auto &i : teachers){
-        const QList<Discipline>* disciplines = i.getDissciplines();
+        const QList<Discipline> disciplines = i.getDisciplines();
         QListWidgetItem* item = new QListWidgetItem;
-        item->setText(i.getInitials()->at(0) + " " +
-                      i.getInitials()->at(1) + " " +
-                      i.getInitials()->at(2) +
+        item->setText(i.getFname() + " " +
+                      i.getLname() + " " +
+                      i.getFthName() +
                       "\nPost: " +
                       i.getPost() +
                       "\nPopularity = " +
                       QString::number(i.getPopularity()) + "\nDisciplines:\n");
-        for(auto &i : *disciplines){
+        for(auto &i : disciplines){
             item->setText(item->text() + i.getName() + ";\n");
         }
         ui->teachers->addItem(item);
@@ -105,14 +106,34 @@ void StudentDialog::addTeachersToList(QVector<Teacher> &teachers)
 void StudentDialog::showTeachersList(const Discipline& discipl)
 {
     QVector<Teacher> teachersToShow;
-    for(const auto& teacher : allTeachers){
-        if(teacher.hasDiscipline(discipl)){
-            teachersToShow.push_back(teacher);
-            QWidget * w = studentCourses.value(discipl);
-            connect(ui->teachers,&QListWidget::itemDoubleClicked,this,[=](){addTeacherToTarget(teacher, w);});
+    for(auto i = allTeachers.begin(); i != allTeachers.end();++i){
+        if(i->hasDiscipline(discipl)){
+            teachersToShow.push_back(*i);
+            QWidget * w = studCoursesWidgets.value(discipl);
+            connect(ui->teachers,&QListWidget::itemDoubleClicked,this,[=](){addTeacherToTarget(*i, w);});
         }
     }
-    addTeachersToList(teachersToShow);
+    if(!teachersToShow.isEmpty())
+        addTeachersToList(teachersToShow);
+}
+
+void StudentDialog::showTeachersToChange(const Discipline &discipl)
+{
+    QVector<Teacher> teachersToShow;
+    for(auto i = allTeachers.begin(); i != allTeachers.end();++i){
+        QList<QString> excistTeacherInits = studCoursesWidgets.value(discipl)->findChild<QLabel*>()->text().split('\n').first().split(' ');
+        excistTeacherInits.removeFirst();
+
+        QList<QString> teacherToShowInits({i->getFname(),i->getLname(),i->getFthName()});
+
+        if(i->hasDiscipline(discipl) && teacherToShowInits != excistTeacherInits){
+            teachersToShow.push_back(*i);
+            QWidget * w = studCoursesWidgets.value(discipl);
+            connect(ui->teachers,&QListWidget::itemDoubleClicked,this,[=](){addTeacherToTarget(*i, w);});
+        }
+    }
+    if(!teachersToShow.isEmpty())
+        addTeachersToList(teachersToShow);
 }
 
 void StudentDialog::showThePopulestTeacher(const Discipline &discipl)
@@ -143,8 +164,8 @@ void StudentDialog::showThePopulestTeacher(const Discipline &discipl)
     QVector<Teacher> teacherToPrint({theMostPopular});
     addTeachersToList(teacherToPrint);
 
-    QWidget * w = studentCourses.value(discipl);
-    connect(ui->teachers,&QListWidget::itemDoubleClicked,this,[=](){addTeacherToTarget(theMostPopular, w);});
+    QWidget * w = studCoursesWidgets.value(discipl);
+    connect(ui->teachers,&QListWidget::itemDoubleClicked,this,[&](){addTeacherToTarget(theMostPopular, w);});
 
 }
 
@@ -152,27 +173,32 @@ void StudentDialog::showThePopulestTeacher(const Discipline &discipl)
 void StudentDialog::showTeacherUnderDiscipline(const Teacher &teachItm, QWidget *where)
 {
     if(noTeacherButtons.contains(where)){
-        noTeacherButtons[where]->close();
+        noTeacherButtons[where]->hide();
+        delete noTeacherButtons[where];
         noTeacherButtons.remove(where);
     }
-    for (auto wid: where->findChildren<QLabel*>())
-      delete wid;
+    for (auto widg: where->findChildren<QLabel*>())
+      delete widg;
 
     QLabel* teacherInfo = new QLabel(where);
-    auto teacherInits = teachItm.getInitials();
-    teacherInfo->setText("Teacher: " + teacherInits->at(0) + " " +
-                         teacherInits->at(1) + " " +
-                         teacherInits->at(2) +
+
+    teacherInfo->setText("Teacher: " + teachItm.getFname() + " " +
+                         teachItm.getLname() + " " +
+                         teachItm.getFthName() +
                          "\nPost:" + teachItm.getPost() +
                          "\nPopularity = " + QString::number(teachItm.getPopularity()));
     teacherInfo->setFont(this->font());
     teacherInfo->show();
 }
 
-void StudentDialog::addTeacherToTarget(const Teacher& teachItm, QWidget* where)
+void StudentDialog::addTeacherToTarget(Teacher& teachItm, QWidget* where)
 {
+    teachItm.addCourseTarget(studCoursesWidgets.key(where),pageOwner);
     showTeacherUnderDiscipline(teachItm,where);
-    pageOwner.addStudyTarget(studentCourses.key(where),teachItm);
+
+    pageOwner.addStudyTarget(studCoursesWidgets.key(where),teachItm);
+
+    allTeachers.replace(allTeachers.indexOf(teachItm),teachItm);
 }
 
 void StudentDialog::on_logout_clicked()
@@ -184,7 +210,7 @@ void StudentDialog::on_logout_clicked()
     for(int i = 0; i < pageOwner.getStudyMap().size(); ++i){
         ui->toolBox->removeItem(i);
     }
-
+    allStudents.replace(allStudents.indexOf(pageOwner),pageOwner);
     emit this->finished(1);
     this->close();
 }
@@ -195,26 +221,35 @@ bool compareTeachers(const Teacher& first, const Teacher& second){
 
 void StudentDialog::on_sortB_clicked()
 {
-    if(ui->showTeachMode->currentText() == "My Teachers")
+    QVector<Teacher> teachersToSort;
+    const QString teacherGroupToSort = ui->showTeachMode->currentText();
+    QListWidgetItem* itm = new QListWidgetItem;
+    itm->setText("No teacher to sort");
+    if(teacherGroupToSort == "My Teachers")
     {
-        QVector<Teacher> myTeachers;
 //------Parsing correct teachers from stydy map to QVector------
-        for(auto i = pageOwner.getStudyMap().begin(); i != pageOwner.getStudyMap().end(); ++i)
+        auto begin  = pageOwner.getStudyMap().begin();
+        auto end = pageOwner.getStudyMap().end();
+        if((begin + 1) == end){
+            ui->teachers->addItem(itm);
+            return;
+        }
+        for(auto i = begin; i != end; ++i)
         {
-            if(i.value().getPasword() == "None") continue;
-            myTeachers.append(i.value());
+            //if(i.value().getPasword() == "None") continue;
+            teachersToSort.append(i.value());
         }
 //------------------Sorting--------------------------
         if(ui->sortByName->isChecked())
         {
-            std::sort(myTeachers.begin(),myTeachers.end(),[](const Teacher& first, const Teacher& second)
+            std::sort(teachersToSort.begin(),teachersToSort.end(),[](const Teacher& first, const Teacher& second)
                                                             {
                                                                 return first < second;
                                                             });
         }
         else if(ui->sortByPost->isChecked())
         {
-            std::sort(myTeachers.begin(),myTeachers.end(),[](const Teacher& first, const Teacher& second)
+            std::sort(teachersToSort.begin(),teachersToSort.end(),[](const Teacher& first, const Teacher& second)
                                                             {
                                                                 return first > second;
                                                             });
@@ -226,20 +261,21 @@ void StudentDialog::on_sortB_clicked()
         }
 //-----------------------------------------------
         qWarning("My teachers");
-        addTeachersToList(myTeachers);
+        addTeachersToList(teachersToSort);
 
-    }else if(ui->showTeachMode->currentText() == "All Teachers"){
+    }else if(teacherGroupToSort == "All Teachers"){
+        teachersToSort = allTeachers;
 //------------------Sorting--------------------------
         if(ui->sortByName->isChecked())
         {
-            std::sort(allTeachers.begin(),allTeachers.end(),[](const Teacher& first, const Teacher& second)
+            std::sort(teachersToSort.begin(),teachersToSort.end(),[](const Teacher& first, const Teacher& second)
                                                             {
                                                                 return first < second;
                                                             });
         }
         else if(ui->sortByPost->isChecked())
         {
-            std::sort(allTeachers.begin(),allTeachers.end(),[](const Teacher& first, const Teacher& second)
+            std::sort(teachersToSort.begin(),teachersToSort.end(),[](const Teacher& first, const Teacher& second)
                                                             {
                                                                 return first > second;
                                                             });
@@ -251,18 +287,16 @@ void StudentDialog::on_sortB_clicked()
         }
 //-----------------------------------------------------
         qWarning("All teachers");
-        addTeachersToList(allTeachers);
+        addTeachersToList(teachersToSort);
     }
-    else if(ui->showTeachMode->currentText() == "Teachers with 1 course")
-    {
-        ui->teachers->selectAll();
+    else if(teacherGroupToSort == "Teachers with 1 course")
+    {   
 //------Parsing teachers from ListWidget to QVector--------
-        QVector<Teacher> teachersToSort;
-
         for(int i = 0; i<ui->teachers->count();++i){
-            QVector<QString>inits = ui->teachers->item(i)->text().split('\n').first().split(' ').toVector();
+            QList<QString> initsToShow = ui->teachers->item(i)->text().split('\n').first().split(' ');
             for(auto &j:allTeachers){
-                if(*j.getInitials() == inits){
+                QList<QString> inits({j.getFname(),j.getLname(),j.getFthName()});
+                if(inits == initsToShow){
                     teachersToSort.append(j);
                 }
             }
@@ -305,14 +339,14 @@ void StudentDialog::on_showTeachMode_activated(const QString &arg)
     {
         for(auto i = pageOwner.getStudyMap().begin(); i != pageOwner.getStudyMap().end(); ++i)
         {
-            if(i.value().getPasword() == "None") continue;
+            //if(i.value().getPasword() == "None") continue;
             teachersToPrint.append(i.value());
         }
     }
     else if(arg == "Teachers with 1 course"){
-        for(auto &j : allTeachers){
-            const QList<Discipline>* discipls = j.getDissciplines();
-            if(discipls->size() == 1){
+        for(const auto &j : allTeachers){
+            const QList<Discipline> discipls = j.getDisciplines();
+            if(discipls.size() == 1){
                 teachersToPrint.append(j);
             }
         }

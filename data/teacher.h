@@ -11,18 +11,18 @@
 
 class Discipline;
 class Student;
-enum class Posts
-{
-   nopost, labAssist, teacher, seniorTeacher, docent, professor
-};
+
 class Teacher : public Account, public Human
 {
+
     QString m_post;
     int m_stage;
 
     int m_populatity;
-
+    QList<Discipline> m_courses;
     QMultiMap<Discipline, Student> m_courseVisitors;
+
+    friend class StudyProcessData;
 public:
     Teacher();
     Teacher(const QString& fname, const QString& lname, const QString& fthname, const QString& post,
@@ -35,33 +35,27 @@ public:
     void setPost(const QString& post);
     void setStage(const int stage);
     void setCourseVisitors(QMultiMap<Discipline, Student> map);
-    void updateDisciplineWithStuds(Discipline& discipline, Student& stud);
-//    /* Sets thre discipline to Teacher which he/she teaches.*/
+    void addCourseTarget(const Discipline& discipline,const Student& stud);
+
     void setDiscipline(const Discipline& discipline);
 
-//    /* Appends the student to the teacher's list of students
-//       Returns size of All Students array*/
-    //int addStudent(const Student& newStudent);
-
     bool hasDiscipline(const Discipline& discipl) const;
-    const QList<Discipline>* getDissciplines() const;
-    const QList<Student>* getSudents() const;
-    const QList<Student>* getSudents(const Discipline& discipl) const;
+
     const QMultiMap<Discipline,Student>& getVisitors() const;
-    const QVector<QString>* getInitials() const;
+
+    const QList<Discipline>& getDisciplines() const;
     const QString& getPost() const;
-    int getStage() const;
     int getPopularity() const;
+    int getStage() const;
 
     bool operator==(const Teacher& other) const;
     bool operator!=(const Teacher& other) const;
     bool operator>(const Teacher& other) const;
     bool operator<(const Teacher& other) const;
 
-    friend bool compareTeachers(const Teacher& first, const Teacher& second);
-
     void write(QJsonObject& json) const;
     void read(const QJsonObject& json);
+
 };
 
 #endif // TEACHER_H

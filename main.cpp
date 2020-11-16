@@ -4,9 +4,12 @@
 
 extern const int COURSES = 4;
 extern QList<QString> groups;
+
 extern QVector<Student> allStudents;
 extern QVector<Teacher> allTeachers;
 extern QVector<QVector<Discipline>> allDisciplines;
+
+extern StudyProcessData allStudyProcessData;
 
 int main(int argc, char *argv[])
 {
@@ -24,11 +27,9 @@ int main(int argc, char *argv[])
     dataReader.changeFilename("datafiles/dcourse4.json");
     dataReader.readDisciplines(allDisciplines[3]);
 
-    dataReader.changeFilename(STUDENTS_FILE);
     dataReader.readStudents(allStudents);
-
-    dataReader.changeFilename(TEACHERS_FILE);
     dataReader.readTeachers(allTeachers);
+    dataReader.readStudyProcess(allStudyProcessData);
 
     QApplication a(argc, argv);
     LearnSystem w;

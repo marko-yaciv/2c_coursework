@@ -5,40 +5,36 @@
 #include "data/student.h"
 #include "data/teacher.h"
 #include "data/discipline.h"
+#include "data/studyprocessdata.h"
 
 #define GROUPS_FILE "datafiles/groups.bin"
 #define STUDENTS_FILE "datafiles/students.json"
 #define TEACHERS_FILE "datafiles/teachers.json"
+#define STUD_STUDY_PROCESS_FILE "datafiles/studstudyproc.json"
+#define TEACHER_STUDY_PROCESS_FILE "datafiles/teachstudyproc.json"
+
 class FlParser
 {
     QString filename;
     QFile file;
 public:
+    FlParser(){};
     FlParser(const QString& flname);
     void changeFilename(const QString& fname);
 
-//    void writeData(const QString&);
-//    void writeStudentInfo(const Student&);
-//    void writeTeacherInfo(const Teacher&);
-
-//    void writeMapForStudent(const QMap<Discipline,Teacher>& map);
-//    void writeMapForTeacher(const QMultiMap<Discipline,Student>& map);
-
-//    void readMapForStudent(QMap<Discipline,Teacher>& map);
-//    void readMapForTeacher(QMultiMap<Discipline,Student>& map);
-
-    void readData(QList<QString>& data);
-//    void readStudents(QVector<Student>& students);
-//    void readTeachers(QVector<Teacher>& teachers);
-//    void readDisciplines(QVector<Discipline>& disciplines);
+    bool openWithValidation(const QIODevice::OpenModeFlag& openMode);
 
     void writeStudents(const QVector<Student>& students);
     void writeTeachers(const QVector<Teacher>& teachers);
     void writeDiscipl(const QList<QString> discipls);
+    void writeStudyProcess(const StudyProcessData& studentData);
 
+
+    void readData(QList<QString>& data);
     void readStudents(QVector<Student>& student);
     void readTeachers(QVector<Teacher>& teacher);
     void readDisciplines(QVector<Discipline>& discipl);
+    void readStudyProcess(StudyProcessData& studentData);
 };
 
 #endif // FLPARSER_H

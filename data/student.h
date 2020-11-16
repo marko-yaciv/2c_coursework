@@ -9,7 +9,6 @@
 #include "account.h"
 #include "human.h"
 
-
 class Discipline;
 class Teacher;
 
@@ -18,7 +17,10 @@ class Student: public Account, public Human
     int m_course;
     QString m_group;
 
+    QList<Discipline> m_courses;
     QMap<Discipline,Teacher> m_studyMap;
+
+    friend class StudyProcessData;
 
 public:
     Student();
@@ -36,20 +38,23 @@ public:
 
     int countDisciplines() const;
 
+    const QList<Discipline> &getDisciplines() const;
     const QMap<Discipline, Teacher>& getStudyMap() const;
-    const QVector<QString>* getInitials() const;
     const QString& getGroup() const;
     int getCourse() const;
 
-    const Teacher* getTeacher(const Discipline &discipl) const;
-    const Discipline* getDiscipline(const Teacher &teach) const;
+    //const Teacher* getTeacher(const Discipline &discipl) const;
+    //const Discipline* getDiscipline(const Teacher &teach) const;
 
 
     void write(QJsonObject& json) const;
     void read(const QJsonObject json);
 
-    void operator=(const Student& other);
+    Student& operator=(const Student& other);
     bool operator==(const Student& other) const;
+
+    bool operator<(const Student& other) const;
+
 };
 
 #endif // STUDENT_H

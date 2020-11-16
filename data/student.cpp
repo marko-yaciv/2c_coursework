@@ -11,9 +11,8 @@ Student::Student(const QString& fname, const QString& lname, const QString& fthn
                  const QString& group, const QString& password):
                  Account(password),Human(fname, lname,fthname)
 {
-    this->m_group = group;
-    this->m_course = group.at(3).unicode() - 48;
-    //this->m_studyMap = new QMap<Discipline, Teacher>;
+    m_group = group;
+    m_course = group.at(3).unicode() - 48;
 }
 
 Student::Student(const QString &fname, const QString &lname, const QString &fthname,
@@ -30,15 +29,15 @@ Student::~Student()
 
 void Student::setInitials(const QString fname, const QString lname, const QString fthname)
 {
-    this->m_fName = fname;
-    this->m_lName  = lname;
-    this->m_fthName = fthname;
+    m_fName = fname;
+    m_lName  = lname;
+    m_fthName = fthname;
 }
 
 void Student::setStudyMap(const QMap<Discipline, Teacher> &map)
 {
     for(auto i = map.begin(); i != map.end();++i){
-        if(this->m_studyMap.contains(i.key())){
+        if(m_studyMap.contains(i.key())){
             m_studyMap[i.key()] = i.value();
         }
     }
@@ -46,21 +45,20 @@ void Student::setStudyMap(const QMap<Discipline, Teacher> &map)
 
 void Student::addDiscipline(const Discipline &discipl)
 {
-    this->m_studyMap.insert(discipl, Teacher());
+    m_courses.push_back(discipl);
+    //m_studyMap.insert(discipl,Teacher());
 }
 
 void Student::setGroup(const QString group)
 {
-    this->m_group = group;
-    this->m_course = m_group.at(3).unicode() - 48;
+    m_group = group;
+    m_course = m_group.at(3).unicode() - 48;
 }
 
 void Student::addStudyTarget(const Discipline &discipline,const Teacher &teacher)
 {
-    if(m_studyMap.contains(discipline)){
-        this->m_studyMap[discipline] = teacher;
-    }else{
-        this->m_studyMap.insert(discipline,teacher);
+    if(m_courses.contains(discipline)){
+        m_studyMap.insert(discipline,teacher);
     }
 }
 
@@ -69,53 +67,24 @@ int Student::countDisciplines() const
     return m_studyMap.keys().size();
 }
 
-const QMap<Discipline, Teacher> &Student::getStudyMap() const
+const QList<Discipline> &Student::getDisciplines() const
 {
-    return this->m_studyMap;
+    return m_courses;
 }
 
-const QVector<QString>* Student::getInitials() const
+const QMap<Discipline, Teacher> &Student::getStudyMap() const
 {
-    return new QVector<QString>({m_fName, m_lName, m_fthName});
+    return m_studyMap;
 }
 
 const QString &Student::getGroup() const
 {
-    return this->m_group;
+    return m_group;
 }
 
 int Student::getCourse() const
 {
-    return this->m_course;
-}
-
-//const QList<Discipline>* Student::getDisciplines() const
-//{
-//    return new QList<Discipline>(this->m_studyMap.keys());
-//}
-
-//const QList<Teacher>* Student::getTeachers() const
-//{
-//    return new QList<Teacher>(this->m_studyMap.values());
-//}
-
-
-const Teacher* Student::getTeacher(const Discipline& discipl) const
-{
-    if(m_studyMap.contains(discipl)){
-        return new Teacher(m_studyMap[discipl]);
-    }
-    throw 0;
-}
-
-const Discipline* Student::getDiscipline(const Teacher& teach) const
-{
-    for(auto &i : this->m_studyMap){
-        if(i == teach){
-            return new Discipline(this->m_studyMap.key(teach));
-        }
-    }
-    throw 0;
+    return m_course;
 }
 
 void Student::write(QJsonObject &json) const
@@ -127,23 +96,11 @@ void Student::write(QJsonObject &json) const
     json["group"] = m_group;
     json["password"] = m_password;
     json["id"] = (int)m_id;
-    QJsonArray courseMap;
-    for(auto i = m_studyMap.begin(); i != m_studyMap.end(); ++i){
-        if(i.value().getPost() == "None") continue;
-        QJsonArray keyVal;
-
-        QJsonObject key;
-        QJsonObject val;
-
-        i.key().write(key);
-        i.value().write(val);
-
-        keyVal.append(key);
-        keyVal.append(val);
-
-        courseMap.append(keyVal);
-    }
-    json["studymap"] = courseMap;
+//    QJsonArray courses;
+//    for(auto &i : m_courses){
+//        courses.append(i.getName());
+//    }
+//    json["courses"] = courses;
 }
 
 void Student::read(const QJsonObject json)
@@ -164,26 +121,16 @@ void Student::read(const QJsonObject json)
         m_password = json["password"].toString();
     if(json.contains("id")&& json["id"].isDouble())
         m_id = json["id"].toInt();
-
-    if(json.contains("studymap")&& json["studymap"].isArray()){
-        QJsonArray studymap = json["studymap"].toArray();
-        m_studyMap.clear();
-        for(int i = 0; i < studymap.size(); ++i){
-            const QJsonArray keyVal = studymap[i].toArray();
-
-            Discipline dis;
-            Teacher teach;
-            dis.read(keyVal.first().toObject());
-            teach.read(keyVal.last().toObject());
-
-            m_studyMap.insert(dis,teach);
-        }
-    }
-
-
+//    if(json.contains("courses") && json["courses"].isArray()){
+//        QJsonArray courses = json["courses"].toArray();
+//        for(auto i:courses){
+//            Discipline dis(i.toString());
+//            m_courses.append(dis);
+//        }
+//    }
 }
 
-void Student::operator=(const Student &other)
+Student& Student::operator=(const Student &other)
 {
     this->m_fName = other.m_fName;
     this->m_lName = other.m_lName;
@@ -193,11 +140,21 @@ void Student::operator=(const Student &other)
     this->m_id = other.m_id;
     this->m_password = other.m_password;
     this->m_studyMap = other.m_studyMap;
+    return *this;
 }
 
 bool Student::operator==(const Student &other) const
 {
-    return (*this->getInitials() == *other.getInitials()) &&
-            (this->getPasword()==other.getPasword());
+    return (getFname() == other.getFname()) &&
+            (getLname() == other.getLname()) &&
+            (getFthName() == other.getFthName()) &&
+            (getPasword() == other.getPasword());
     //return this->getId() == other.getId();
 }
+
+bool Student::operator<(const Student &other) const
+{
+    return m_lName < other.m_lName;
+}
+
+

@@ -27,17 +27,17 @@ QString Discipline::getName() const
 
 bool Discipline::operator<(const Discipline &other) const
 {
-    return (this->m_name < other.m_name);
+    return m_name < other.m_name;
 }
 
 bool Discipline::operator==(const Discipline &other) const
 {
-    return this->m_name == other.m_name;
+    return m_name == other.m_name;
 }
 
 bool Discipline::operator!=(const Discipline &other) const
 {
-    return this->m_name != other.m_name;
+    return m_name != other.m_name;
 }
 
 void Discipline::write(QJsonObject &json)const

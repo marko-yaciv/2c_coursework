@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <QVector>
+#include <QCheckBox>
+#include <QMessageBox>
 
 #include "studentdialog.h"
 #include "teacherdialog.h"
@@ -16,8 +18,8 @@ class LearnSystem : public QMainWindow
     Q_OBJECT
 StudentDialog* studDialog;
 TeacherDialog* teachDialog;
-Teacher newTeach;
-QVector<QWidget*> teacherCoursesWidg;
+QList<Discipline> registrDiscipls;
+QVector<QCheckBox*> teacherCoursesWidg;
 
 public:
     LearnSystem(QWidget *parent = nullptr);

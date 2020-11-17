@@ -57,9 +57,8 @@ void Student::setGroup(const QString group)
 
 void Student::addStudyTarget(const Discipline &discipline,const Teacher &teacher)
 {
-    if(m_courses.contains(discipline)){
+    if(m_courses.contains(discipline))
         m_studyMap.insert(discipline,teacher);
-    }
 }
 
 int Student::countDisciplines() const
@@ -96,11 +95,6 @@ void Student::write(QJsonObject &json) const
     json["group"] = m_group;
     json["password"] = m_password;
     json["id"] = (int)m_id;
-//    QJsonArray courses;
-//    for(auto &i : m_courses){
-//        courses.append(i.getName());
-//    }
-//    json["courses"] = courses;
 }
 
 void Student::read(const QJsonObject json)
@@ -121,13 +115,6 @@ void Student::read(const QJsonObject json)
         m_password = json["password"].toString();
     if(json.contains("id")&& json["id"].isDouble())
         m_id = json["id"].toInt();
-//    if(json.contains("courses") && json["courses"].isArray()){
-//        QJsonArray courses = json["courses"].toArray();
-//        for(auto i:courses){
-//            Discipline dis(i.toString());
-//            m_courses.append(dis);
-//        }
-//    }
 }
 
 Student& Student::operator=(const Student &other)

@@ -34,7 +34,11 @@ public:
     void showThePopulestTeacher(const Discipline& discipl);
     void on_discipl_contxtMenuRequested(const Discipline& discipl);
 
-    void addTeachersToList(const QVector<Teacher>& teachers);
+    void addTeachersToTable(const QVector<Teacher>& teachers);
+    void minimiseTeachesVect(QVector<Teacher>& teachers);
+
+    void setHeaders(QList<QString> name);
+
 signals:
     void showMain();
 private slots:
@@ -45,6 +49,7 @@ private slots:
     void on_sortB_clicked();
 
     void on_showTeachMode_activated(const QString &arg1);
+
 private:
     Ui::StudentDialog *ui;
 };

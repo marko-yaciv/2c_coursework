@@ -1,8 +1,6 @@
 #include "learnsystem.h"
 #include "ui_learnsystem.h"
 
-#include <QMessageBox>
-#include <QCheckBox>
 #include "data/flparser.h"
 
 const int COURSES = 4;
@@ -41,8 +39,8 @@ LearnSystem::LearnSystem(QWidget *parent)
             layout->update();
             teacherCoursesWidg.append(courseName);
 
-            connect(courseName,&QCheckBox::clicked,this,[=](){
-               if(courseName->isChecked())
+            connect(courseName,&QCheckBox::toggled,this,[=](bool checked){
+               if(checked)
                     addCoursesToTeacher(discipl);
             });
         }
@@ -78,11 +76,15 @@ void LearnSystem::clearItems(){
     ui->FthName->clear();
     ui->password->clear();
     ui->stand->clear();
+    for(auto&i: teacherCoursesWidg){
+        i->setChecked(false);
+    }
+    registrDiscipls.clear();
 }
 
 void LearnSystem::addCoursesToTeacher(const Discipline &course)
 {
-    newTeach.setDiscipline(course);
+    registrDiscipls.append(course);
 }
 
 void LearnSystem::on_iamstud_clicked()
@@ -148,7 +150,7 @@ void LearnSystem::on_signUpB_clicked()
                            ui->post->currentText(),
                            ui->stand->text().toInt(),
                            ui->password->text());
-        for(auto &i : newTeach.getDisciplines()){
+        for(auto &i : registrDiscipls){
             newTeacher.setDiscipline(i);
         }
         if(std::find(allTeachers.begin(),allTeachers.end(),newTeacher) != allTeachers.end()){

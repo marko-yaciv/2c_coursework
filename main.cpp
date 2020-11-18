@@ -33,6 +33,7 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
     LearnSystem w;
+    w.setWindowIcon(QIcon(":/rec/img/graduation-hat.png"));
     w.show();
     return a.exec();
 }

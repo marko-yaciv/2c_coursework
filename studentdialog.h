@@ -26,7 +26,7 @@ public:
     void updateOwnersMap(int course);
 
     void showTeacherUnderDiscipline(const Teacher& teachItm, QWidget* where);
-    void addTeacherToTarget(Teacher& teachItm, QWidget* where);
+    void addTeacherToTarget(Teacher teachItm, QWidget* where);
     void showTeachersList(const Discipline& discipl);
 
     void showTeachersToChange(const Discipline& discipl);

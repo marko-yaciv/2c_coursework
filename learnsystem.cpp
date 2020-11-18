@@ -1,6 +1,5 @@
 #include "learnsystem.h"
 #include "ui_learnsystem.h"
-
 #include "data/flparser.h"
 
 const int COURSES = 4;
@@ -19,6 +18,8 @@ LearnSystem::LearnSystem(QWidget *parent)
     , ui(new Ui::LearnSystem)
 {
     ui->setupUi(this);
+
+
 
     this->setMaximumSize(500,580);
     this->setBaseSize(500,550);
@@ -237,4 +238,16 @@ void LearnSystem::on_backToRegister_clicked()
     ui->logInWidget->show();
     ui->logInB->setEnabled(true);
     ui->backToRegister->hide();
+}
+
+void LearnSystem::on_actionShow_All_Teachers_triggered()
+{
+    membersWidget = new AllMembers(nullptr, allTeachers);
+    membersWidget->show();
+}
+
+void LearnSystem::on_actionShow_All_Students_triggered()
+{
+    membersWidget = new AllMembers(nullptr, allStudents);
+    membersWidget->show();
 }

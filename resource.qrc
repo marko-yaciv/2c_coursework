@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/rec">
+        <file>img/student.png</file>
+        <file>img/teacher.png</file>
+        <file>img/graduation-hat.png</file>
+    </qresource>
+</RCC>

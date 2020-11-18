@@ -5,10 +5,9 @@
 #include <QVector>
 #include <QCheckBox>
 #include <QMessageBox>
-
 #include "studentdialog.h"
 #include "teacherdialog.h"
-
+#include "allmembers.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class LearnSystem; }
 QT_END_NAMESPACE
@@ -18,6 +17,8 @@ class LearnSystem : public QMainWindow
     Q_OBJECT
 StudentDialog* studDialog;
 TeacherDialog* teachDialog;
+AllMembers* membersWidget;
+
 QList<Discipline> registrDiscipls;
 QVector<QCheckBox*> teacherCoursesWidg;
 
@@ -46,6 +47,10 @@ private slots:
     void on_enterB_clicked();
 
     void on_backToRegister_clicked();
+
+    void on_actionShow_All_Teachers_triggered();
+
+    void on_actionShow_All_Students_triggered();
 
 private:
     Ui::LearnSystem *ui;

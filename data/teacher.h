@@ -35,15 +35,17 @@ public:
     void setPost(const QString& post);
     void setStage(const int stage);
     void setCourseVisitors(QMultiMap<Discipline, Student> map);
-    void addCourseTarget(const Discipline& discipline,const Student& stud);
+    void addCourseTarget(const Discipline discipline,const Student stud);
 
+    void removeStudent(const Discipline& discipline,const Student& stud);
     void setDiscipline(const Discipline& discipline);
 
     bool hasDiscipline(const Discipline& discipl) const;
 
-    const QMultiMap<Discipline,Student>& getVisitors() const;
+    const QMultiMap<Discipline,Student>& getCourseMap() const;
 
     const QList<Discipline>& getDisciplines() const;
+    const QList<Student> getCourseVistors(const Discipline& dis) const;
     const QString& getPost() const;
     int getPopularity() const;
     int getStage() const;

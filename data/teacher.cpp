@@ -52,15 +52,17 @@ void Teacher::setCourseVisitors(QMultiMap<Discipline, Student> map)
     this->m_courseVisitors = map;
 }
 
-void Teacher::addCourseTarget(const Discipline &discipline,const Student &stud)
+void Teacher::addCourseTarget(const Discipline discipline,const Student stud)
 {
-    if(m_courses.contains(discipline)){
-        if(m_courseVisitors.contains(discipline,stud)){
-            m_courseVisitors.remove(discipline,stud);
-        }else{
-            ++m_populatity;
-        }
         m_courseVisitors.insert(discipline,stud);
+        ++m_populatity;
+}
+
+void Teacher::removeStudent(const Discipline& discipline,const Student& stud)
+{
+    if(m_courseVisitors.contains(discipline,stud)){
+        m_courseVisitors.remove(discipline,stud);
+       --m_populatity;
     }
 }
 
@@ -68,7 +70,6 @@ void Teacher::addCourseTarget(const Discipline &discipline,const Student &stud)
 void Teacher::setDiscipline(const Discipline& discipline)
 {
     m_courses.append(discipline);
-    //m_courseVisitors.insert(discipline,Student());
     ++m_populatity;
 }
 
@@ -92,7 +93,7 @@ int Teacher::getPopularity() const
     return m_populatity;
 }
 
-const QMultiMap<Discipline, Student>& Teacher::getVisitors() const
+const QMultiMap<Discipline, Student>& Teacher::getCourseMap() const
 {
     return m_courseVisitors;
 }
@@ -100,6 +101,11 @@ const QMultiMap<Discipline, Student>& Teacher::getVisitors() const
 const QList<Discipline> &Teacher::getDisciplines() const
 {
     return m_courses;
+}
+
+const QList<Student> Teacher::getCourseVistors(const Discipline &dis) const
+{
+    return m_courseVisitors.values(dis);
 }
 
 bool Teacher::operator==(const Teacher &other) const

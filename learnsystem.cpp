@@ -61,7 +61,7 @@ LearnSystem::~LearnSystem()
         allStudyProcessData.updateMapForStudent(i,i.getStudyMap());
     }
     for(auto&i:allTeachers){
-        allStudyProcessData.updateMapForTeacher(i,i.getVisitors());
+        allStudyProcessData.updateMapForTeacher(i,i.getCourseMap());
     }
 
     FlParser dataSaver;

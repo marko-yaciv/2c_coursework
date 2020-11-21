@@ -2,7 +2,7 @@
 #define STUDENTDIALOG_H
 
 #include <QDialog>
-#include <QListWidgetItem>
+#include <QTableWidgetItem>
 #include "data/student.h"
 #include "data/discipline.h"
 #include "data/teacher.h"
@@ -25,20 +25,21 @@ public:
 
     void updateOwnersMap(int course);
 
-    void showTeacherUnderDiscipline(const Teacher& teachItm, QWidget* where);
-    void addTeacherToTarget(Teacher teachItm, QWidget* where);
-    void showTeachersList(const Discipline& discipl);
+    void showTeacherUnderDiscipline(const Teacher teachItm, QWidget* where);
+    void addTeacherToTarget(const QTableWidgetItem* itm,const Discipline discipl, QWidget* where);
+    void showTeachersList(const Discipline discipl);
 
     void showTeachersToChange(const Discipline& discipl);
 
-    void showThePopulestTeacher(const Discipline& discipl);
+    void showTheMostPopularTeacher(const Discipline& discipl);
     void on_discipl_contxtMenuRequested(const Discipline& discipl);
 
     void addTeachersToTable(const QVector<Teacher>& teachers);
     void minimiseTeachesVect(QVector<Teacher>& teachers);
 
-    void setHeaders(QList<QString> name);
+    void setHeaders(const QList<QString>& name, QTableWidget* table);
 
+    QMetaObject::Connection add_target_connection;
 signals:
     void showMain();
 private slots:

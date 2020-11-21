@@ -55,7 +55,7 @@ void Student::setGroup(const QString group)
     m_course = m_group.at(3).unicode() - 48;
 }
 
-void Student::addStudyTarget(const Discipline &discipline,const Teacher &teacher)
+void Student::addStudyTarget(const Discipline discipline,const Teacher teacher)
 {
     if(m_courses.contains(discipline))
         m_studyMap.insert(discipline,teacher);

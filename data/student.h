@@ -34,7 +34,7 @@ public:
     void setInitials(const QString fname, const QString lname, const QString fthname);
     void setStudyMap(const QMap<Discipline,Teacher>& map);
     void addDiscipline(const Discipline& discipl);
-    void addStudyTarget(const Discipline& discipline,const Teacher& Teacher);
+    void addStudyTarget(const Discipline discipline,const Teacher Teacher);
 
     int countDisciplines() const;
 

@@ -126,6 +126,7 @@ Student& Student::operator=(const Student &other)
     this->m_group = other.m_group;
     this->m_id = other.m_id;
     this->m_password = other.m_password;
+    this->m_courses = other.m_courses;
     this->m_studyMap = other.m_studyMap;
     return *this;
 }

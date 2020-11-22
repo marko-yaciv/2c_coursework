@@ -174,7 +174,7 @@ void Teacher::read(const QJsonObject &json)
     if(json.contains("courses") && json["courses"].isArray()){
         QJsonArray courses = json["courses"].toArray();
         for(const auto &i : courses){
-
+           Discipline dis(i.toString());
             for(auto &j : allDisciplines){
                 for(auto &discipline : j){
                     if(discipline.getName() == i.toString()){

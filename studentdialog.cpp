@@ -50,14 +50,6 @@ StudentDialog::StudentDialog(QWidget *parent, const Student& stud) :
     for(auto &i:pageOwner.getDisciplines()){
         QWidget* disciplWidget = new QWidget(ui->courseMap);
 
-        if(!i.isEnabled()){
-            QLabel* info = new QLabel(disciplWidget);
-            info->setText("This discipline has been finished.\nIt is avaliable:"
-                          "\nFrom: " + i.getTeachRange().first.toString("dd MMMM") + " To: " +
-                          i.getTeachRange().second.toString("dd MMMM"));
-            ui->toolBox->addItem(disciplWidget,i.getName());
-            continue;
-        }
         disciplWidget->setContextMenuPolicy(Qt::CustomContextMenu);
         connect(disciplWidget,&QWidget::customContextMenuRequested,this,[&](){on_discipl_contxtMenuRequested(i);});
         studCoursesWidgets.insert(i,disciplWidget);
@@ -180,6 +172,8 @@ void StudentDialog::showTeachersList(const Discipline discipl)
 
 void StudentDialog::showTeachersToChange(const Discipline &discipl)
 {
+    disconnect(change_target_connection);
+
     QVector<Teacher> teachersToShow;
 
     for(auto& i : allTeachers){
@@ -194,7 +188,7 @@ void StudentDialog::showTeachersToChange(const Discipline &discipl)
     }
     addTeachersToTable(teachersToShow);
 
-    connect(ui->teachers,&QTableWidget::itemDoubleClicked,this,[=](QTableWidgetItem* item){
+    change_target_connection = connect(ui->teachers,&QTableWidget::itemDoubleClicked,this,[=](QTableWidgetItem* item){
         addTeacherToTarget(item, discipl, studCoursesWidgets.value(discipl));});
 }
 
@@ -226,7 +220,9 @@ void StudentDialog::showTheMostPopularTeacher(const Discipline &discipl)
     QVector<Teacher> teacherToPrint({theMostPopular});
     addTeachersToTable(teacherToPrint);
 
-    connect(ui->teachers,&QTableWidget::itemDoubleClicked,this,[=](QTableWidgetItem* itm){
+    disconnect(change_target_connection);
+
+    change_target_connection = connect(ui->teachers,&QTableWidget::itemDoubleClicked,this,[=](QTableWidgetItem* itm){
         addTeacherToTarget(itm,discipl, studCoursesWidgets.value(discipl));});
 
 }
@@ -245,11 +241,12 @@ void StudentDialog::showTeacherUnderDiscipline(const Teacher teachItm, QWidget *
         auto prevInits = prevLabels[0]->text().split('\n').first().split(' ');
         prevInits.removeFirst();
         Teacher teach(prevInits[1], prevInits[0], prevInits[2],"Null");
-        std::find_if(allTeachers.begin(),allTeachers.end(),[&](const Teacher& teach){
-                                                           return teach.getFname() == teach.getFname() &&
-                                                                  teach.getLname() == teach.getLname()&&
-                                                                teach.getFthName() == teach.getFthName();
-                                                           })->removeStudent(studCoursesWidgets.key(where),pageOwner);
+        auto teacherToChange = std::find_if(allTeachers.begin(),allTeachers.end(),[teach](const Teacher& teacher){
+                                                           return teacher.getFname() == teach.getFname() &&
+                                                                  teacher.getLname() == teach.getLname()&&
+                                                                teacher.getFthName() == teach.getFthName();
+                                                           });
+        teacherToChange->removeStudent(studCoursesWidgets.key(where),pageOwner);
     }
 
     //changing data
@@ -271,6 +268,7 @@ void StudentDialog::addTeacherToTarget(const QTableWidgetItem* itm, const Discip
 {
     //finding correct teacher
     disconnect(add_target_connection);
+    disconnect(change_target_connection);
     auto inits = itm->text().simplified().split(' ');
     Teacher teacherToFind(inits[1], inits[0], inits[2],"Null");
 
@@ -280,10 +278,10 @@ void StudentDialog::addTeacherToTarget(const QTableWidgetItem* itm, const Discip
                                                                                    teach.getFthName() == teacherToFind.getFthName();
                                                                               });
 
-       if(teacherToChange == allTeachers.end()){
-           QMessageBox::information(this,"Fail","Canot find teacher");
-           return;
-       }
+    if(teacherToChange == allTeachers.end()){
+        QMessageBox::information(this,"Fail","Canot find teacher.\n Maybe you clicked not on teacher's name))");
+        return;
+    }
 
 
     //changing data

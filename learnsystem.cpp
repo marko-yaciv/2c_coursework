@@ -68,6 +68,19 @@ LearnSystem::~LearnSystem()
     dataSaver.writeStudents(allStudents);
     dataSaver.writeTeachers(allTeachers);
     dataSaver.writeStudyProcess(allStudyProcessData);
+
+    dataSaver.changeFilename("datafiles/dcourse1.json");
+    dataSaver.writeDisciplines(allDisciplines[0]);
+
+    dataSaver.changeFilename("datafiles/dcourse2.json");
+    dataSaver.writeDisciplines(allDisciplines[1]);
+
+    dataSaver.changeFilename("datafiles/dcourse3.json");
+    dataSaver.writeDisciplines(allDisciplines[2]);
+
+    dataSaver.changeFilename("datafiles/dcourse4.json");
+    dataSaver.writeDisciplines(allDisciplines[3]);
+
     delete ui;
 }
 

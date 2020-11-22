@@ -12,6 +12,7 @@ class Discipline
     QList<QString> m_teachDays;
 
     bool m_isConductible;
+    bool m_isValid;
 public:
     Discipline();
     Discipline(const QString& name);
@@ -21,6 +22,7 @@ public:
     void setEnabled(bool enabled);
 
     bool isEnabled() const;
+    bool isValid() const;
     QString getName() const;
     const QPair<QDate,QDate>& getTeachRange() const;
     const QList<QString>& getCourseDays() const;

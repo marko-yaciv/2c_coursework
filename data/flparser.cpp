@@ -115,7 +115,7 @@ void FlParser::writeStudyProcess(const StudyProcessData &processData)
 }
 
 
-void FlParser::writeDiscipl(const QVector<Discipline> discipls)
+void FlParser::writeDisciplines(const QVector<Discipline>& discipls)
 {
     if(!openWithValidation(QIODevice::WriteOnly)){
         file.close();
@@ -153,8 +153,10 @@ void FlParser::readStudents(QVector<Student> &students)
     for(int i  = 0; i < studs.size(); ++i){
         Student s;
         s.read(studs[i].toObject());
-        for(auto&i:allDisciplines[s.getCourse()-1]){
-            s.addDiscipline(i);
+        for(auto &j : allDisciplines[s.getCourse()-1]){
+            if(j.isEnabled()){
+                s.addDiscipline(j);
+            }
         }
         students.append(s);
     }
@@ -235,9 +237,12 @@ void FlParser::readDisciplines(QVector<Discipline>& courses)
         for(int i  = 0; i < discipls.size(); ++i){
             Discipline d;
             d.read(discipls[i].toObject());
-            courses.append(d);
+            if(d.isValid()){
+                courses.append(d);
+            }
         }
     }
+
     file.close();
 }
 

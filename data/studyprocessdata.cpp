@@ -75,8 +75,6 @@ void StudyProcessData::readMapsOfStudents(const QJsonObject &owners)
 {
     m_studentsStudyMaps.clear();
 
-    QDate currentDate = QDate::currentDate();
-
     for(auto i = allStudents.begin(); i != allStudents.end(); ++i)
     {
         QString ownerId = QString::number(i->m_id);
@@ -89,17 +87,17 @@ void StudyProcessData::readMapsOfStudents(const QJsonObject &owners)
             //loop for allDisciplines of student <i>
             for(auto k = allDisciplines[i->m_course-1].begin(); k != allDisciplines[i->m_course-1].end(); ++k)
             {
+
                 //check if we have a key in json with needed discipline
                 if(ownerMap.contains(k->getName()))
                 {
-
                     int teacherId = ownerMap[k->getName()].toInt();
                     //finding teacher in allteachers with needed ID <teacherId> and making appropriate map
-                    for(auto&i:allTeachers)
+                    for(auto&j:allTeachers)
                     {
-                        if(i.m_id == teacherId)
+                        if(j.m_id == teacherId)
                         {
-                            studyMap.insert(*k,i);
+                            studyMap.insert(*k,j);
                             break;
                         }
                     }
@@ -113,7 +111,6 @@ void StudyProcessData::readMapsOfStudents(const QJsonObject &owners)
 
 void StudyProcessData::readMapsOfTeachers(const QJsonObject &owners)
 {
-    QDate currentDate = QDate::currentDate();
     for(auto i = allTeachers.begin(); i != allTeachers.end(); ++i)
     {
         QString ownerId = QString::number(i->m_id);
@@ -126,6 +123,7 @@ void StudyProcessData::readMapsOfTeachers(const QJsonObject &owners)
             //loop for teacher's courses
             for(auto course = i->m_courses.begin(); course != i->m_courses.end(); ++course)
             {
+
                 //check if we have a key in json with needed discipline
                 if(ownerMap.contains(course->getName()))
                 {

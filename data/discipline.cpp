@@ -31,6 +31,11 @@ bool Discipline::isEnabled() const
     return m_isConductible;
 }
 
+bool Discipline::isValid() const
+{
+    return m_isValid;
+}
+
 QString Discipline::getName() const
 {
     return this->m_name;
@@ -89,25 +94,53 @@ void Discipline::read(const QJsonObject &json)
     if(json.contains("rangeTo") && json["rangeTo"].isString()){
         m_range.second = QDate::fromString(json["rangeTo"].toString(), "dd.MM.yyyy");
 
-        QDate currentDate = QDate::currentDate();
+    }
+    else
+        m_range.second.setDate(2020,12,30);
+    QDate currentDate(2020,4,20);
 
-        if(m_range.second.month() < currentDate.month()){
-            m_isConductible = false;
-        }
-        else if(m_range.second.month() == currentDate.month()){
-            if(m_range.second.day() <= currentDate.day()){
+    if(currentDate.year() > m_range.second.year()){
+                m_isValid = false;
                 m_isConductible = false;
+    }else{
+        m_isValid  = true;
+
+        if( currentDate.month() >= 2 && currentDate.month() <= 6)
+        {
+            if(m_range.second.month() > currentDate.month()+3){
+                m_isConductible = false;
+            }
+            else if(m_range.second.month() == currentDate.month()){
+                if(m_range.second.day() <= currentDate.day()){
+                    m_isConductible = false;
+                }
+                else{
+                    m_isConductible = true;
+                }
+            }
+            else{
+                m_isConductible = true;
+            }
+
+        }
+        else if(currentDate.month() >= 9 && currentDate.month() <= 12)
+        {
+            if(m_range.second.month() < currentDate.month()){
+                m_isConductible = false;
+            }
+            else if(m_range.second.month() == currentDate.month()){
+                if(m_range.second.day() <= currentDate.day()){
+                    m_isConductible = false;
+                }
+                else{
+                    m_isConductible = true;
+                }
             }
             else{
                 m_isConductible = true;
             }
         }
-        else{
-            m_isConductible = true;
-        }
     }
-    else
-        m_range.second.setDate(2020,12,30);
 
     if(json.contains("teachDays") && json["teachDays"].isArray()){
         QJsonArray days = json["teachDays"].toArray();

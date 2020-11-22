@@ -32,6 +32,13 @@ TeacherDialog::TeacherDialog(QWidget *parent, const Teacher& teacher) :
     ui->courses->setRowCount(courses.size());
     int j = 0;
     for(auto&i:courses){
+        if(!i.isEnabled()){
+            QTableWidgetItem * courseName = new QTableWidgetItem("Uavaliable this semester");
+            QTableWidgetItem * cntOfVisitors = new QTableWidgetItem("000");
+            ui->courses->setItem(j,0,courseName);
+            ui->courses->setItem(j++,1,cntOfVisitors);
+            continue;
+        }
         QTableWidgetItem * courseName = new QTableWidgetItem(i.getName());
         QTableWidgetItem * cntOfVisitors = new QTableWidgetItem(QString::number(pageOwner.getCourseVistors(i).size()));
         ui->courses->setItem(j,0,courseName);

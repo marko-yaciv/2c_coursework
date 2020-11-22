@@ -40,6 +40,7 @@ public:
     void setHeaders(const QList<QString>& name, QTableWidget* table);
 
     QMetaObject::Connection add_target_connection;
+    QMetaObject::Connection change_target_connection;
 signals:
     void showMain();
 private slots:

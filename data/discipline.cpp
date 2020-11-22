@@ -86,8 +86,26 @@ void Discipline::read(const QJsonObject &json)
     else
         m_range.first.setDate(2020,9,1);
 
-    if(json.contains("rangeTo") && json["rangeTo"].isString())
+    if(json.contains("rangeTo") && json["rangeTo"].isString()){
         m_range.second = QDate::fromString(json["rangeTo"].toString(), "dd.MM.yyyy");
+
+        QDate currentDate = QDate::currentDate();
+
+        if(m_range.second.month() < currentDate.month()){
+            m_isConductible = false;
+        }
+        else if(m_range.second.month() == currentDate.month()){
+            if(m_range.second.day() <= currentDate.day()){
+                m_isConductible = false;
+            }
+            else{
+                m_isConductible = true;
+            }
+        }
+        else{
+            m_isConductible = true;
+        }
+    }
     else
         m_range.second.setDate(2020,12,30);
 

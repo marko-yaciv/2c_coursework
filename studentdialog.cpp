@@ -39,6 +39,7 @@ StudentDialog::StudentDialog(QWidget *parent, const Student& stud) :
                           pageOwner.getFthName());
     ui->course->setText("Course: " + QString::number(course));
     ui->group->setText("Group: " + pageOwner.getGroup());
+    ui->date->setText("Today is: " + QDate::currentDate().toString("dddd MM.yyyy"));
     ui->toolBox->removeItem(0);
 
     if(pageOwner.getDisciplines().size() == 0)
@@ -49,6 +50,14 @@ StudentDialog::StudentDialog(QWidget *parent, const Student& stud) :
     for(auto &i:pageOwner.getDisciplines()){
         QWidget* disciplWidget = new QWidget(ui->courseMap);
 
+        if(!i.isEnabled()){
+            QLabel* info = new QLabel(disciplWidget);
+            info->setText("This discipline has been finished.\nIt is avaliable:"
+                          "\nFrom: " + i.getTeachRange().first.toString("dd MMMM") + " To: " +
+                          i.getTeachRange().second.toString("dd MMMM"));
+            ui->toolBox->addItem(disciplWidget,i.getName());
+            continue;
+        }
         disciplWidget->setContextMenuPolicy(Qt::CustomContextMenu);
         connect(disciplWidget,&QWidget::customContextMenuRequested,this,[&](){on_discipl_contxtMenuRequested(i);});
         studCoursesWidgets.insert(i,disciplWidget);

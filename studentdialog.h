@@ -51,6 +51,12 @@ private slots:
 
     void on_showTeachMode_activated(const QString &arg1);
 
+    void on_showByDateB_clicked();
+
+    void on_calendarWidget_activated(const QDate &date);
+
+    void on_calendarWidget_customContextMenuRequested(const QPoint &pos);
+
 private:
     Ui::StudentDialog *ui;
 };

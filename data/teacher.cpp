@@ -2,6 +2,7 @@
 #include "discipline.h"
 #include "student.h"
 extern QMap<short,QString> postNames;
+extern QVector<QVector<Discipline>> allDisciplines;
 Teacher::Teacher():Account("None"), Human("None","None","None")
 {
     this->m_post = "None";
@@ -172,10 +173,17 @@ void Teacher::read(const QJsonObject &json)
         m_id = json["id"].toInt();
     if(json.contains("courses") && json["courses"].isArray()){
         QJsonArray courses = json["courses"].toArray();
-        for(auto i:courses){
-            Discipline dis(i.toString());
-            m_courses.append(dis);
+        for(const auto &i : courses){
+
+            for(auto &j : allDisciplines){
+                for(auto &discipline : j){
+                    if(discipline.getName() == i.toString()){
+                        m_courses.append(discipline);
+                    }
+                }
+            }
         }
+
     }
 }
 

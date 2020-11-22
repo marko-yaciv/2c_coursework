@@ -20,12 +20,16 @@ int main(int argc, char *argv[])
 
     dataReader.changeFilename("datafiles/dcourse1.json");
     dataReader.readDisciplines(allDisciplines[0]);
+
     dataReader.changeFilename("datafiles/dcourse2.json");
     dataReader.readDisciplines(allDisciplines[1]);
+
     dataReader.changeFilename("datafiles/dcourse3.json");
     dataReader.readDisciplines(allDisciplines[2]);
+
     dataReader.changeFilename("datafiles/dcourse4.json");
     dataReader.readDisciplines(allDisciplines[3]);
+
 
     dataReader.readStudents(allStudents);
     dataReader.readTeachers(allTeachers);
@@ -36,4 +40,5 @@ int main(int argc, char *argv[])
     w.setWindowIcon(QIcon(":/rec/img/graduation-hat.png"));
     w.show();
     return a.exec();
+    return 0;
 }

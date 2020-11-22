@@ -26,7 +26,7 @@ public:
 
     void writeStudents(const QVector<Student>& students);
     void writeTeachers(const QVector<Teacher>& teachers);
-    void writeDiscipl(const QList<QString> discipls);
+    void writeDiscipl(const QVector<Discipline> discipls);
     void writeStudyProcess(const StudyProcessData& studentData);
 
 

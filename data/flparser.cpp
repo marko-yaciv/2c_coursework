@@ -115,7 +115,7 @@ void FlParser::writeStudyProcess(const StudyProcessData &processData)
 }
 
 
-void FlParser::writeDiscipl(const QList<QString> discipls)
+void FlParser::writeDiscipl(const QVector<Discipline> discipls)
 {
     if(!openWithValidation(QIODevice::WriteOnly)){
         file.close();
@@ -125,8 +125,7 @@ void FlParser::writeDiscipl(const QList<QString> discipls)
     QJsonArray arr;
     for(auto &i:discipls){
         QJsonObject obj;
-        Discipline discipl(i);
-        discipl.write(obj);
+        i.write(obj);
         arr.append(obj);
     }
     file.write(QJsonDocument(arr).toJson());

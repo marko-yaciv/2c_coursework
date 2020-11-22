@@ -74,6 +74,9 @@ void StudyProcessData::writeMapsForTeachers(QJsonObject &owners) const
 void StudyProcessData::readMapsOfStudents(const QJsonObject &owners)
 {
     m_studentsStudyMaps.clear();
+
+    QDate currentDate = QDate::currentDate();
+
     for(auto i = allStudents.begin(); i != allStudents.end(); ++i)
     {
         QString ownerId = QString::number(i->m_id);
@@ -89,6 +92,7 @@ void StudyProcessData::readMapsOfStudents(const QJsonObject &owners)
                 //check if we have a key in json with needed discipline
                 if(ownerMap.contains(k->getName()))
                 {
+
                     int teacherId = ownerMap[k->getName()].toInt();
                     //finding teacher in allteachers with needed ID <teacherId> and making appropriate map
                     for(auto&i:allTeachers)
@@ -109,6 +113,7 @@ void StudyProcessData::readMapsOfStudents(const QJsonObject &owners)
 
 void StudyProcessData::readMapsOfTeachers(const QJsonObject &owners)
 {
+    QDate currentDate = QDate::currentDate();
     for(auto i = allTeachers.begin(); i != allTeachers.end(); ++i)
     {
         QString ownerId = QString::number(i->m_id);
@@ -124,6 +129,7 @@ void StudyProcessData::readMapsOfTeachers(const QJsonObject &owners)
                 //check if we have a key in json with needed discipline
                 if(ownerMap.contains(course->getName()))
                 {
+
                     auto studentIds = ownerMap[course->getName()].toArray();
                     for(auto id : studentIds){
                         //finding student in allStudents with needed ID and making appropriate map

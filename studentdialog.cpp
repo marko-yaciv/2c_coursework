@@ -24,6 +24,8 @@ StudentDialog::StudentDialog(QWidget *parent, const Student& stud) :
     this->setParent(parent);
     this->setAttribute(Qt::WidgetAttribute::WA_DeleteOnClose);
 
+    ui->calendarWidget->hide();
+
     ui->teachers->setColumnCount(4);
     setHeaders(headers,ui->teachers);
     ui->teachers->setColumnWidth(2,20);
@@ -438,3 +440,49 @@ void StudentDialog::on_showTeachMode_activated(const QString &arg)
 }
 
 
+void StudentDialog::on_showByDateB_clicked()
+{
+    ui->calendarWidget->show();
+}
+
+void StudentDialog::on_calendarWidget_activated(const QDate &date)
+{
+        QVector<Teacher> freeTeachers;
+        QLocale objectForDayOfWeek;
+        QString day = objectForDayOfWeek.dayName(date.dayOfWeek(),QLocale::ShortFormat);
+        QPair<QDate,QDate> teachRange;
+
+        for(auto&i:allTeachers){
+            auto courses = i.getDisciplines();
+            bool isFree = true;
+            for(auto&j:courses){
+                auto courseDays = j.getCourseDays();
+                teachRange = j.getTeachRange();
+                for(auto&k:courseDays){
+                    if((date.month() < teachRange.first.month() || date.month() > teachRange.second.month()) ||
+                       (date.day() < teachRange.first.day() || date.day() > teachRange.second.day()) )
+                    {
+                        if(courses.size() == 1){
+                            isFree = false;
+                            break;
+                        }
+                        else continue;
+                    }
+                    if(day == k){
+                        isFree = false;
+                        break;
+                    }
+                }
+                if(!isFree) break;
+            }
+            if(isFree) freeTeachers.append(i);
+        }
+        addTeachersToTable(freeTeachers);
+}
+
+void StudentDialog::on_calendarWidget_customContextMenuRequested(const QPoint &pos)
+{
+    QMenu* menu = new QMenu;
+    menu->addAction("Hide Calendar",[&](){ui->calendarWidget->hide();});
+    menu->exec(cursor().pos());
+}

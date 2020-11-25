@@ -59,6 +59,7 @@ void Student::addStudyTarget(const Discipline discipline,const Teacher teacher)
 {
     if(m_courses.contains(discipline))
         m_studyMap.insert(discipline,teacher);
+    else throw Except("This student doesn't have discipline, called \"" + discipline.getName() + "\"");
 }
 
 int Student::countDisciplines() const
@@ -103,16 +104,19 @@ void Student::read(const QJsonObject json)
         m_fName = json["fname"].toString();
     if(json.contains("lname")&& json["lname"].isString())
         m_lName = json["lname"].toString();
+
     if(json.contains("fthname")&& json["fthname"].isString())
         m_fthName = json["fthname"].toString();
 
     if(json.contains("group")&& json["group"].isString())
         m_group = json["group"].toString();
+
     if(json.contains("course")&& json["course"].isDouble())
         m_course = json["course"].toInt();
 
     if(json.contains("password")&& json["password"].isString())
         m_password = json["password"].toString();
+
     if(json.contains("id")&& json["id"].isDouble())
         m_id = json["id"].toInt();
 }

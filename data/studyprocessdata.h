@@ -6,6 +6,7 @@
 #include "student.h"
 #include "teacher.h"
 #include "discipline.h"
+#include "exept.h"
 /*
 This class contains studet's and
 teacher's data about their courses.
@@ -14,6 +15,7 @@ teacher's data about their courses.
 class StudyProcessData
 {
     QMap<Student, QMap<Discipline, Teacher>> m_studentsStudyMaps;
+
     QMap<Teacher, QMultiMap<Discipline, Student>> m_teachersCourseMaps;
 public:
     StudyProcessData();

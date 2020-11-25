@@ -19,11 +19,6 @@ LearnSystem::LearnSystem(QWidget *parent)
 {
     ui->setupUi(this);
 
-
-
-    this->setMaximumSize(500,580);
-    this->setBaseSize(500,550);
-
     ui->teachInfo->hide();
     ui->studGroup->hide();
     ui->enterB->hide();
@@ -38,6 +33,7 @@ LearnSystem::LearnSystem(QWidget *parent)
             courseName->setText(discipl.getName());
             layout->addWidget(courseName);
             layout->update();
+
             teacherCoursesWidg.append(courseName);
 
             connect(courseName,&QCheckBox::toggled,this,[=](bool checked){
@@ -57,31 +53,35 @@ LearnSystem::LearnSystem(QWidget *parent)
 }
 LearnSystem::~LearnSystem()
 {
-    for(auto&i:allStudents){
-        allStudyProcessData.updateMapForStudent(i,i.getStudyMap());
+
+    for(auto& j : allTeachers){
+        allStudyProcessData.updateMapForTeacher(j,j.getCourseMap());
     }
-    for(auto&i:allTeachers){
-        allStudyProcessData.updateMapForTeacher(i,i.getCourseMap());
+    for(auto& i : allStudents){
+        allStudyProcessData.updateMapForStudent(i,i.getStudyMap());
     }
 
     FlParser dataSaver;
-    dataSaver.writeStudents(allStudents);
-    dataSaver.writeTeachers(allTeachers);
-    dataSaver.writeStudyProcess(allStudyProcessData);
+    try {
+        dataSaver.writeStudents(allStudents);
+        dataSaver.writeTeachers(allTeachers);
+        dataSaver.writeStudyProcess(allStudyProcessData);
 
-    dataSaver.changeFilename("datafiles/dcourse1.json");
-    dataSaver.writeDisciplines(allDisciplines[0]);
+        dataSaver.changeFilename("datafiles/dcourse1.json");
+        dataSaver.writeDisciplines(allDisciplines[0]);
 
-    dataSaver.changeFilename("datafiles/dcourse2.json");
-    dataSaver.writeDisciplines(allDisciplines[1]);
+        dataSaver.changeFilename("datafiles/dcourse2.json");
+        dataSaver.writeDisciplines(allDisciplines[1]);
 
-    dataSaver.changeFilename("datafiles/dcourse3.json");
-    dataSaver.writeDisciplines(allDisciplines[2]);
+        dataSaver.changeFilename("datafiles/dcourse3.json");
+        dataSaver.writeDisciplines(allDisciplines[2]);
 
-    dataSaver.changeFilename("datafiles/dcourse4.json");
-    dataSaver.writeDisciplines(allDisciplines[3]);
-
-    delete ui;
+        dataSaver.changeFilename("datafiles/dcourse4.json");
+        dataSaver.writeDisciplines(allDisciplines[3]);
+    }  catch (Except& msg) {
+        delete ui;
+        QMessageBox::critical(nullptr,"Fatal",msg.what());
+    }
 }
 
 void LearnSystem::clearItems(){

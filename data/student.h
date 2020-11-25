@@ -8,7 +8,7 @@
 #include <QJsonArray>
 #include "account.h"
 #include "human.h"
-
+#include "exept.h"
 class Discipline;
 class Teacher;
 

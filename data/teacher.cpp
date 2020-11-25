@@ -155,22 +155,28 @@ void Teacher::read(const QJsonObject &json)
 {
     if(json.contains("fname") && json["fname"].isString())
         m_fName = json["fname"].toString();
+
     if(json.contains("lname") && json["lname"].isString())
         m_lName = json["lname"].toString();
+
     if(json.contains("fthname")&& json["fthname"].isString())
         m_fthName = json["fthname"].toString();
-
+;
     if(json.contains("post") && json["post"].isString())
         m_post = json["post"].toString();
+
     if(json.contains("stage") && json["stage"].isDouble())
         m_stage = json["stage"].toInt();
+
     if(json.contains("popularity")&& json["popularity"].isDouble())
         m_populatity = json["popularity"].toInt();
 
     if(json.contains("password") && json["password"].isString())
         m_password = json["password"].toString();
+
     if(json.contains("id")&& json["id"].isDouble())
         m_id = json["id"].toInt();
+
     if(json.contains("courses") && json["courses"].isArray()){
         QJsonArray courses = json["courses"].toArray();
         for(const auto &i : courses){

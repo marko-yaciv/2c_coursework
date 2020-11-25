@@ -24,6 +24,8 @@ public:
 
     void showStudentsList(const QVector<Student>& students);
     void setHeaders(const QList<QString>& name, QTableWidget* table);
+
+    void minimiseStudentVect(QVector<Student> &teachers);
 signals:
     void showMain();
 private slots:

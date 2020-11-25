@@ -26,7 +26,9 @@ TeacherDialog::TeacherDialog(QWidget *parent, const Teacher& teacher) :
 
     pageOwner = teacher;
     ui->initials->setText(pageOwner.getLname() + " " + pageOwner.getFname() + " " + pageOwner.getFthName());
-    ui->CntOfVisits->setText("Subscribers: " + QString::number(pageOwner.getCourseMap().values().size()));
+    auto myStudents = pageOwner.getCourseMap().values().toVector();
+    minimiseStudentVect(myStudents);
+    ui->CntOfVisits->setText("Subscribers: " + QString::number(myStudents.size()));
 
     auto courses = pageOwner.getDisciplines();
     ui->courses->setRowCount(courses.size());
@@ -102,7 +104,17 @@ void TeacherDialog::on_logout_clicked()
     emit this->finished(1);
     this->close();
 }
+void TeacherDialog::minimiseStudentVect(QVector<Student>& teachers)
+{
+    std::sort(teachers.begin(),teachers.end(),[](Student& first, Student& sec){return first < sec;});
 
+    for(int i = 0; i < teachers.size()-1;++i){
+        while(teachers[i] == teachers[i+1]){
+            teachers.remove(i+1);
+            if(i >= teachers.size()-1) break;
+        }
+    }
+}
 void TeacherDialog::on_showStudMode_activated(const QString &showMode)
 {
     QVector<Student> studentsToShow;
@@ -113,6 +125,8 @@ void TeacherDialog::on_showStudMode_activated(const QString &showMode)
     else if(showMode == "My Students")
     {
         studentsToShow = pageOwner.getCourseMap().values().toVector();
+        minimiseStudentVect(studentsToShow);
+
     }
     showStudentsList(studentsToShow);
 }
@@ -131,6 +145,7 @@ void TeacherDialog::on_sortB_clicked()
                                                               const Student& second)
                                                               {
                                                                 return first < second;});
+    minimiseStudentVect(studentsToSort);
     showStudentsList(studentsToSort);
 }
 

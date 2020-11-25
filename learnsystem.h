@@ -8,6 +8,7 @@
 #include "studentdialog.h"
 #include "teacherdialog.h"
 #include "allmembers.h"
+#include "data/exept.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class LearnSystem; }
 QT_END_NAMESPACE

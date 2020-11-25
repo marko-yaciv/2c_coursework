@@ -5,6 +5,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QDate>
+#include "exept.h"
 class Discipline
 {
     QString m_name;

@@ -84,6 +84,27 @@ LearnSystem::~LearnSystem()
     }
 }
 
+void LearnSystem::makeNewMemberParticular(Student & membToCheck)
+{
+    for(auto student = allStudents.begin(); student!= allStudents.end();){
+        if(student->getId() == membToCheck.getId()){
+            membToCheck.setId(QRandomGenerator::global()->bounded(1001,8988));
+        }else{
+            ++student;
+        }
+    }
+}
+void LearnSystem::makeNewMemberParticular(Teacher & membToCheck)
+{
+    for(auto teacher = allTeachers.begin(); teacher!= allTeachers.end();){
+        if(teacher->getId() == membToCheck.getId()){
+            membToCheck.setId(QRandomGenerator::global()->bounded(1001,8988));
+        }else{
+            ++teacher;
+        }
+    }
+}
+
 void LearnSystem::clearItems(){
     ui->Fname->clear();
     ui->Lname->clear();
@@ -148,7 +169,7 @@ void LearnSystem::on_signUpB_clicked()
                                  "Try to enter your account");
             return;
         }
-
+        makeNewMemberParticular(newStudent);
         allStudents.append(newStudent);
 
 //------------Shows student's window---------------------------------
@@ -174,6 +195,7 @@ void LearnSystem::on_signUpB_clicked()
                                  "Try to enter your account");
             return;
         }
+        makeNewMemberParticular(newTeacher);
         allTeachers.append(newTeacher);
 
 //--------------------shows teacher's window--------------------------

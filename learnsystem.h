@@ -5,6 +5,7 @@
 #include <QVector>
 #include <QCheckBox>
 #include <QMessageBox>
+#include <QRandomGenerator>
 #include "studentdialog.h"
 #include "teacherdialog.h"
 #include "allmembers.h"
@@ -28,7 +29,8 @@ public:
     ~LearnSystem();
     bool isAccountExist(const Student&);
     bool isAccountExist(const Teacher&);
-
+    void makeNewMemberParticular(Student&);
+    void makeNewMemberParticular(Teacher&);
     bool isStudentDataCorrect(const QVector<QString>& studentDataToEnter, QString accountPassword);
     bool isTeacherDataCorrect(const QVector<QString>& teacherDataToEnter, QString accountPassword);
 

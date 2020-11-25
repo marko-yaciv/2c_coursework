@@ -51,7 +51,7 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QMainWindow{
-background: qlineargradient(spread:pad, x1:1, y1:0.153, x2:1, y2:1, stop:0.0288462 rgba(91, 71, 133, 220), stop:1 rgba(23, 159, 168, 180));
+background: qlineargradient(spread:pad, x1:1, y1:0.153, x2:1, y2:1, stop:0.0288462 rgba(91, 71, 133, 231), stop:1 rgba(23, 159, 168, 191));
 
 }
 </string>
@@ -234,7 +234,7 @@ border-radius: 5px;
               <property name="font">
                <font>
                 <family>Lucida Sans Unicode</family>
-                <pointsize>9</pointsize>
+                <pointsize>10</pointsize>
                 <weight>50</weight>
                 <italic>false</italic>
                 <bold>false</bold>
@@ -246,7 +246,7 @@ border-radius: 5px;
               <property name="styleSheet">
                <string notr="true">QLineEdit{
 color: #fff;
-font: 9pt &quot;Lucida Sans Unicode&quot;;
+font: 10pt &quot;Lucida Sans Unicode&quot;;
 background: rgba(18, 108, 158, 0.49);
 border: 2px solid rgba(72, 16, 16, 0.56);
 border-radius: 5px;
@@ -303,7 +303,7 @@ border-radius: 5px;
               <property name="font">
                <font>
                 <family>Lucida Sans Unicode</family>
-                <pointsize>9</pointsize>
+                <pointsize>10</pointsize>
                 <weight>50</weight>
                 <italic>false</italic>
                 <bold>false</bold>
@@ -312,7 +312,7 @@ border-radius: 5px;
               <property name="styleSheet">
                <string notr="true">QLineEdit{
 color: #fff;
-font: 9pt &quot;Lucida Sans Unicode&quot;;
+font: 10pt &quot;Lucida Sans Unicode&quot;;
 background: rgba(18, 108, 158, 0.49);
 border: 2px solid rgba(72, 16, 16, 0.56);
 border-radius: 5px;
@@ -360,7 +360,7 @@ border-radius: 5px;
               <property name="font">
                <font>
                 <family>Lucida Sans Unicode</family>
-                <pointsize>9</pointsize>
+                <pointsize>10</pointsize>
                 <weight>50</weight>
                 <italic>false</italic>
                 <bold>false</bold>
@@ -369,7 +369,7 @@ border-radius: 5px;
               <property name="styleSheet">
                <string notr="true">QLineEdit{
 color: #fff;
-font: 9pt &quot;Lucida Sans Unicode&quot;;
+font: 10pt &quot;Lucida Sans Unicode&quot;;
 background: rgba(18, 108, 158, 0.49);
 border: 2px solid rgba(72, 16, 16, 0.56);
 border-radius: 5px;
@@ -417,7 +417,7 @@ border-radius: 5px;
               <property name="font">
                <font>
                 <family>Lucida Sans Unicode</family>
-                <pointsize>9</pointsize>
+                <pointsize>10</pointsize>
                 <weight>50</weight>
                 <italic>false</italic>
                 <bold>false</bold>
@@ -426,7 +426,7 @@ border-radius: 5px;
               <property name="styleSheet">
                <string notr="true">QLineEdit{
 color: #fff;
-font: 9pt &quot;Lucida Sans Unicode&quot;;
+font: 10pt &quot;Lucida Sans Unicode&quot;;
 background: rgba(18, 108, 158, 0.49);
 border: 2px solid rgba(72, 16, 16, 0.56);
 border-radius: 5px;
@@ -1040,7 +1040,7 @@ border-radius: 5px;
              <string>Log In</string>
             </property>
             <property name="flat">
-             <bool>true</bool>
+             <bool>false</bool>
             </property>
            </widget>
           </item>
@@ -1072,6 +1072,7 @@ border-radius: 5px;
       </property>
       <property name="styleSheet">
        <string notr="true">QCommandLinkButton{
+color: #fff;
 font: 10pt &quot;Lucida Sans Unicode&quot;;
 }</string>
       </property>
@@ -1177,10 +1178,14 @@ border-radius: 3px;
    </property>
    <property name="styleSheet">
     <string notr="true">QMenuBar{
+color: #fff;
 background: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0, stop:0.115385 rgba(91, 71, 133, 0.6612), stop:1 rgba(23, 159, 168, 0.2088));
 }</string>
    </property>
    <widget class="QMenu" name="menuAdditional">
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
     <property name="title">
      <string>Additional</string>
     </property>

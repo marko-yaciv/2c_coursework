@@ -23,7 +23,7 @@ bool FlParser::openWithValidation(const QIODevice::OpenModeFlag& openMode)
     }
     if(file.atEnd() && openMode == QIODevice::ReadOnly){
         qWarning("File is empty");
-        return false;
+        return true;
     }
     return true;
 }

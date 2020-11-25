@@ -6,6 +6,8 @@
 #include <QMenuBar>
 #include <QtAlgorithms>
 #include <QMessageBox>
+#include <QGraphicsEffect>
+#include <QStyle>
 extern const int COURSES;
 
 extern QVector<QVector<Discipline>> allDisciplines;
@@ -51,6 +53,8 @@ StudentDialog::StudentDialog(QWidget *parent, const Student& stud) :
 
         if(!i.isEnabled()) continue;
         QWidget* disciplWidget = new QWidget(ui->courseMap);
+        disciplWidget->setFont(QFont("Lucida Sans Unicode",10,QFont::Medium));
+        disciplWidget->setStyleSheet("color:#fff;");
 
         disciplWidget->setContextMenuPolicy(Qt::CustomContextMenu);
         connect(disciplWidget,&QWidget::customContextMenuRequested,this,[&](){on_discipl_contxtMenuRequested(i);});
@@ -59,10 +63,20 @@ StudentDialog::StudentDialog(QWidget *parent, const Student& stud) :
         if(!studyMap.contains(i)){
             QPushButton* noTeacherBut = new QPushButton(disciplWidget);
 
-            noTeacherBut->setText("Add Teacher");
-            noTeacherBut->setFixedSize(100,30);
-            noTeacherBut->setFont(QFont(this->font()));
 
+            noTeacherBut->setGeometry(5,5,140,40);
+            noTeacherBut->setStyleSheet("color: #fff;\
+                                        font: 10pt \"Lucida Sans Unicode\";\
+                                        background: rgba(47, 55, 99, 0.8);\
+                                        border: 1px solid rgba(72, 16, 16, 0.86);\
+                                        border-radius: 5px;");
+
+
+
+
+            noTeacherBut->setIcon(QIcon(":/rec/img/add-friend.png"));
+            noTeacherBut->setIconSize(QSize(25,25));
+            noTeacherBut->setText("Add Teacher");
             noTeacherButtons.insert(disciplWidget,noTeacherBut);
 
             connect(noTeacherBut,&QPushButton::clicked,this,[=](){showTeachersList(i);});
@@ -71,7 +85,9 @@ StudentDialog::StudentDialog(QWidget *parent, const Student& stud) :
         }else{
             showTeacherUnderDiscipline(studyMap[i],disciplWidget);
         }
+
         ui->toolBox->addItem(disciplWidget,i.getName());
+        ui->toolBox->setStyleSheet("color: #08b113;");
     }
 
 

@@ -35,7 +35,7 @@ TeacherDialog::TeacherDialog(QWidget *parent, const Teacher& teacher) :
     int j = 0;
     for(auto&i:courses){
         if(!i.isEnabled()){
-            QTableWidgetItem * courseName = new QTableWidgetItem("Uavaliable this semester");
+            QTableWidgetItem * courseName = new QTableWidgetItem(i.getName() + "(Uavaliable)");
             QTableWidgetItem * cntOfVisitors = new QTableWidgetItem("000");
             ui->courses->setItem(j,0,courseName);
             ui->courses->setItem(j++,1,cntOfVisitors);
@@ -144,7 +144,7 @@ void TeacherDialog::on_sortB_clicked()
     std::sort(studentsToSort.begin(), studentsToSort.end(),[](const Student& first,
                                                               const Student& second)
                                                               {
-                                                                return first < second;});
+                                                                return first < second ;});
     minimiseStudentVect(studentsToSort);
     showStudentsList(studentsToSort);
 }

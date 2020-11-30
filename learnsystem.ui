@@ -2,12 +2,15 @@
 <ui version="4.0">
  <class>LearnSystem</class>
  <widget class="QMainWindow" name="LearnSystem">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>406</width>
-    <height>702</height>
+    <width>492</width>
+    <height>730</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -25,7 +28,7 @@
   <property name="maximumSize">
    <size>
     <width>500</width>
-    <height>702</height>
+    <height>730</height>
    </size>
   </property>
   <property name="baseSize">
@@ -40,6 +43,26 @@
   <property name="windowTitle">
    <string>LearnSystem</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="resources.qrc">
+    <normaloff>:/images/img/graduation-hat.png</normaloff>:/images/img/graduation-hat.png</iconset>
+  </property>
+  <property name="windowOpacity">
+   <double>0.980000000000000</double>
+  </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QMainWindow{
+background: qlineargradient(spread:pad, x1:1, y1:0.153, x2:1, y2:1, stop:0.0288462 rgba(91, 71, 133, 231), stop:1 rgba(23, 159, 168, 191));
+
+}
+</string>
+  </property>
+  <property name="tabShape">
+   <enum>QTabWidget::Rounded</enum>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <property name="sizePolicy">
     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -47,14 +70,128 @@
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
-   <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0">
+   <property name="maximumSize">
+    <size>
+     <width>16777215</width>
+     <height>635</height>
+    </size>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,0">
     <property name="sizeConstraint">
      <enum>QLayout::SetDefaultConstraint</enum>
     </property>
     <property name="bottomMargin">
      <number>0</number>
     </property>
-    <item row="2" column="0">
+    <item row="2" column="0" alignment="Qt::AlignHCenter">
+     <widget class="QCommandLinkButton" name="backToRegister">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <family>Lucida Sans Unicode</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <italic>false</italic>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QCommandLinkButton{
+color: #fff;
+font: 10pt &quot;Lucida Sans Unicode&quot;;
+}</string>
+      </property>
+      <property name="text">
+       <string>Back</string>
+      </property>
+      <property name="icon">
+       <iconset resource="resources.qrc">
+        <normaloff>:/images/img/iconfinder_Arrow_doodle_04_3847908.png</normaloff>:/images/img/iconfinder_Arrow_doodle_04_3847908.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>50</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="autoRepeatDelay">
+       <number>300</number>
+      </property>
+      <property name="autoRepeatInterval">
+       <number>100</number>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_9">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="baseSize">
+       <size>
+        <width>0</width>
+        <height>29</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <family>Georgia</family>
+        <pointsize>18</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLabel{
+color: #fff;
+border: 2px solid rgba(72, 16, 16, 0.86);
+border-radius: 3px;
+}</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Box</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Sunken</enum>
+      </property>
+      <property name="lineWidth">
+       <number>1</number>
+      </property>
+      <property name="text">
+       <string>Software Private School</string>
+      </property>
+      <property name="textFormat">
+       <enum>Qt::AutoText</enum>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="textInteractionFlags">
+       <set>Qt::NoTextInteraction</set>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
      <widget class="QWidget" name="registerW" native="true">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
@@ -62,30 +199,71 @@
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>630</height>
+       </size>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0,0,0,0">
+       <property name="spacing">
+        <number>7</number>
+       </property>
        <item>
         <layout class="QVBoxLayout" name="whoIam">
-         <property name="leftMargin">
-          <number>0</number>
+         <property name="spacing">
+          <number>5</number>
          </property>
-         <item alignment="Qt::AlignHCenter">
+         <property name="leftMargin">
+          <number>95</number>
+         </property>
+         <property name="rightMargin">
+          <number>95</number>
+         </property>
+         <item>
           <widget class="QRadioButton" name="iamstud">
            <property name="font">
             <font>
+             <family>Lucida Sans Unicode</family>
              <pointsize>10</pointsize>
+             <weight>50</weight>
+             <italic>false</italic>
+             <bold>false</bold>
             </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QRadioButton{
+color: #fff;
+font: 10pt &quot;Lucida Sans Unicode&quot;;
+background: rgba(47, 55, 99, 0.8);
+border: 1px solid rgba(72, 16, 16, 0.86);
+border-radius: 5px;
+}</string>
            </property>
            <property name="text">
             <string>I am Student</string>
            </property>
           </widget>
          </item>
-         <item alignment="Qt::AlignHCenter">
+         <item>
           <widget class="QRadioButton" name="iamteach">
            <property name="font">
             <font>
+             <family>Lucida Sans Unicode</family>
              <pointsize>10</pointsize>
+             <weight>50</weight>
+             <italic>false</italic>
+             <bold>false</bold>
             </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QRadioButton{
+color: #fff;
+font: 10pt &quot;Lucida Sans Unicode&quot;;
+background: rgba(47, 55, 99, 0.8);
+border: 1px solid rgba(72, 16, 16, 0.86);
+border-radius: 5px;
+}</string>
            </property>
            <property name="text">
             <string>I am Teacher</string>
@@ -127,70 +305,24 @@
           <property name="spacing">
            <number>7</number>
           </property>
-          <item row="3" column="0" colspan="2">
-           <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,2">
-            <property name="leftMargin">
-             <number>0</number>
-            </property>
-            <item>
-             <widget class="QLabel" name="label_3">
-              <property name="font">
-               <font>
-                <pointsize>10</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>Father's name</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLineEdit" name="FthName">
-              <property name="font">
-               <font>
-                <pointsize>9</pointsize>
-               </font>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item row="1" column="0" colspan="2">
-           <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,2">
-            <property name="leftMargin">
-             <number>0</number>
-            </property>
-            <item>
-             <widget class="QLabel" name="label">
-              <property name="font">
-               <font>
-                <pointsize>10</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>First name</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLineEdit" name="Fname">
-              <property name="font">
-               <font>
-                <pointsize>9</pointsize>
-               </font>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
           <item row="5" column="0" colspan="2">
-           <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="1,2">
+           <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="3,5,0">
             <item>
              <widget class="QLabel" name="label_18">
               <property name="font">
                <font>
+                <family>Lucida Sans Unicode</family>
                 <pointsize>10</pointsize>
+                <weight>50</weight>
+                <italic>false</italic>
+                <bold>false</bold>
                </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLabel{
+	font: 10pt &quot;Lucida Sans Unicode&quot;;
+}
+</string>
               </property>
               <property name="text">
                <string>Password</string>
@@ -199,13 +331,32 @@
             </item>
             <item>
              <widget class="QLineEdit" name="password">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>25</height>
+               </size>
+              </property>
               <property name="font">
                <font>
-                <pointsize>9</pointsize>
+                <family>Lucida Sans Unicode</family>
+                <pointsize>10</pointsize>
+                <weight>50</weight>
+                <italic>false</italic>
+                <bold>false</bold>
                </font>
               </property>
               <property name="contextMenuPolicy">
                <enum>Qt::DefaultContextMenu</enum>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLineEdit{
+color: #fff;
+font: 10pt &quot;Lucida Sans Unicode&quot;;
+background: rgba(18, 108, 158, 0.49);
+border: 2px solid rgba(72, 16, 16, 0.56);
+border-radius: 5px;
+}</string>
               </property>
               <property name="maxLength">
                <number>20</number>
@@ -215,6 +366,40 @@
               </property>
               <property name="clearButtonEnabled">
                <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="showPassword">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>8</pointsize>
+               </font>
+              </property>
+              <property name="toolTip">
+               <string>Press to show</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="resources.qrc">
+                <normaloff>:/images/img/eye.png</normaloff>:/images/img/eye.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>30</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="flat">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
@@ -229,8 +414,18 @@
              <widget class="QLabel" name="label_2">
               <property name="font">
                <font>
+                <family>Lucida Sans Unicode</family>
                 <pointsize>10</pointsize>
+                <weight>50</weight>
+                <italic>false</italic>
+                <bold>false</bold>
                </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLabel{
+	font: 10pt &quot;Lucida Sans Unicode&quot;;
+}
+</string>
               </property>
               <property name="text">
                <string>Last name</string>
@@ -239,10 +434,143 @@
             </item>
             <item>
              <widget class="QLineEdit" name="Lname">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>25</height>
+               </size>
+              </property>
               <property name="font">
                <font>
-                <pointsize>9</pointsize>
+                <family>Lucida Sans Unicode</family>
+                <pointsize>10</pointsize>
+                <weight>50</weight>
+                <italic>false</italic>
+                <bold>false</bold>
                </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLineEdit{
+color: #fff;
+font: 10pt &quot;Lucida Sans Unicode&quot;;
+background: rgba(18, 108, 158, 0.49);
+border: 2px solid rgba(72, 16, 16, 0.56);
+border-radius: 5px;
+}</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="1" column="0" rowspan="2" colspan="2">
+           <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,2">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="label">
+              <property name="font">
+               <font>
+                <family>Lucida Sans Unicode</family>
+                <pointsize>10</pointsize>
+                <weight>50</weight>
+                <italic>false</italic>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLabel{
+	font: 10pt &quot;Lucida Sans Unicode&quot;;
+}
+</string>
+              </property>
+              <property name="text">
+               <string>First name</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="Fname">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>25</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <family>Lucida Sans Unicode</family>
+                <pointsize>10</pointsize>
+                <weight>50</weight>
+                <italic>false</italic>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLineEdit{
+color: #fff;
+font: 10pt &quot;Lucida Sans Unicode&quot;;
+background: rgba(18, 108, 158, 0.49);
+border: 2px solid rgba(72, 16, 16, 0.56);
+border-radius: 5px;
+}</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="3" column="0" rowspan="2" colspan="2">
+           <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,2">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="label_3">
+              <property name="font">
+               <font>
+                <family>Lucida Sans Unicode</family>
+                <pointsize>10</pointsize>
+                <weight>50</weight>
+                <italic>false</italic>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLabel{
+	font: 10pt &quot;Lucida Sans Unicode&quot;;
+}
+</string>
+              </property>
+              <property name="text">
+               <string>Father's name</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="FthName">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>25</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <family>Lucida Sans Unicode</family>
+                <pointsize>10</pointsize>
+                <weight>50</weight>
+                <italic>false</italic>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLineEdit{
+color: #fff;
+font: 10pt &quot;Lucida Sans Unicode&quot;;
+background: rgba(18, 108, 158, 0.49);
+border: 2px solid rgba(72, 16, 16, 0.56);
+border-radius: 5px;
+}</string>
               </property>
              </widget>
             </item>
@@ -289,6 +617,9 @@
             <property name="leftMargin">
              <number>0</number>
             </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
@@ -296,8 +627,18 @@
              <widget class="QLabel" name="label_5">
               <property name="font">
                <font>
+                <family>Lucida Sans Unicode</family>
                 <pointsize>10</pointsize>
+                <weight>50</weight>
+                <italic>false</italic>
+                <bold>false</bold>
                </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLabel{
+	font: 10pt &quot;Lucida Sans Unicode&quot;;
+}
+</string>
               </property>
               <property name="text">
                <string>Post</string>
@@ -306,13 +647,32 @@
             </item>
             <item>
              <widget class="QComboBox" name="post">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>30</height>
+               </size>
+              </property>
               <property name="font">
                <font>
+                <family>Open Sans</family>
                 <pointsize>10</pointsize>
+                <weight>50</weight>
+                <italic>false</italic>
+                <bold>false</bold>
                </font>
               </property>
               <property name="cursor">
                <cursorShape>SplitHCursor</cursorShape>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QComboBox{
+color: #fff;
+font: 10pt &quot;Open Sans&quot;;
+background: rgb(77, 106, 153);
+border: 1px solid rgba(72, 16, 16, 0.86);
+border-radius: 3px;
+}</string>
               </property>
               <property name="currentIndex">
                <number>-1</number>
@@ -345,8 +705,18 @@
               </property>
               <property name="font">
                <font>
+                <family>Lucida Sans Unicode</family>
                 <pointsize>10</pointsize>
+                <weight>50</weight>
+                <italic>false</italic>
+                <bold>false</bold>
                </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLabel{
+	font: 10pt &quot;Lucida Sans Unicode&quot;;
+}
+</string>
               </property>
               <property name="text">
                <string>Discipline</string>
@@ -361,17 +731,35 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>75</height>
+               </size>
+              </property>
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
                 <height>55</height>
                </size>
               </property>
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::StyledPanel</enum>
+              </property>
+              <property name="lineWidth">
+               <number>0</number>
+              </property>
+              <property name="verticalScrollBarPolicy">
+               <enum>Qt::ScrollBarAlwaysOn</enum>
+              </property>
               <property name="horizontalScrollBarPolicy">
                <enum>Qt::ScrollBarAlwaysOff</enum>
               </property>
               <property name="sizeAdjustPolicy">
-               <enum>QAbstractScrollArea::AdjustToContentsOnFirstShow</enum>
+               <enum>QAbstractScrollArea::AdjustToContents</enum>
               </property>
               <property name="widgetResizable">
                <bool>true</bool>
@@ -381,9 +769,16 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>223</width>
-                 <height>37</height>
+                 <width>264</width>
+                 <height>73</height>
                 </rect>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QWidget{
+color: #fff;
+font: 9pt &quot;Open Sans&quot;;
+background: rgb(77, 106, 153);
+}</string>
                </property>
               </widget>
              </widget>
@@ -398,6 +793,9 @@
             <property name="leftMargin">
              <number>0</number>
             </property>
+            <property name="topMargin">
+             <number>10</number>
+            </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
@@ -405,11 +803,21 @@
              <widget class="QLabel" name="label_6">
               <property name="font">
                <font>
+                <family>Lucida Sans Unicode</family>
                 <pointsize>10</pointsize>
+                <weight>50</weight>
+                <italic>false</italic>
+                <bold>false</bold>
                </font>
               </property>
+              <property name="styleSheet">
+               <string notr="true">QLabel{
+	font: 10pt &quot;Lucida Sans Unicode&quot;;
+}
+</string>
+              </property>
               <property name="text">
-               <string>Stazh</string>
+               <string>Experience</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -418,10 +826,29 @@
             </item>
             <item>
              <widget class="QSpinBox" name="stand">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>30</height>
+               </size>
+              </property>
               <property name="font">
                <font>
-                <pointsize>9</pointsize>
+                <family>Open Sans</family>
+                <pointsize>10</pointsize>
+                <weight>50</weight>
+                <italic>false</italic>
+                <bold>false</bold>
                </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QSpinBox{
+color: #fff;
+font: 10pt &quot;Open Sans&quot;;
+background: rgb(77, 106, 153);
+border: 1px solid rgba(72, 16, 16, 0.86);
+border-radius: 3px;
+}</string>
               </property>
               <property name="maximum">
                <number>70</number>
@@ -432,8 +859,18 @@
              <widget class="QLabel" name="label_7">
               <property name="font">
                <font>
+                <family>Lucida Sans Unicode</family>
                 <pointsize>10</pointsize>
+                <weight>50</weight>
+                <italic>false</italic>
+                <bold>false</bold>
                </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLabel{
+	font: 10pt &quot;Lucida Sans Unicode&quot;;
+}
+</string>
               </property>
               <property name="text">
                <string>  years</string>
@@ -490,8 +927,18 @@
             </property>
             <property name="font">
              <font>
+              <family>Lucida Sans Unicode</family>
               <pointsize>10</pointsize>
+              <weight>50</weight>
+              <italic>false</italic>
+              <bold>false</bold>
              </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QLabel{
+	font: 10pt &quot;Lucida Sans Unicode&quot;;
+}
+</string>
             </property>
             <property name="text">
              <string>Group</string>
@@ -500,13 +947,32 @@
           </item>
           <item>
            <widget class="QComboBox" name="group">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>30</height>
+             </size>
+            </property>
             <property name="font">
              <font>
-              <pointsize>9</pointsize>
+              <family>Open Sans</family>
+              <pointsize>10</pointsize>
+              <weight>50</weight>
+              <italic>false</italic>
+              <bold>false</bold>
              </font>
             </property>
             <property name="focusPolicy">
              <enum>Qt::WheelFocus</enum>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QComboBox{
+color: #fff;
+font: 10pt &quot;Open Sans&quot;;
+background: rgb(77, 106, 153);
+border: 1px solid rgba(72, 16, 16, 0.86);
+border-radius: 3px;
+}</string>
             </property>
             <property name="maxVisibleItems">
              <number>40</number>
@@ -526,65 +992,152 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="signUpB">
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <property name="spacing">
+          <number>5</number>
          </property>
-         <property name="statusTip">
-          <string/>
+         <property name="leftMargin">
+          <number>70</number>
          </property>
-         <property name="whatsThis">
-          <string/>
+         <property name="topMargin">
+          <number>15</number>
          </property>
-         <property name="accessibleName">
-          <string/>
+         <property name="rightMargin">
+          <number>100</number>
          </property>
-         <property name="accessibleDescription">
-          <string/>
-         </property>
-         <property name="text">
-          <string>Sign up</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="enterB">
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="focusPolicy">
-          <enum>Qt::StrongFocus</enum>
-         </property>
-         <property name="text">
-          <string>Enter</string>
-         </property>
-         <property name="flat">
-          <bool>false</bool>
-         </property>
-        </widget>
+         <item>
+          <widget class="QPushButton" name="signUpB">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Lucida Sans Unicode</family>
+             <pointsize>10</pointsize>
+             <weight>50</weight>
+             <italic>false</italic>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="mouseTracking">
+            <bool>true</bool>
+           </property>
+           <property name="statusTip">
+            <string/>
+           </property>
+           <property name="whatsThis">
+            <string/>
+           </property>
+           <property name="accessibleName">
+            <string/>
+           </property>
+           <property name="accessibleDescription">
+            <string/>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton{
+color: #fff;
+font: 10pt &quot;Lucida Sans Unicode&quot;;
+background: rgba(47, 55, 99, 0.8);
+border: 1px solid rgba(72, 16, 16, 0.86);
+border-radius: 5px;
+}</string>
+           </property>
+           <property name="text">
+            <string>Sign up</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="enterB">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Lucida Sans Unicode</family>
+             <pointsize>10</pointsize>
+             <weight>50</weight>
+             <italic>false</italic>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::StrongFocus</enum>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton{
+color: #fff;
+font: 10pt &quot;Lucida Sans Unicode&quot;;
+background: rgba(47, 55, 99, 0.8);
+border: 1px solid rgba(72, 16, 16, 0.86);
+border-radius: 5px;
+}</string>
+           </property>
+           <property name="text">
+            <string>Enter</string>
+           </property>
+           <property name="flat">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
        <item>
         <widget class="QWidget" name="logInWidget" native="true">
-         <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="2,1">
           <property name="spacing">
-           <number>30</number>
+           <number>47</number>
           </property>
           <property name="leftMargin">
            <number>5</number>
           </property>
           <property name="rightMargin">
-           <number>10</number>
+           <number>0</number>
           </property>
           <item>
            <widget class="QLabel" name="label_8">
             <property name="font">
              <font>
+              <family>Lucida Sans Unicode</family>
               <pointsize>9</pointsize>
+              <weight>50</weight>
+              <italic>false</italic>
+              <bold>false</bold>
              </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QLabel{
+font: 9pt &quot;Lucida Sans Unicode&quot;;
+}</string>
             </property>
             <property name="text">
              <string>Alredy signed up?</string>
@@ -593,18 +1146,41 @@
           </item>
           <item>
            <widget class="QPushButton" name="logInB">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>100</width>
+              <height>30</height>
+             </size>
+            </property>
             <property name="font">
              <font>
-              <pointsize>8</pointsize>
-              <weight>75</weight>
-              <bold>true</bold>
+              <family>Lucida Sans Unicode</family>
+              <pointsize>9</pointsize>
+              <weight>50</weight>
+              <italic>false</italic>
+              <bold>false</bold>
              </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton{
+color: #fff;
+font: 9pt &quot;Lucida Sans Unicode&quot;;
+background: rgba(47, 55, 99, 0.8);
+border: 1px solid rgba(72, 16, 16, 0.86);
+border-radius: 5px;
+}</string>
             </property>
             <property name="text">
              <string>Log In</string>
             </property>
             <property name="flat">
-             <bool>true</bool>
+             <bool>false</bool>
             </property>
            </widget>
           </item>
@@ -614,82 +1190,7 @@
       </layout>
      </widget>
     </item>
-    <item row="1" column="0" alignment="Qt::AlignHCenter">
-     <widget class="QCommandLinkButton" name="backToRegister">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>9</pointsize>
-       </font>
-      </property>
-      <property name="cursor">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="text">
-       <string>Back</string>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>30</width>
-        <height>30</height>
-       </size>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="0">
-     <widget class="QLabel" name="label_9">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="baseSize">
-       <size>
-        <width>0</width>
-        <height>29</height>
-       </size>
-      </property>
-      <property name="font">
-       <font>
-        <family>Georgia</family>
-        <pointsize>18</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::Box</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Sunken</enum>
-      </property>
-      <property name="lineWidth">
-       <number>1</number>
-      </property>
-      <property name="text">
-       <string>Software Private School</string>
-      </property>
-      <property name="textFormat">
-       <enum>Qt::AutoText</enum>
-      </property>
-      <property name="scaledContents">
-       <bool>true</bool>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-      <property name="textInteractionFlags">
-       <set>Qt::NoTextInteraction</set>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="0">
+    <item row="4" column="0">
      <spacer name="verticalSpacer">
       <property name="orientation">
        <enum>Qt::Vertical</enum>
@@ -702,6 +1203,32 @@
       </property>
      </spacer>
     </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="inLabel">
+      <property name="font">
+       <font>
+        <family>Georgia</family>
+        <pointsize>14</pointsize>
+        <weight>75</weight>
+        <italic>true</italic>
+        <bold>true</bold>
+        <underline>true</underline>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLabel
+{
+	color: rgb(159, 127, 100);
+}</string>
+      </property>
+      <property name="text">
+       <string>NULL</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -709,23 +1236,26 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>406</width>
+     <width>492</width>
      <height>25</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuAdditional">
-    <property name="title">
-     <string>Additional</string>
-    </property>
-    <addaction name="actionShow_All_Teachers"/>
-    <addaction name="actionShow_All_Students"/>
-   </widget>
-   <addaction name="menuAdditional"/>
+   <property name="styleSheet">
+    <string notr="true">QMenuBar{
+color: #fff;
+background: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0, stop:0.115385 rgba(91, 71, 133, 0.6612), stop:1 rgba(23, 159, 168, 0.2088));
+}</string>
+   </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
    <property name="windowTitle">
     <string>toolBar</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QToolBar{
+background: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0, stop:0.115385 rgba(91, 71, 133, 0.6612), stop:1 rgba(23, 159, 168, 0.2088));
+}</string>
    </property>
    <property name="toolButtonStyle">
     <enum>Qt::ToolButtonIconOnly</enum>
@@ -741,8 +1271,8 @@
   </widget>
   <action name="actionShow_All_Teachers">
    <property name="icon">
-    <iconset>
-     <normaloff>:/rec/img/teacher.png</normaloff>:/rec/img/teacher.png</iconset>
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/img/teacher.png</normaloff>:/images/img/teacher.png</iconset>
    </property>
    <property name="text">
     <string>Show All Teachers</string>
@@ -753,8 +1283,8 @@
   </action>
   <action name="actionShow_All_Students">
    <property name="icon">
-    <iconset>
-     <normaloff>:/rec/img/student.png</normaloff>:/rec/img/student.png</iconset>
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/img/student.png</normaloff>:/images/img/student.png</iconset>
    </property>
    <property name="text">
     <string>Show All Students</string>
@@ -775,14 +1305,14 @@
   <tabstop>scrollArea</tabstop>
   <tabstop>stand</tabstop>
   <tabstop>group</tabstop>
-  <tabstop>signUpB</tabstop>
-  <tabstop>enterB</tabstop>
   <tabstop>logInB</tabstop>
   <tabstop>iamteach</tabstop>
   <tabstop>iamstud</tabstop>
   <tabstop>backToRegister</tabstop>
   <tabstop>register_common</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

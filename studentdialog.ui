@@ -18,6 +18,18 @@
   <property name="windowTitle">
    <string>Student Account</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="resources.qrc">
+    <normaloff>:/images/img/student.png</normaloff>:/images/img/student.png</iconset>
+  </property>
+  <property name="windowOpacity">
+   <double>0.980000000000000</double>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QDialog{
+background: qlineargradient(spread:pad, x1:1, y1:0.153, x2:1, y2:1, stop:0.0288462 rgba(91, 71, 133, 231), stop:1 rgba(23, 159, 168, 191));
+}</string>
+  </property>
   <layout class="QGridLayout" name="gridLayout" columnstretch="0,0,0">
    <item row="0" column="1" colspan="2">
     <widget class="QFrame" name="ownerInfo">
@@ -26,6 +38,11 @@
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QFrame{
+color: #fff;
+}</string>
      </property>
      <property name="frameShape">
       <enum>QFrame::Panel</enum>
@@ -53,6 +70,11 @@
           <pointsize>10</pointsize>
          </font>
         </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel{
+color: #fff;
+}</string>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -67,6 +89,11 @@
          <font>
           <pointsize>10</pointsize>
          </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel{
+color: #fff;
+}</string>
         </property>
         <property name="text">
          <string/>
@@ -83,6 +110,11 @@
           <pointsize>10</pointsize>
          </font>
         </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel{
+color: #fff;
+}</string>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -95,8 +127,13 @@
        <widget class="QLabel" name="date">
         <property name="font">
          <font>
-          <pointsize>9</pointsize>
+          <pointsize>10</pointsize>
          </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel{
+color: #fff;
+}</string>
         </property>
         <property name="text">
          <string>TextLabel</string>
@@ -116,7 +153,7 @@
         </property>
         <property name="font">
          <font>
-          <pointsize>8</pointsize>
+          <pointsize>9</pointsize>
           <italic>true</italic>
          </font>
         </property>
@@ -126,13 +163,22 @@
         <property name="mouseTracking">
          <bool>true</bool>
         </property>
+        <property name="styleSheet">
+         <string notr="true">QCommandLinkButton{
+color: #fff;
+}</string>
+        </property>
         <property name="text">
          <string>Log out</string>
         </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>:/rec/img/exit.png</normaloff>:/rec/img/exit.png</iconset>
+        </property>
         <property name="iconSize">
          <size>
-          <width>20</width>
-          <height>20</height>
+          <width>25</width>
+          <height>25</height>
          </size>
         </property>
         <property name="autoRepeatDelay">
@@ -170,13 +216,21 @@
          <number>10</number>
         </property>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,2,2">
+          <property name="spacing">
+           <number>26</number>
+          </property>
           <item>
            <widget class="QLabel" name="label">
             <property name="font">
              <font>
               <pointsize>10</pointsize>
              </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QLabel{
+color: #fff;
+}</string>
             </property>
             <property name="text">
              <string>Show Mode</string>
@@ -185,6 +239,27 @@
           </item>
           <item>
            <widget class="QComboBox" name="showTeachMode">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>35</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QComboBox{
+color: #fff;
+font: 10pt &quot;Lucida Sans Unicode&quot;;
+background: rgba(47, 55, 99, 0.8);
+border: 1px solid rgba(72, 16, 16, 0.86);
+border-radius: 8px;
+}</string>
+            </property>
             <item>
              <property name="text">
               <string>All Teachers</string>
@@ -204,6 +279,21 @@
           </item>
           <item>
            <widget class="QPushButton" name="showByDateB">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>36</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton{
+color: #fff;
+font: 10pt &quot;Lucida Sans Unicode&quot;;
+background: rgba(47, 55, 99, 0.8);
+border: 1px solid rgba(72, 16, 16, 0.86);
+border-radius: 8px;
+}</string>
+            </property>
             <property name="text">
              <string>Show by date</string>
             </property>
@@ -212,21 +302,36 @@
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="2,1">
+         <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="4,3">
           <property name="spacing">
-           <number>10</number>
+           <number>25</number>
           </property>
           <property name="leftMargin">
-           <number>40</number>
+           <number>99</number>
           </property>
           <property name="topMargin">
            <number>0</number>
           </property>
           <property name="rightMargin">
-           <number>10</number>
+           <number>0</number>
           </property>
           <item>
            <widget class="QPushButton" name="sortB">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>35</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton{
+color: #fff;
+font: 10pt &quot;Lucida Sans Unicode&quot;;
+background: rgba(47, 55, 99, 0.8);
+border: 1px solid rgba(72, 16, 16, 0.86);
+border-radius: 8px;
+}</string>
+            </property>
             <property name="text">
              <string>Sort by</string>
             </property>
@@ -235,17 +340,39 @@
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_3">
             <property name="spacing">
-             <number>0</number>
+             <number>5</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <item>
              <widget class="QRadioButton" name="sortByName">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>30</height>
+               </size>
+              </property>
               <property name="font">
                <font>
-                <pointsize>9</pointsize>
+                <family>Lucida Sans Unicode</family>
+                <pointsize>10</pointsize>
+                <weight>50</weight>
+                <italic>false</italic>
+                <bold>false</bold>
                </font>
+              </property>
+              <property name="layoutDirection">
+               <enum>Qt::LeftToRight</enum>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QRadioButton{
+color: #fff;
+font: 10pt &quot;Lucida Sans Unicode&quot;;
+background: rgba(47, 55, 99, 0.8);
+border: 1px solid rgba(72, 16, 16, 0.86);
+border-radius: 5px;
+}</string>
               </property>
               <property name="text">
                <string>Name</string>
@@ -254,10 +381,29 @@
             </item>
             <item>
              <widget class="QRadioButton" name="sortByPost">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>30</height>
+               </size>
+              </property>
               <property name="font">
                <font>
-                <pointsize>9</pointsize>
+                <family>Lucida Sans Unicode</family>
+                <pointsize>10</pointsize>
+                <weight>50</weight>
+                <italic>false</italic>
+                <bold>false</bold>
                </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QRadioButton{
+color: #fff;
+font: 10pt &quot;Lucida Sans Unicode&quot;;
+background: rgba(47, 55, 99, 0.8);
+border: 1px solid rgba(72, 16, 16, 0.86);
+border-radius: 5px;
+}</string>
               </property>
               <property name="text">
                <string>Post</string>
@@ -270,8 +416,26 @@
         </item>
         <item>
          <widget class="QTableWidget" name="teachers">
+          <property name="font">
+           <font>
+            <family>Open Sans</family>
+            <pointsize>10</pointsize>
+            <weight>50</weight>
+            <italic>false</italic>
+            <bold>false</bold>
+           </font>
+          </property>
           <property name="tabletTracking">
            <bool>true</bool>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QTableWidget{
+color: #fff;
+font: 10pt &quot;Open Sans&quot;;
+background: rgb(77, 106, 153);
+border: 1px solid rgba(72, 16, 16, 0.86);
+border-radius: 10px;
+}</string>
           </property>
           <property name="editTriggers">
            <set>QAbstractItemView::NoEditTriggers</set>
@@ -279,8 +443,11 @@
           <property name="textElideMode">
            <enum>Qt::ElideRight</enum>
           </property>
+          <property name="gridStyle">
+           <enum>Qt::DashLine</enum>
+          </property>
           <property name="sortingEnabled">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <attribute name="horizontalHeaderStretchLastSection">
            <bool>true</bool>
@@ -311,7 +478,11 @@
             </property>
             <property name="font">
              <font>
-              <pointsize>9</pointsize>
+              <family>Lucida Sans Unicode</family>
+              <pointsize>10</pointsize>
+              <weight>50</weight>
+              <italic>false</italic>
+              <bold>false</bold>
              </font>
             </property>
             <property name="mouseTracking">
@@ -322,6 +493,14 @@
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::CustomContextMenu</enum>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QCalendarWidget{
+font: 10pt &quot;Lucida Sans Unicode&quot;;
+background: rgba(47, 55, 99, 0.8);
+border: 1px solid rgba(72, 16, 16, 0.86);
+border-radius: 10px;
+}</string>
             </property>
             <property name="locale">
              <locale language="Ukrainian" country="Ukraine"/>
@@ -377,6 +556,11 @@
             <bold>true</bold>
            </font>
           </property>
+          <property name="styleSheet">
+           <string notr="true">QLabel{
+color: #fff;
+}</string>
+          </property>
           <property name="text">
            <string>Course Map</string>
           </property>
@@ -387,6 +571,13 @@
         </item>
         <item>
          <widget class="QScrollArea" name="scrollArea">
+          <property name="styleSheet">
+           <string notr="true">QScrollArea{
+border: 1px solid rgba(72, 16, 16, 0.86);
+background: rgb(77, 106, 153);
+
+}</string>
+          </property>
           <property name="verticalScrollBarPolicy">
            <enum>Qt::ScrollBarAlwaysOn</enum>
           </property>
@@ -401,6 +592,11 @@
              <width>364</width>
              <height>592</height>
             </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QWidget{
+background: rgb(77, 106, 153);
+}</string>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_2">
             <item>
@@ -420,27 +616,38 @@
               <property name="font">
                <font>
                 <pointsize>9</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
                </font>
               </property>
               <property name="contextMenuPolicy">
                <enum>Qt::CustomContextMenu</enum>
               </property>
+              <property name="styleSheet">
+               <string notr="true">QToolBox{
+color: #fff;
+background: rgb(77, 106, 153);
+}</string>
+              </property>
               <property name="frameShape">
                <enum>QFrame::NoFrame</enum>
+              </property>
+              <property name="lineWidth">
+               <number>1</number>
               </property>
               <property name="currentIndex">
                <number>0</number>
               </property>
               <property name="tabSpacing">
-               <number>7</number>
+               <number>10</number>
               </property>
               <widget class="QWidget" name="page_2">
                <property name="geometry">
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>342</width>
-                 <height>537</height>
+                 <width>340</width>
+                 <height>532</height>
                 </rect>
                </property>
                <attribute name="label">
@@ -460,6 +667,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

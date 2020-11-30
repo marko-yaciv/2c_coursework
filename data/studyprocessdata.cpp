@@ -23,7 +23,7 @@ void StudyProcessData::updateMapForTeacher(const Teacher &mapOwner, const QMulti
         m_teachersCourseMaps.insert(mapOwner,map);
 }
 
-const QMap<Discipline, Teacher> StudyProcessData::getMapOfStudent(const Student &mapOwner) const noexcept(false)
+const QMap<Discipline, Teacher> StudyProcessData::getMapOfStudent(const Student &mapOwner) const
 {
     if(m_studentsStudyMaps.contains(mapOwner)){
         return m_studentsStudyMaps[mapOwner];
@@ -32,7 +32,7 @@ const QMap<Discipline, Teacher> StudyProcessData::getMapOfStudent(const Student 
     }
 }
 
-const QMultiMap<Discipline, Student> StudyProcessData::getMapOfTeacher(const Teacher &mapOwner) const noexcept(false)
+const QMultiMap<Discipline, Student> StudyProcessData::getMapOfTeacher(const Teacher &mapOwner) const
 {
     if(m_teachersCourseMaps.contains(mapOwner)){
         return m_teachersCourseMaps[mapOwner];
@@ -106,6 +106,7 @@ void StudyProcessData::readMapsOfStudents(const QJsonObject &owners)
             i->m_studyMap = studyMap;
             m_studentsStudyMaps.insert(*i,studyMap);
         }
+
     }
 }
 
@@ -146,6 +147,7 @@ void StudyProcessData::readMapsOfTeachers(const QJsonObject &owners)
             i->m_courseVisitors = courseMap;
             m_teachersCourseMaps.insert(*i,courseMap);
         }
+
     }
 }
 

@@ -8,7 +8,7 @@
 #include <QJsonArray>
 #include "account.h"
 #include "human.h"
-
+#include "exept.h"
 class Discipline;
 class Teacher;
 
@@ -42,10 +42,6 @@ public:
     const QMap<Discipline, Teacher>& getStudyMap() const;
     const QString& getGroup() const;
     int getCourse() const;
-
-    //const Teacher* getTeacher(const Discipline &discipl) const;
-    //const Discipline* getDiscipline(const Teacher &teach) const;
-
 
     void write(QJsonObject& json) const;
     void read(const QJsonObject json);

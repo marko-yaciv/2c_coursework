@@ -6,18 +6,32 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>770</width>
-    <height>500</height>
+    <width>850</width>
+    <height>600</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>650</width>
+    <height>400</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Teacher account</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="resource.qrc">
-    <normaloff>:/rec/img/teacher.png</normaloff>:/rec/img/teacher.png</iconset>
+   <iconset resource="resources.qrc">
+    <normaloff>:/images/img/teacher.png</normaloff>:/images/img/teacher.png</iconset>
   </property>
-  <layout class="QGridLayout" name="gridLayout" columnstretch="0,0">
+  <property name="windowOpacity">
+   <double>0.980000000000000</double>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QDialog{
+background: qlineargradient(spread:pad, x1:1, y1:0.153, x2:1, y2:1, stop:0.0288462 rgba(91, 71, 133, 231), stop:1 rgba(23, 159, 168, 191));
+}</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout" columnstretch="6,5">
    <item row="0" column="0" colspan="2">
     <widget class="QFrame" name="ownerInfo">
      <property name="sizePolicy">
@@ -25,6 +39,11 @@
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QFrame{
+
+}</string>
      </property>
      <property name="frameShape">
       <enum>QFrame::Panel</enum>
@@ -47,7 +66,14 @@
         <property name="font">
          <font>
           <pointsize>10</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
          </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel{
+color: #fff;
+}</string>
         </property>
         <property name="text">
          <string/>
@@ -64,6 +90,11 @@
           <pointsize>10</pointsize>
          </font>
         </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel{
+color: #fff;
+}</string>
+        </property>
         <property name="text">
          <string>Subscribers: </string>
         </property>
@@ -79,7 +110,7 @@
         </property>
         <property name="font">
          <font>
-          <pointsize>8</pointsize>
+          <pointsize>9</pointsize>
           <italic>true</italic>
          </font>
         </property>
@@ -89,8 +120,17 @@
         <property name="mouseTracking">
          <bool>true</bool>
         </property>
+        <property name="styleSheet">
+         <string notr="true">QCommandLinkButton{
+color: #fff;
+}</string>
+        </property>
         <property name="text">
          <string>Log out</string>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>:/rec/img/exit.png</normaloff>:/rec/img/exit.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -109,15 +149,20 @@
    <item row="1" column="0">
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="3,2">
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,2">
          <item>
           <widget class="QLabel" name="label">
            <property name="font">
             <font>
              <pointsize>10</pointsize>
             </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QLabel{
+color: #fff;
+}</string>
            </property>
            <property name="text">
             <string>Show Mode</string>
@@ -126,10 +171,29 @@
          </item>
          <item>
           <widget class="QComboBox" name="showStudMode">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>30</height>
+            </size>
+           </property>
            <property name="font">
             <font>
+             <family>Lucida Sans Unicode</family>
              <pointsize>10</pointsize>
+             <weight>50</weight>
+             <italic>false</italic>
+             <bold>false</bold>
             </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QComboBox{
+color: #fff;
+font: 10pt &quot;Lucida Sans Unicode&quot;;
+background: rgba(47, 55, 99, 0.8);
+border: 1px solid rgba(72, 16, 16, 0.86);
+border-radius: 8px;
+}</string>
            </property>
            <item>
             <property name="text">
@@ -153,10 +217,29 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>30</height>
+          </size>
+         </property>
          <property name="font">
           <font>
+           <family>Lucida Sans Unicode</family>
            <pointsize>10</pointsize>
+           <weight>50</weight>
+           <italic>false</italic>
+           <bold>false</bold>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+color: #fff;
+font: 10pt &quot;Lucida Sans Unicode&quot;;
+background: rgba(47, 55, 99, 0.8);
+border: 1px solid rgba(72, 16, 16, 0.86);
+border-radius: 8px;
+}</string>
          </property>
          <property name="text">
           <string>Sort</string>
@@ -167,6 +250,21 @@
      </item>
      <item>
       <widget class="QTableWidget" name="students">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QTableWidget{
+color: #fff;
+font: 10pt &quot;Open Sans&quot;;
+background: rgb(77, 106, 153);
+border: 1px solid rgba(72, 16, 16, 0.86);
+border-radius: 10px;
+}</string>
+       </property>
        <property name="frameShadow">
         <enum>QFrame::Sunken</enum>
        </property>
@@ -216,7 +314,7 @@
    <item row="1" column="1">
     <layout class="QVBoxLayout" name="verticalLayout">
      <property name="spacing">
-      <number>13</number>
+      <number>14</number>
      </property>
      <item>
       <widget class="QLabel" name="label_2">
@@ -228,6 +326,11 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">QLabel{
+color: #fff;
+}</string>
+       </property>
        <property name="text">
         <string>My Courses</string>
        </property>
@@ -238,11 +341,29 @@
      </item>
      <item>
       <widget class="QTableWidget" name="courses">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QTableWidget{
+color: #fff;
+font: 10pt &quot;Open Sans&quot;;
+background: rgb(77, 106, 153);
+border: 1px solid rgba(72, 16, 16, 0.86);
+border-radius: 10px;
+}</string>
+       </property>
        <property name="sizeAdjustPolicy">
         <enum>QAbstractScrollArea::AdjustToContents</enum>
        </property>
        <property name="editTriggers">
         <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
+       <property name="showDropIndicator" stdset="0">
+        <bool>false</bool>
        </property>
        <property name="dragDropOverwriteMode">
         <bool>false</bool>
@@ -260,7 +381,7 @@
         <bool>true</bool>
        </attribute>
        <attribute name="verticalHeaderCascadingSectionResizes">
-        <bool>true</bool>
+        <bool>false</bool>
        </attribute>
        <column/>
        <column/>
@@ -271,7 +392,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="resource.qrc"/>
+  <include location="resources.qrc"/>
  </resources>
  <connections/>
 </ui>

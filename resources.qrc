@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>img/add-friend.png</file>
+        <file>img/exit.png</file>
+        <file>img/eye.png</file>
+        <file>img/graduation-hat.png</file>
+        <file>img/iconfinder_Arrow_doodle_04_3847908.png</file>
+        <file>img/student.png</file>
+        <file>img/teacher.png</file>
+    </qresource>
+</RCC>

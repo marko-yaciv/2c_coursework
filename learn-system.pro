@@ -10,6 +10,7 @@ SOURCES += \
     allmembers.cpp \
     data/account.cpp \
     data/discipline.cpp \
+    data/exept.cpp \
     data/flparser.cpp \
     data/human.cpp \
     data/student.cpp \
@@ -24,6 +25,7 @@ HEADERS += \
     allmembers.h \
     data/account.h \
     data/discipline.h \
+    data/exept.h \
     data/flparser.h \
     data/human.h \
     data/student.h \
@@ -48,6 +50,15 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    resource.qrc
+    resources.qrc
 
-DISTFILES +=
+DISTFILES += \
+    datafiles/dcourse1.json \
+    datafiles/dcourse2.json \
+    datafiles/dcourse3.json \
+    datafiles/dcourse4.json \
+    datafiles/groups.json \
+    datafiles/students.json \
+    datafiles/studstudyproc.json \
+    datafiles/teachers.json \
+    datafiles/teachstudyproc.json

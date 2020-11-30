@@ -2,6 +2,7 @@
 #define LEARNSYSTEM_H
 
 #include <QMainWindow>
+#include <QDir>
 #include <QVector>
 #include <QCheckBox>
 #include <QMessageBox>
@@ -10,6 +11,7 @@
 #include "teacherdialog.h"
 #include "allmembers.h"
 #include "data/exept.h"
+#include "data/flparser.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class LearnSystem; }
 QT_END_NAMESPACE
@@ -37,6 +39,8 @@ public:
     void addCoursesToTeacher(const Discipline& course);
     void  clearItems();
 
+    void validateNamesForEnter();
+    void validateDataForSignUp();
 private slots:
 
     void on_signUpB_clicked();
@@ -54,6 +58,10 @@ private slots:
     void on_actionShow_All_Teachers_triggered();
 
     void on_actionShow_All_Students_triggered();
+
+    void on_showPassword_pressed();
+
+    void on_showPassword_released();
 
 private:
     Ui::LearnSystem *ui;

@@ -20,8 +20,11 @@
    <string>Teacher account</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="resource.qrc">
-    <normaloff>:/rec/img/teacher.png</normaloff>:/rec/img/teacher.png</iconset>
+   <iconset resource="resources.qrc">
+    <normaloff>:/images/img/teacher.png</normaloff>:/images/img/teacher.png</iconset>
+  </property>
+  <property name="windowOpacity">
+   <double>0.980000000000000</double>
   </property>
   <property name="styleSheet">
    <string notr="true">QDialog{
@@ -126,7 +129,7 @@ color: #fff;
          <string>Log out</string>
         </property>
         <property name="icon">
-         <iconset resource="resource.qrc">
+         <iconset>
           <normaloff>:/rec/img/exit.png</normaloff>:/rec/img/exit.png</iconset>
         </property>
         <property name="iconSize">
@@ -389,7 +392,7 @@ border-radius: 10px;
   </layout>
  </widget>
  <resources>
-  <include location="resource.qrc"/>
+  <include location="resources.qrc"/>
  </resources>
  <connections/>
 </ui>

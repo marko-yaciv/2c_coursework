@@ -4,18 +4,26 @@ extern QVector<Teacher> allTeachers;
 extern QVector<Student> allStudents;
 extern QVector<QVector<Discipline>> allDisciplines;
 
+FlParser::FlParser()
+{
+    //file.setPermissions(QFileDevice::WriteUser | QFileDevice::WriteOwner | QFileDevice::WriteOther);
+}
+
 FlParser::FlParser(const QString& flname)
 {
-
     file.setFileName(flname);
+    //file.setPermissions(QFileDevice::WriteUser | QFileDevice::WriteOwner | QFileDevice::WriteOther
+                       // | QFileDevice::ReadUser | QFileDevice::ReadOwner | QFileDevice::ReadOther);
 }
 
 void FlParser::changeFilename(const QString& flname)
 {
     file.setFileName(flname);
+    //file.setPermissions(QFileDevice::WriteUser | QFileDevice::WriteOwner | QFileDevice::WriteOther
+                        //| QFileDevice::ReadUser | QFileDevice::ReadOwner | QFileDevice::ReadOther);
 }
 
-bool FlParser::openWithValidation(const QIODevice::OpenModeFlag& openMode)
+bool FlParser::openWithValidation(QIODevice::OpenModeFlag openMode)
 {
     if(!file.open(openMode)){
         qWarning("Couldn't open file ");
@@ -28,11 +36,9 @@ bool FlParser::openWithValidation(const QIODevice::OpenModeFlag& openMode)
     return true;
 }
 
-void FlParser::writeGroups(const QList<QString> &data)
+void FlParser::writeGroups(const QList<QString>& data)
 {
-    file.setFileName(GROUPS_FILE);
-
-    if(!openWithValidation(QIODevice::WriteOnly)){
+    if(!openWithValidation(QIODevice::ReadWrite)){
         file.close();
         throw Except("Can't open file " + file.fileName() + " for writing");
     }
@@ -42,14 +48,13 @@ void FlParser::writeGroups(const QList<QString> &data)
         groups.append(i);
     }
     file.write(QJsonDocument(groups).toJson(QJsonDocument::Indented));
+
     file.close();
 }
 
-void FlParser::writeStudents(const QVector<Student> &students)
+void FlParser::writeStudents(const QVector<Student>& students)
 {
-    file.setFileName(STUDENTS_FILE);
-
-    if(!openWithValidation(QIODevice::WriteOnly)){
+    if(!openWithValidation(QIODevice::ReadWrite)){
         file.close();
         throw Except("Can't open file " + file.fileName() + " for writing");
     }
@@ -64,14 +69,13 @@ void FlParser::writeStudents(const QVector<Student> &students)
     }
 
     file.write(QJsonDocument(obj).toJson(QJsonDocument::Indented));
+
     file.close();
 }
 
 void FlParser::writeTeachers(const QVector<Teacher>& teachers)
 {
-    file.setFileName(TEACHERS_FILE);
-
-    if(!openWithValidation(QIODevice::WriteOnly)){
+    if(!openWithValidation(QIODevice::ReadWrite)){
         file.close();
         throw Except("Can't open file " + file.fileName() + " for writing");
     }
@@ -86,44 +90,44 @@ void FlParser::writeTeachers(const QVector<Teacher>& teachers)
     }
 
     file.write(QJsonDocument(obj).toJson(QJsonDocument::Indented));
+
     file.close();
 }
 
-void FlParser::writeStudyProcess(const StudyProcessData &processData)
+void FlParser::writeStudentStudyProcessData(const StudyProcessData &studentData)
 {
-    file.setFileName(STUD_STUDY_PROCESS_FILE);
-
-    if(!openWithValidation(QIODevice::WriteOnly)){
+    if(!openWithValidation(QIODevice::ReadWrite)){
         file.close();
         throw Except("Can't open file " + file.fileName() + " for writing");
     }
 
     file.flush();
     QJsonObject studProcData;
-    processData.writeMapsForStudents(studProcData);
+    studentData.writeMapsForStudents(studProcData);
     file.write(QJsonDocument(studProcData).toJson(QJsonDocument::Indented));
+
     file.close();
+}
 
-//----------------------------------------------
-
-    file.setFileName(TEACHER_STUDY_PROCESS_FILE);
-
-    if(!openWithValidation(QIODevice::WriteOnly)){
+void FlParser::writeTeacherStudyProcessData(const StudyProcessData &teacherData)
+{
+    if(!openWithValidation(QIODevice::ReadWrite)){
         file.close();
         throw Except("Can't open file " + file.fileName() + " for writing");
     }
 
     file.flush();
     QJsonObject teachProcData;
-    processData.writeMapsForTeachers(teachProcData);
+    teacherData.writeMapsForTeachers(teachProcData);
     file.write(QJsonDocument(teachProcData).toJson(QJsonDocument::Indented));
+
     file.close();
 }
 
 
 void FlParser::writeDisciplines(const QVector<Discipline>& discipls)
 {
-    if(!openWithValidation(QIODevice::WriteOnly)){
+    if(!openWithValidation(QIODevice::ReadWrite)){
         file.close();
         throw Except("Can't open file " + file.fileName() + " for writing");
     }
@@ -135,6 +139,7 @@ void FlParser::writeDisciplines(const QVector<Discipline>& discipls)
         arr.append(obj);
     }
     file.write(QJsonDocument(arr).toJson());
+
     file.close();
 }
 
@@ -143,12 +148,14 @@ void FlParser::writeDisciplines(const QVector<Discipline>& discipls)
 //-----------------Read-functions-------------------------------
 void FlParser::readGroups(QList<QString>& data)
 {
-    file.setFileName(GROUPS_FILE);
-
-    if(!openWithValidation(QIODevice::ReadOnly)){
-        file.close();
+//    if(!openWithValidation(QIODevice::ReadWrite)){
+//        file.close();
+//    }
+    if(!file.open(QFile::ReadOnly)){
         throw Except("Can't open file " + file.fileName() + " for reading");
+
     }
+
     QByteArray grps = file.readAll();
     QJsonDocument readDoc(QJsonDocument::fromJson(grps));
     if(readDoc.isNull() || !readDoc.isArray()){
@@ -159,13 +166,12 @@ void FlParser::readGroups(QList<QString>& data)
     for(const auto &i : groups){
         data.append(i.toString());
     }
+
     file.close();
 }
 
 void FlParser::readStudents(QVector<Student>& students)
 {
-    file.setFileName(STUDENTS_FILE);
-
     if(!openWithValidation(QIODevice::ReadOnly)){
         file.close();
         throw Except("Can't open file " + file.fileName() + " for reading");
@@ -194,8 +200,6 @@ void FlParser::readStudents(QVector<Student>& students)
 
 void FlParser::readTeachers(QVector<Teacher> &teachers)
 {
-    file.setFileName(TEACHERS_FILE);
-
     if(!openWithValidation(QIODevice::ReadOnly)){
         file.close();
         throw Except("Can't open file " + file.fileName() + " for reading");
@@ -212,12 +216,12 @@ void FlParser::readTeachers(QVector<Teacher> &teachers)
         t.read(tchrs[i].toObject());
         teachers.append(t);
     }
+
     file.close();
 }
 
-void FlParser::readStudyProcess(StudyProcessData &procData)
+void FlParser::readStudentStudyProcessData(StudyProcessData &studentData)
 {
-    file.setFileName(STUD_STUDY_PROCESS_FILE);
 
     if(!openWithValidation(QIODevice::ReadOnly)){
         file.close();
@@ -230,22 +234,26 @@ void FlParser::readStudyProcess(StudyProcessData &procData)
         throw Except("Incorrect json in" + file.fileName());
     }
     QJsonObject procObg = readDoc.object();
-    procData.readMapsOfStudents(procObg);
+    studentData.readMapsOfStudents(procObg);
+
     file.close();
-//----------------------------------------
-    file.setFileName(TEACHER_STUDY_PROCESS_FILE);
+}
+
+void FlParser::readTeacherStudyProcessData(StudyProcessData &teacherData)
+{
     if(!openWithValidation(QIODevice::ReadOnly)){
         file.close();
         throw Except("Can't open file " + file.fileName() + " for reading");
     }
 
-    data = file.readAll();
-    readDoc = QJsonDocument::fromJson(data);
+    QByteArray data = file.readAll();
+    QJsonDocument readDoc(QJsonDocument::fromJson(data));
     if(readDoc.isNull() || !readDoc.isObject()){
         throw Except("Incorrect json in" + file.fileName());
     }
-    procObg = readDoc.object();
-    procData.readMapsOfTeachers(procObg);
+    QJsonObject procObg = readDoc.object();
+    teacherData.readMapsOfTeachers(procObg);
+
     file.close();
 }
 

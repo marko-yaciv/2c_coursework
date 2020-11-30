@@ -74,7 +74,7 @@ StudentDialog::StudentDialog(QWidget *parent, const Student& stud) :
 
 
 
-            noTeacherBut->setIcon(QIcon(":/rec/img/add-friend.png"));
+            noTeacherBut->setIcon(QIcon(":/images/img/add-friend.png"));
             noTeacherBut->setIconSize(QSize(25,25));
             noTeacherBut->setText("Add Teacher");
             noTeacherButtons.insert(disciplWidget,noTeacherBut);
@@ -87,7 +87,7 @@ StudentDialog::StudentDialog(QWidget *parent, const Student& stud) :
         }
 
         ui->toolBox->addItem(disciplWidget,i.getName());
-        ui->toolBox->setStyleSheet("color: #08b113;");
+        ui->toolBox->setStyleSheet("color: #441864;");
     }
 
 
@@ -338,11 +338,12 @@ bool compareTeachers(const Teacher& first, const Teacher& second){
     return first > second;
 }
 
+
+
 void StudentDialog::on_sortB_clicked()
 {
     QVector<Teacher> teachersToSort;
     const QString teacherGroupToSort = ui->showTeachMode->currentText();
-
     if(teacherGroupToSort == "My Teachers")
     {
 //------Parsing correct teachers from stydy map to QVector------
@@ -377,7 +378,8 @@ void StudentDialog::on_sortB_clicked()
             return;
         }
 
-    }else if(teacherGroupToSort == "All Teachers"){
+    }
+    else if(teacherGroupToSort == "All Teachers"){
         teachersToSort = allTeachers;
 
         if(ui->sortByName->isChecked())
@@ -404,14 +406,18 @@ void StudentDialog::on_sortB_clicked()
     else if(teacherGroupToSort == "Teachers with 1 course")
     {   
 //------Parsing teachers from ListWidget to QVector--------
-        for(int i = 0; i < ui->teachers->rowCount();++i){
-            QList<QString> initsToShow = ui->teachers->item(i,0)->text().split(' ');
-            for(auto &j:allTeachers){
-                QList<QString> inits({j.getFname(),j.getLname(),j.getFthName()});
-                if(inits == initsToShow){
-                    teachersToSort.append(j);
-                }
-            }
+//        for(int i = 0; i < ui->teachers->rowCount(); ++i){
+//            QList<QString> initsToShow = ui->teachers->item(i,0)->text().split(' ');
+//            for(auto &j : allTeachers){
+//                QList<QString> inits({j.getLname(), j.getFname(), j.getFthName()});
+//                if(inits == initsToShow){
+//                    teachersToSort.append(j);
+//                }
+//            }
+//        }
+        for(const auto &teacher : allTeachers){
+            if(teacher.getDisciplines().size() == 1)
+                teachersToSort.append(teacher);
         }
 
         if(ui->sortByName->isChecked())

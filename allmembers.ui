@@ -14,8 +14,8 @@
    <string>Members</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="resource.qrc">
-    <normaloff>:/rec/img/graduation-hat.png</normaloff>:/rec/img/graduation-hat.png</iconset>
+   <iconset resource="resources.qrc">
+    <normaloff>:/images/img/graduation-hat.png</normaloff>:/images/img/graduation-hat.png</iconset>
   </property>
   <property name="windowOpacity">
    <double>0.980000000000000</double>
@@ -75,7 +75,7 @@ font: 10pt &quot;Lucida Sans Unicode&quot;;
   </layout>
  </widget>
  <resources>
-  <include location="resource.qrc"/>
+  <include location="resources.qrc"/>
  </resources>
  <connections/>
 </ui>

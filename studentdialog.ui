@@ -19,8 +19,8 @@
    <string>Student Account</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="resource.qrc">
-    <normaloff>:/rec/img/student.png</normaloff>:/rec/img/student.png</iconset>
+   <iconset resource="resources.qrc">
+    <normaloff>:/images/img/student.png</normaloff>:/images/img/student.png</iconset>
   </property>
   <property name="windowOpacity">
    <double>0.980000000000000</double>
@@ -172,7 +172,7 @@ color: #fff;
          <string>Log out</string>
         </property>
         <property name="icon">
-         <iconset resource="resource.qrc">
+         <iconset>
           <normaloff>:/rec/img/exit.png</normaloff>:/rec/img/exit.png</iconset>
         </property>
         <property name="iconSize">
@@ -668,7 +668,7 @@ background: rgb(77, 106, 153);
   </layout>
  </widget>
  <resources>
-  <include location="resource.qrc"/>
+  <include location="resources.qrc"/>
  </resources>
  <connections/>
 </ui>

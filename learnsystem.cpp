@@ -1,6 +1,5 @@
 #include "learnsystem.h"
 #include "ui_learnsystem.h"
-#include "data/flparser.h"
 
 const int COURSES = 4;
 QList<QString> groups;
@@ -24,6 +23,13 @@ LearnSystem::LearnSystem(QWidget *parent)
     ui->enterB->hide();
     ui->backToRegister->hide();
     ui->group->addItems(groups);
+    ui->password->setEchoMode(QLineEdit::EchoMode::Password);
+    ui->inLabel->setText("Sign Up");
+    auto name_validator = new QRegExpValidator( QRegExp( "[А-і-І-ї-я]{1,40}" )) ;
+    ui->Fname->setValidator(name_validator);
+    ui->Lname->setValidator(name_validator);
+    ui->FthName->setValidator(name_validator);
+
     QVBoxLayout* layout = new QVBoxLayout;
     layout->setMargin(0);
     layout->setContentsMargins(1,0,0,1);
@@ -61,23 +67,33 @@ LearnSystem::~LearnSystem()
         allStudyProcessData.updateMapForStudent(i,i.getStudyMap());
     }
 
+    auto dir = QDir::currentPath();
     FlParser dataSaver;
     try {
-        dataSaver.writeStudents(allStudents);
-        dataSaver.writeTeachers(allTeachers);
-        dataSaver.writeStudyProcess(allStudyProcessData);
-
-        dataSaver.changeFilename("datafiles/dcourse1.json");
+        dataSaver.changeFilename(dir + "/datafiles/dcourse1.json");
         dataSaver.writeDisciplines(allDisciplines[0]);
 
-        dataSaver.changeFilename("datafiles/dcourse2.json");
+        dataSaver.changeFilename(dir + "/datafiles/dcourse2.json");
         dataSaver.writeDisciplines(allDisciplines[1]);
 
-        dataSaver.changeFilename("datafiles/dcourse3.json");
+        dataSaver.changeFilename(dir + "/datafiles/dcourse3.json");
         dataSaver.writeDisciplines(allDisciplines[2]);
 
-        dataSaver.changeFilename("datafiles/dcourse4.json");
+        dataSaver.changeFilename(dir + "/datafiles/dcourse4.json");
         dataSaver.writeDisciplines(allDisciplines[3]);
+
+        dataSaver.changeFilename(dir + STUDENTS_FILE);
+        dataSaver.writeStudents(allStudents);
+
+        dataSaver.changeFilename(dir + TEACHERS_FILE);
+        dataSaver.writeTeachers(allTeachers);
+
+        dataSaver.changeFilename(dir + STUD_STUDY_PROCESS_FILE);
+        dataSaver.writeStudentStudyProcessData(allStudyProcessData);
+
+        dataSaver.changeFilename(dir + TEACHER_STUDY_PROCESS_FILE);
+        dataSaver.writeTeacherStudyProcessData(allStudyProcessData);
+
     }  catch (Except& msg) {
         delete ui;
         QMessageBox::critical(nullptr,"Fatal",msg.what());
@@ -86,7 +102,7 @@ LearnSystem::~LearnSystem()
 
 void LearnSystem::makeNewMemberParticular(Student & membToCheck)
 {
-    for(auto student = allStudents.begin(); student!= allStudents.end();){
+    for(auto student = allStudents.begin(); student != allStudents.end();){
         if(student->getId() == membToCheck.getId()){
             membToCheck.setId(QRandomGenerator::global()->bounded(1001,8988));
         }else{
@@ -115,6 +131,26 @@ void LearnSystem::clearItems(){
         i->setChecked(false);
     }
     registrDiscipls.clear();
+}
+
+void LearnSystem::validateNamesForEnter()
+{
+    if(ui->Fname->text().isEmpty() ||
+            ui->Lname->text().isEmpty() ||
+            ui->FthName->text().isEmpty() ||
+            ui->password->text().isEmpty()){
+        throw Except("Please, fill all fields and try again)");
+    }
+}
+
+void LearnSystem::validateDataForSignUp()
+{
+    if(ui->teachInfo->isHidden() && ui->iamteach->isChecked()){
+        throw Except("Please, choose all data and try again)");
+    }
+    if(ui->studGroup->isHidden() && ui->iamstud->isChecked()){
+        throw Except("Please, choose all data and try again)");
+    }
 }
 
 void LearnSystem::addCoursesToTeacher(const Discipline &course)
@@ -151,10 +187,19 @@ void LearnSystem::on_logInB_clicked()
     ui->logInWidget->hide();
     ui->logInB->setEnabled(false);
     ui->backToRegister->show();
+    ui->inLabel->setText("Log In");
 }
 
 void LearnSystem::on_signUpB_clicked()
 {
+    try {
+        validateNamesForEnter();
+        validateDataForSignUp();
+    }  catch (Except& ex) {
+        QMessageBox::warning(this,"Registration failed", ex.what());
+        return;
+    }
+
     if(ui->iamstud->isChecked()){
         Student newStudent(ui->Fname->text(),
                            ui->Lname->text(),
@@ -166,7 +211,7 @@ void LearnSystem::on_signUpB_clicked()
             QMessageBox::warning(this,"Failed to Create",
                                  "Failed to create account."
                                  "It is already exists. "
-                                 "Try to enter your account");
+                                 "Try to log In your account");
             return;
         }
         makeNewMemberParticular(newStudent);
@@ -192,7 +237,7 @@ void LearnSystem::on_signUpB_clicked()
             QMessageBox::warning(this,"Failed to Create",
                                  "Failed to create account."
                                  "It is already exists. "
-                                 "Try to enter your account");
+                                 "Try to log In your account");
             return;
         }
         makeNewMemberParticular(newTeacher);
@@ -204,11 +249,22 @@ void LearnSystem::on_signUpB_clicked()
         clearItems();
         teachDialog->open();
     }
+    else{
+        QMessageBox::warning(this, "Registration failed", tr("Please, choose, who you are (teacher or student)")+
+                                                    tr("And try again"));
+        return;
+    }
     this->close();
 }
 
 void LearnSystem::on_enterB_clicked()
 {
+    try {
+        validateNamesForEnter();
+    }  catch (Except& ex) {
+        QMessageBox::warning(this,"Logging in failed", ex.what());
+        return;
+    }
 
     if(ui->iamstud->isChecked()){
         Student studToEnter(ui->Fname->text(),
@@ -254,6 +310,11 @@ void LearnSystem::on_enterB_clicked()
         }
 
     }
+    else {
+        QMessageBox::warning(this, "Log in failed", tr("Please, choose, who you are (teacher or student)")+
+                                                    tr("And try again"));
+        return;
+    }
     this->close();
 }
 
@@ -273,6 +334,7 @@ void LearnSystem::on_backToRegister_clicked()
     ui->logInWidget->show();
     ui->logInB->setEnabled(true);
     ui->backToRegister->hide();
+    ui->inLabel->setText("Gign Up");
 }
 
 void LearnSystem::on_actionShow_All_Teachers_triggered()
@@ -285,4 +347,14 @@ void LearnSystem::on_actionShow_All_Students_triggered()
 {
     membersWidget = new AllMembers(nullptr, allStudents);
     membersWidget->show();
+}
+
+void LearnSystem::on_showPassword_pressed()
+{
+    ui->password->setEchoMode(QLineEdit::EchoMode::Normal);
+}
+
+void LearnSystem::on_showPassword_released()
+{
+    ui->password->setEchoMode(QLineEdit::EchoMode::Password);
 }

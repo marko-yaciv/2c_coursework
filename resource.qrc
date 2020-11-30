@@ -6,5 +6,15 @@
         <file>img/iconfinder_Arrow_doodle_04_3847908.png</file>
         <file>img/exit.png</file>
         <file>img/add-friend.png</file>
+        <file>datafiles/dcourse1.json</file>
+        <file>datafiles/dcourse2.json</file>
+        <file>datafiles/dcourse3.json</file>
+        <file>datafiles/dcourse4.json</file>
+        <file>datafiles/groups.json</file>
+        <file>datafiles/students.json</file>
+        <file>datafiles/studstudyproc.json</file>
+        <file>datafiles/teachers.json</file>
+        <file>datafiles/teachstudyproc.json</file>
+        <file>img/eye.png</file>
     </qresource>
 </RCC>

@@ -21,6 +21,7 @@ int main(int argc, char *argv[])
     auto dir = QDir::currentPath();
 
     QApplication a(argc, argv);
+    a.setWindowIcon(QIcon(":/images/img/graduation-hat.png"));
     FlParser dataReader;
     try {
 

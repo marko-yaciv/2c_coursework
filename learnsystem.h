@@ -2,12 +2,16 @@
 #define LEARNSYSTEM_H
 
 #include <QMainWindow>
+#include <QDir>
 #include <QVector>
 #include <QCheckBox>
 #include <QMessageBox>
+#include <QRandomGenerator>
 #include "studentdialog.h"
 #include "teacherdialog.h"
 #include "allmembers.h"
+#include "data/exept.h"
+#include "data/flparser.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class LearnSystem; }
 QT_END_NAMESPACE
@@ -27,13 +31,16 @@ public:
     ~LearnSystem();
     bool isAccountExist(const Student&);
     bool isAccountExist(const Teacher&);
-
+    void makeNewMemberParticular(Student&);
+    void makeNewMemberParticular(Teacher&);
     bool isStudentDataCorrect(const QVector<QString>& studentDataToEnter, QString accountPassword);
     bool isTeacherDataCorrect(const QVector<QString>& teacherDataToEnter, QString accountPassword);
 
     void addCoursesToTeacher(const Discipline& course);
     void  clearItems();
 
+    void validateNamesForEnter();
+    void validateDataForSignUp();
 private slots:
 
     void on_signUpB_clicked();
@@ -51,6 +58,10 @@ private slots:
     void on_actionShow_All_Teachers_triggered();
 
     void on_actionShow_All_Students_triggered();
+
+    void on_showPassword_pressed();
+
+    void on_showPassword_released();
 
 private:
     Ui::LearnSystem *ui;

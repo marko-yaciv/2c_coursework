@@ -85,19 +85,15 @@ void Discipline::read(const QJsonObject &json)
 {
     if(json.contains("name") && json["name"].isString())
         m_name = json["name"].toString();
-
     if(json.contains("rangeFrom") && json["rangeFrom"].isString())
         m_range.first = QDate::fromString(json["rangeFrom"].toString(),"dd.MM.yyyy");
-    else
-        m_range.first.setDate(2020,9,1);
-
     if(json.contains("rangeTo") && json["rangeTo"].isString()){
         m_range.second = QDate::fromString(json["rangeTo"].toString(), "dd.MM.yyyy");
-
     }
-    else
-        m_range.second.setDate(2020,12,30);
-    QDate currentDate(2020,4,20);
+
+
+
+    QDate currentDate = QDate::currentDate();
 
     if(currentDate.year() > m_range.second.year()){
                 m_isValid = false;
@@ -146,11 +142,6 @@ void Discipline::read(const QJsonObject &json)
         QJsonArray days = json["teachDays"].toArray();
         for(const auto&i:days)
             m_teachDays.append(i.toString());
-    }else{
-        for(int i = 1; i <= 7; ++i){
-            QLocale day;
-            m_teachDays.append(day.dayName(i,QLocale::ShortFormat));
-        }
     }
 
 }

@@ -6,6 +6,8 @@
 #include <QMenuBar>
 #include <QtAlgorithms>
 #include <QMessageBox>
+#include <QGraphicsEffect>
+#include <QStyle>
 extern const int COURSES;
 
 extern QVector<QVector<Discipline>> allDisciplines;
@@ -48,7 +50,11 @@ StudentDialog::StudentDialog(QWidget *parent, const Student& stud) :
     const QMap<Discipline, Teacher> studyMap = pageOwner.getStudyMap();
 
     for(auto &i:pageOwner.getDisciplines()){
+
+        if(!i.isEnabled()) continue;
         QWidget* disciplWidget = new QWidget(ui->courseMap);
+        disciplWidget->setFont(QFont("Lucida Sans Unicode",10,QFont::Medium));
+        disciplWidget->setStyleSheet("color:#fff;");
 
         disciplWidget->setContextMenuPolicy(Qt::CustomContextMenu);
         connect(disciplWidget,&QWidget::customContextMenuRequested,this,[&](){on_discipl_contxtMenuRequested(i);});
@@ -57,10 +63,20 @@ StudentDialog::StudentDialog(QWidget *parent, const Student& stud) :
         if(!studyMap.contains(i)){
             QPushButton* noTeacherBut = new QPushButton(disciplWidget);
 
-            noTeacherBut->setText("Add Teacher");
-            noTeacherBut->setFixedSize(100,30);
-            noTeacherBut->setFont(QFont(this->font()));
 
+            noTeacherBut->setGeometry(5,5,140,40);
+            noTeacherBut->setStyleSheet("color: #fff;\
+                                        font: 10pt \"Lucida Sans Unicode\";\
+                                        background: rgba(47, 55, 99, 0.8);\
+                                        border: 1px solid rgba(72, 16, 16, 0.86);\
+                                        border-radius: 5px;");
+
+
+
+
+            noTeacherBut->setIcon(QIcon(":/images/img/add-friend.png"));
+            noTeacherBut->setIconSize(QSize(25,25));
+            noTeacherBut->setText("Add Teacher");
             noTeacherButtons.insert(disciplWidget,noTeacherBut);
 
             connect(noTeacherBut,&QPushButton::clicked,this,[=](){showTeachersList(i);});
@@ -69,7 +85,9 @@ StudentDialog::StudentDialog(QWidget *parent, const Student& stud) :
         }else{
             showTeacherUnderDiscipline(studyMap[i],disciplWidget);
         }
+
         ui->toolBox->addItem(disciplWidget,i.getName());
+        ui->toolBox->setStyleSheet("color: #441864;");
     }
 
 
@@ -78,12 +96,6 @@ StudentDialog::StudentDialog(QWidget *parent, const Student& stud) :
 StudentDialog::~StudentDialog()
 {
     allStudents.replace(allStudents.indexOf(pageOwner),pageOwner);
-    allStudyProcessData.updateMapForStudent(pageOwner,pageOwner.getStudyMap());
-
-    for(auto&i:allTeachers){
-        allStudyProcessData.updateMapForTeacher(i,i.getCourseMap());
-    }
-
     delete ui;
 }
 
@@ -125,6 +137,18 @@ void StudentDialog::addTeachersToTable(const QVector<Teacher> &teachers)
         QTableWidgetItem* post = new QTableWidgetItem;
         QTableWidgetItem* stage = new QTableWidgetItem;
         QTableWidgetItem* populatity = new QTableWidgetItem;
+
+        QString whatIsThis;
+        for(auto&dis:i.getDisciplines())
+        {
+            if(!dis.isEnabled()) continue;
+            whatIsThis.append(dis.getName() + " (");
+            for(auto& day: dis.getCourseDays()){
+                whatIsThis.append(day + "; ");
+            }
+            whatIsThis.append(") \n");
+        }
+        inits->setToolTip(whatIsThis);
 
         inits->setText(i.getLname() + " " + i.getFname() + " " + i.getFthName());
         post->setText(i.getPost());
@@ -287,10 +311,13 @@ void StudentDialog::addTeacherToTarget(const QTableWidgetItem* itm, const Discip
     //changing data
     teacherToChange->addCourseTarget(discipl,pageOwner);
     showTeacherUnderDiscipline(*teacherToChange,where);
+    try {
+        pageOwner.addStudyTarget(discipl,*teacherToChange);
+    }  catch (Except& ex) {
+        QMessageBox::information(this,"Attach failed", ex.what());
+        return;
+    }
 
-    pageOwner.addStudyTarget(discipl,*teacherToChange);
-
-    //allTeachers.replace(allTeachers.indexOf(*teacherToChange),*teacherToChange);
 }
 
 void StudentDialog::on_logout_clicked()
@@ -311,12 +338,12 @@ bool compareTeachers(const Teacher& first, const Teacher& second){
     return first > second;
 }
 
+
+
 void StudentDialog::on_sortB_clicked()
 {
     QVector<Teacher> teachersToSort;
     const QString teacherGroupToSort = ui->showTeachMode->currentText();
-    QTableWidgetItem* itm = new QTableWidgetItem;
-    itm->setText("No teacher to sort");
     if(teacherGroupToSort == "My Teachers")
     {
 //------Parsing correct teachers from stydy map to QVector------
@@ -327,37 +354,10 @@ void StudentDialog::on_sortB_clicked()
             return;
         }
         for(auto i = begin; i != end; ++i)
-        {
             teachersToSort.append(i.value());
-        }
-        minimiseTeachesVect(teachersToSort);
-//------------------Sorting--------------------------
-        if(ui->sortByName->isChecked())
-        {
-            std::sort(teachersToSort.begin(),teachersToSort.end(),[](const Teacher& first, const Teacher& second)
-                                                            {
-                                                                return first < second;
-                                                            });
-        }
-        else if(ui->sortByPost->isChecked())
-        {
-            std::sort(teachersToSort.begin(),teachersToSort.end(),[](const Teacher& first, const Teacher& second)
-                                                            {
-                                                                return first > second;
-                                                            });
-        }
-        else
-        {
-            //print warning
-            return;
-        }
-//-----------------------------------------------
-        qWarning("My teachers");
-        addTeachersToTable(teachersToSort);
 
-    }else if(teacherGroupToSort == "All Teachers"){
-        teachersToSort = allTeachers;
-//------------------Sorting--------------------------
+        minimiseTeachesVect(teachersToSort);
+
         if(ui->sortByName->isChecked())
         {
             std::sort(teachersToSort.begin(),teachersToSort.end(),[](const Teacher& first, const Teacher& second)
@@ -374,26 +374,52 @@ void StudentDialog::on_sortB_clicked()
         }
         else
         {
-            //print warning
+            QMessageBox::warning(this, "Sort failed","Please, choose  the type of sorting");
             return;
         }
-//-----------------------------------------------------
-        qWarning("All teachers");
-        addTeachersToTable(teachersToSort);
+
+    }
+    else if(teacherGroupToSort == "All Teachers"){
+        teachersToSort = allTeachers;
+
+        if(ui->sortByName->isChecked())
+        {
+            std::sort(teachersToSort.begin(),teachersToSort.end(),[](const Teacher& first, const Teacher& second)
+                                                            {
+                                                                return first < second;
+                                                            });
+        }
+        else if(ui->sortByPost->isChecked())
+        {
+            std::sort(teachersToSort.begin(),teachersToSort.end(),[](const Teacher& first, const Teacher& second)
+                                                            {
+                                                                return first > second;
+                                                            });
+        }
+        else
+        {
+            QMessageBox::warning(this, "Sort failed","Please, choose  the type of sorting");
+            return;
+        }
+
     }
     else if(teacherGroupToSort == "Teachers with 1 course")
     {   
 //------Parsing teachers from ListWidget to QVector--------
-        for(int i = 0; i < ui->teachers->rowCount();++i){
-            QList<QString> initsToShow = ui->teachers->item(i,0)->text().split(' ');
-            for(auto &j:allTeachers){
-                QList<QString> inits({j.getFname(),j.getLname(),j.getFthName()});
-                if(inits == initsToShow){
-                    teachersToSort.append(j);
-                }
-            }
+//        for(int i = 0; i < ui->teachers->rowCount(); ++i){
+//            QList<QString> initsToShow = ui->teachers->item(i,0)->text().split(' ');
+//            for(auto &j : allTeachers){
+//                QList<QString> inits({j.getLname(), j.getFname(), j.getFthName()});
+//                if(inits == initsToShow){
+//                    teachersToSort.append(j);
+//                }
+//            }
+//        }
+        for(const auto &teacher : allTeachers){
+            if(teacher.getDisciplines().size() == 1)
+                teachersToSort.append(teacher);
         }
-//------------------Sorting--------------------------
+
         if(ui->sortByName->isChecked())
         {
             std::sort(teachersToSort.begin(),teachersToSort.end(),[](const Teacher& first, const Teacher& second)
@@ -408,15 +434,12 @@ void StudentDialog::on_sortB_clicked()
                                                                 return  first > second;
                                                             });
         }
-        else
-        {
-            //print warning
+        else{
+            QMessageBox::warning(this, "Sort failed","Please, choose  the type of sorting");
             return;
         }
-//----------------------------------------------------
-        qWarning("Teachers with 1 course");
-        addTeachersToTable(teachersToSort);
     }
+    addTeachersToTable(teachersToSort);
 }
 
 void StudentDialog::on_showTeachMode_activated(const QString &arg)
@@ -452,22 +475,24 @@ void StudentDialog::on_showByDateB_clicked()
     ui->calendarWidget->show();
 }
 
-void StudentDialog::on_calendarWidget_activated(const QDate &date)
+void StudentDialog::on_calendarWidget_activated(const QDate &selectedDate)
 {
         QVector<Teacher> freeTeachers;
         QLocale objectForDayOfWeek;
-        QString day = objectForDayOfWeek.dayName(date.dayOfWeek(),QLocale::ShortFormat);
+        QString currentDay = objectForDayOfWeek.dayName(selectedDate.dayOfWeek(),QLocale::ShortFormat);
         QPair<QDate,QDate> teachRange;
 
-        for(auto&i:allTeachers){
-            auto courses = i.getDisciplines();
+        for(auto&teacher:allTeachers){
+            auto courses = teacher.getDisciplines();
             bool isFree = true;
-            for(auto&j:courses){
-                auto courseDays = j.getCourseDays();
-                teachRange = j.getTeachRange();
-                for(auto&k:courseDays){
-                    if((date.month() < teachRange.first.month() || date.month() > teachRange.second.month()) ||
-                       (date.day() < teachRange.first.day() || date.day() > teachRange.second.day()) )
+
+            for(auto& course:courses)
+            {
+                teachRange = course.getTeachRange();
+
+                for(auto& day : course.getCourseDays())
+                {
+                    if(selectedDate.month() < teachRange.first.month() || selectedDate.month() > teachRange.second.month())
                     {
                         if(courses.size() == 1){
                             isFree = false;
@@ -475,14 +500,24 @@ void StudentDialog::on_calendarWidget_activated(const QDate &date)
                         }
                         else continue;
                     }
-                    if(day == k){
+                    else if(selectedDate.day() < teachRange.first.day() || selectedDate.day() > teachRange.second.day())
+                    {
+                        if(courses.size() == 1){
+                            isFree = false;
+                            break;
+                        }
+                        else continue;
+                    }
+
+
+                    if(currentDay == day){
                         isFree = false;
                         break;
                     }
                 }
                 if(!isFree) break;
             }
-            if(isFree) freeTeachers.append(i);
+            if(isFree) freeTeachers.append(teacher);
         }
         addTeachersToTable(freeTeachers);
 }

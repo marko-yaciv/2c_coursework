@@ -12,6 +12,7 @@ AllMembers::AllMembers(QWidget *parent, const QVector<Teacher>& membersToShow) :
     QTableWidgetItem*lname = new QTableWidgetItem("Last Name");
     QTableWidgetItem* id = new QTableWidgetItem("ID");
 
+
     ui->members->setHorizontalHeaderItem(0,fname);
     ui->members->setHorizontalHeaderItem(1,lname);
     ui->members->setHorizontalHeaderItem(2,id);

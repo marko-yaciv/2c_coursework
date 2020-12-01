@@ -121,6 +121,11 @@ void Student::read(const QJsonObject json)
         m_id = json["id"].toInt();
 }
 
+bool Student::lessThan(const Student &other) const
+{
+    return m_lName < other.m_lName;
+}
+
 Student& Student::operator=(const Student &other)
 {
     this->m_fName = other.m_fName;
@@ -146,7 +151,7 @@ bool Student::operator==(const Student &other) const
 
 bool Student::operator<(const Student &other) const
 {
-    return m_lName < other.m_lName;
+    return m_id < other.m_id;
 }
 
 

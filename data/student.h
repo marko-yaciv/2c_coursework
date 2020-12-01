@@ -46,6 +46,8 @@ public:
     void write(QJsonObject& json) const;
     void read(const QJsonObject json);
 
+    bool lessThan(const Student& other) const;
+
     Student& operator=(const Student& other);
     bool operator==(const Student& other) const;
 

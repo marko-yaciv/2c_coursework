@@ -6,7 +6,6 @@
 #include <QMenuBar>
 #include <QtAlgorithms>
 #include <QMessageBox>
-#include <QGraphicsEffect>
 #include <QStyle>
 extern const int COURSES;
 
@@ -334,11 +333,6 @@ void StudentDialog::on_logout_clicked()
     this->close();
 }
 
-bool compareTeachers(const Teacher& first, const Teacher& second){
-    return first > second;
-}
-
-
 
 void StudentDialog::on_sortB_clicked()
 {
@@ -405,16 +399,6 @@ void StudentDialog::on_sortB_clicked()
     }
     else if(teacherGroupToSort == "Teachers with 1 course")
     {   
-//------Parsing teachers from ListWidget to QVector--------
-//        for(int i = 0; i < ui->teachers->rowCount(); ++i){
-//            QList<QString> initsToShow = ui->teachers->item(i,0)->text().split(' ');
-//            for(auto &j : allTeachers){
-//                QList<QString> inits({j.getLname(), j.getFname(), j.getFthName()});
-//                if(inits == initsToShow){
-//                    teachersToSort.append(j);
-//                }
-//            }
-//        }
         for(const auto &teacher : allTeachers){
             if(teacher.getDisciplines().size() == 1)
                 teachersToSort.append(teacher);

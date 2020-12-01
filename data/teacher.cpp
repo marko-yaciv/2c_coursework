@@ -55,8 +55,10 @@ void Teacher::setCourseVisitors(QMultiMap<Discipline, Student> map)
 
 void Teacher::addCourseTarget(const Discipline discipline,const Student stud)
 {
-        m_courseVisitors.insert(discipline,stud);
-        ++m_populatity;
+        if(!m_courseVisitors.contains(discipline,stud)){
+            m_courseVisitors.insert(discipline,stud);
+            ++m_populatity;
+        }
 }
 
 void Teacher::removeStudent(const Discipline& discipline,const Student& stud)

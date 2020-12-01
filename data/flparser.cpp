@@ -6,21 +6,17 @@ extern QVector<QVector<Discipline>> allDisciplines;
 
 FlParser::FlParser()
 {
-    //file.setPermissions(QFileDevice::WriteUser | QFileDevice::WriteOwner | QFileDevice::WriteOther);
+
 }
 
 FlParser::FlParser(const QString& flname)
 {
     file.setFileName(flname);
-    //file.setPermissions(QFileDevice::WriteUser | QFileDevice::WriteOwner | QFileDevice::WriteOther
-                       // | QFileDevice::ReadUser | QFileDevice::ReadOwner | QFileDevice::ReadOther);
 }
 
 void FlParser::changeFilename(const QString& flname)
 {
     file.setFileName(flname);
-    //file.setPermissions(QFileDevice::WriteUser | QFileDevice::WriteOwner | QFileDevice::WriteOther
-                        //| QFileDevice::ReadUser | QFileDevice::ReadOwner | QFileDevice::ReadOther);
 }
 
 bool FlParser::openWithValidation(QIODevice::OpenModeFlag openMode)
@@ -38,7 +34,7 @@ bool FlParser::openWithValidation(QIODevice::OpenModeFlag openMode)
 
 void FlParser::writeGroups(const QList<QString>& data)
 {
-    if(!openWithValidation(QIODevice::ReadWrite)){
+    if(!openWithValidation(QIODevice::WriteOnly)){
         file.close();
         throw Except("Can't open file " + file.fileName() + " for writing");
     }
@@ -54,14 +50,14 @@ void FlParser::writeGroups(const QList<QString>& data)
 
 void FlParser::writeStudents(const QVector<Student>& students)
 {
-    if(!openWithValidation(QIODevice::ReadWrite)){
+    if(!openWithValidation(QIODevice::WriteOnly)){
         file.close();
         throw Except("Can't open file " + file.fileName() + " for writing");
     }
 
     file.flush();
     QJsonArray obj;
-    for(auto&i:students){
+    for(auto &i : students){
         if(i.getPasword() == "None") continue;
         QJsonObject stud;
         i.write(stud);
@@ -75,7 +71,7 @@ void FlParser::writeStudents(const QVector<Student>& students)
 
 void FlParser::writeTeachers(const QVector<Teacher>& teachers)
 {
-    if(!openWithValidation(QIODevice::ReadWrite)){
+    if(!openWithValidation(QIODevice::WriteOnly)){
         file.close();
         throw Except("Can't open file " + file.fileName() + " for writing");
     }
@@ -96,7 +92,7 @@ void FlParser::writeTeachers(const QVector<Teacher>& teachers)
 
 void FlParser::writeStudentStudyProcessData(const StudyProcessData &studentData)
 {
-    if(!openWithValidation(QIODevice::ReadWrite)){
+    if(!openWithValidation(QIODevice::WriteOnly)){
         file.close();
         throw Except("Can't open file " + file.fileName() + " for writing");
     }
@@ -111,7 +107,7 @@ void FlParser::writeStudentStudyProcessData(const StudyProcessData &studentData)
 
 void FlParser::writeTeacherStudyProcessData(const StudyProcessData &teacherData)
 {
-    if(!openWithValidation(QIODevice::ReadWrite)){
+    if(!openWithValidation(QIODevice::WriteOnly)){
         file.close();
         throw Except("Can't open file " + file.fileName() + " for writing");
     }
@@ -127,7 +123,7 @@ void FlParser::writeTeacherStudyProcessData(const StudyProcessData &teacherData)
 
 void FlParser::writeDisciplines(const QVector<Discipline>& discipls)
 {
-    if(!openWithValidation(QIODevice::ReadWrite)){
+    if(!openWithValidation(QIODevice::WriteOnly)){
         file.close();
         throw Except("Can't open file " + file.fileName() + " for writing");
     }

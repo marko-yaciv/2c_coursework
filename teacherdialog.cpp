@@ -144,7 +144,7 @@ void TeacherDialog::on_sortB_clicked()
     std::sort(studentsToSort.begin(), studentsToSort.end(),[](const Student& first,
                                                               const Student& second)
                                                               {
-                                                                return first < second ;});
+                                                                return first.lessThan(second); });
     minimiseStudentVect(studentsToSort);
     showStudentsList(studentsToSort);
 }

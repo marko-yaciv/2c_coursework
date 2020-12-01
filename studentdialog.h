@@ -41,12 +41,9 @@ public:
 
     QMetaObject::Connection add_target_connection;
     QMetaObject::Connection change_target_connection;
-signals:
-    void showMain();
+
 private slots:
     void on_logout_clicked();
-
-    //void on_showTeachMode_currentTextChanged(const QString &arg1);
 
     void on_sortB_clicked();
 

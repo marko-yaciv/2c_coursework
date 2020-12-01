@@ -36,7 +36,8 @@ public:
     bool isStudentDataCorrect(const QVector<QString>& studentDataToEnter, QString accountPassword);
     bool isTeacherDataCorrect(const QVector<QString>& teacherDataToEnter, QString accountPassword);
 
-    void addCoursesToTeacher(const Discipline& course);
+    void addCourseToTeacher(const Discipline& course);
+    void removeCourseFromTeacher(const Discipline& course);
     void  clearItems();
 
     void validateNamesForEnter();

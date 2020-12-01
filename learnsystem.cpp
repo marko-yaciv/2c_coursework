@@ -42,9 +42,12 @@ LearnSystem::LearnSystem(QWidget *parent)
 
             teacherCoursesWidg.append(courseName);
 
-            connect(courseName,&QCheckBox::toggled,this,[=](bool checked){
+            connect(courseName,&QCheckBox::toggled,this,[&](bool checked){
                if(checked)
-                    addCoursesToTeacher(discipl);
+                    addCourseToTeacher(discipl);
+               else{
+                   removeCourseFromTeacher(discipl);
+               }
             });
         }
     }
@@ -153,9 +156,14 @@ void LearnSystem::validateDataForSignUp()
     }
 }
 
-void LearnSystem::addCoursesToTeacher(const Discipline &course)
+void LearnSystem::addCourseToTeacher(const Discipline &course)
 {
     registrDiscipls.append(course);
+}
+
+void LearnSystem::removeCourseFromTeacher(const Discipline &course)
+{
+    registrDiscipls.removeOne(course);
 }
 
 void LearnSystem::on_iamstud_clicked()

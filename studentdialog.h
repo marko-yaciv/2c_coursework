@@ -24,7 +24,11 @@ public:
     ~StudentDialog();
 
     void updateOwnersMap(int course);
+    void showCourseMap();
+    void showNoTeacherButton(QPushButton* noTeacherBut);
+    void showOwnerInfo();
 
+    void setWhatIsThisForTeacher(QString& whatIsThis, const Teacher& teacher);
     void showTeacherUnderDiscipline(const Teacher teachItm, QWidget* where);
     void addTeacherToTarget(const QTableWidgetItem* itm,const Discipline discipl, QWidget* where);
     void showTeachersList(const Discipline discipl);
@@ -32,12 +36,17 @@ public:
     void showTeachersToChange(const Discipline& discipl);
 
     void showTheMostPopularTeacher(const Discipline& discipl);
+    void findTheMostPopularTeacher(Teacher& teacher, const Discipline& discipl);
+    void removeOldTeacherFromWidget(QWidget* where);
+
     void on_discipl_contxtMenuRequested(const Discipline& discipl);
 
     void addTeachersToTable(const QVector<Teacher>& teachers);
     void minimiseTeachesVect(QVector<Teacher>& teachers);
 
     void setHeaders(const QList<QString>& name, QTableWidget* table);
+
+    void findFreeTeachers(QVector<Teacher>& teachers, const QDate& selectedDate);
 
     QMetaObject::Connection add_target_connection;
     QMetaObject::Connection change_target_connection;

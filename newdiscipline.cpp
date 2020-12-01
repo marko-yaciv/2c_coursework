@@ -54,10 +54,14 @@ void NewDiscipline::fillDays()
 
 }
 
-void NewDiscipline::checkInputValidity(QString& name, int course)
+void NewDiscipline::checkInputValidity(QString& name, int course, QDate start, QDate finish)
 {
-    if(name.size() == 0 && course == 0){
+    if(name.size() == 0 || course == 0){
         throw Except("Incorrect name or course of discipline");
+    }
+    if(start.month() > finish.month()){
+        throw Except(tr("The month of start teaching") +
+                     tr("should be smaller that moth of finish"));
     }
 }
 
@@ -85,7 +89,7 @@ void NewDiscipline::on_pushButton_clicked()
 
     try {
         checkDisciplPresence();
-        checkInputValidity(name,disciplineCourse);
+        checkInputValidity(name,course, start, finish);
     }  catch (Except& ex) {
         QMessageBox::warning(this,"Creation failed",ex.what());
         return;

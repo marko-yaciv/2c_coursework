@@ -9,5 +9,6 @@
         <file>img/teacher.png</file>
         <file>img/read_book.ico</file>
         <file>img/graduation-hat.ico</file>
+        <file>img/course.ico</file>
     </qresource>
 </RCC>

@@ -9,3 +9,6 @@ const char *Except::what() const noexcept
 {
     return message.data();
 }
+Except::~Except(){
+
+}

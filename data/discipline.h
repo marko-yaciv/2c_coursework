@@ -14,6 +14,8 @@ class Discipline
 
     bool m_isConductible;
     bool m_isValid;
+
+    void validate();
 public:
     Discipline();
     Discipline(const QString& name);
@@ -21,12 +23,17 @@ public:
 
     void rename(QString& newName);
     void setEnabled(bool enabled);
+    void setConductRange(QDate& start, QDate& finish);
+    void addTeachDay(QString& day);
+    void removeTeachDay(QString& day);
 
     bool isEnabled() const;
     bool isValid() const;
+
     QString getName() const;
     const QPair<QDate,QDate>& getTeachRange() const;
     const QList<QString>& getCourseDays() const;
+
     void read(const QJsonObject& json);
     void write(QJsonObject& json)const;
 

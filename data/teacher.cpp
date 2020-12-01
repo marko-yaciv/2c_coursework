@@ -28,7 +28,7 @@ Teacher::Teacher(const QString &fname, const QString &lname, const QString &fthn
 
 Teacher::~Teacher()
 {
-    //delete this->m_courseStudents;
+
 }
 
 void Teacher::setInitials(const QString& fname, const QString& lname, const QString& fthname)
@@ -72,8 +72,16 @@ void Teacher::removeStudent(const Discipline& discipline,const Student& stud)
 
 void Teacher::setDiscipline(const Discipline& discipline)
 {
-    m_courses.append(discipline);
-    ++m_populatity;
+    if(!m_courses.contains(discipline)){
+        m_courses.append(discipline);
+        ++m_populatity;
+    }
+}
+
+void Teacher::removeDiscipline(const Discipline &discipline)
+{
+        m_courses.removeOne(discipline);
+        --m_populatity;
 }
 
 bool Teacher::hasDiscipline(const Discipline &discipl) const

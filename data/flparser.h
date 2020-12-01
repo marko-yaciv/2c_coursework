@@ -19,6 +19,7 @@ class FlParser
     QFile file;
 public:
     FlParser();
+    ~FlParser();
     FlParser(const QString& flname);
     void changeFilename(const QString& fname);
 

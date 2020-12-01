@@ -1231,22 +1231,6 @@ border-radius: 5px;
     </item>
    </layout>
   </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>492</width>
-     <height>25</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QMenuBar{
-color: #fff;
-background: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0, stop:0.115385 rgba(91, 71, 133, 0.6612), stop:1 rgba(23, 159, 168, 0.2088));
-}</string>
-   </property>
-  </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
    <property name="windowTitle">
@@ -1268,6 +1252,24 @@ background: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0, stop:0.115385 rg
    </attribute>
    <addaction name="actionShow_All_Teachers"/>
    <addaction name="actionShow_All_Students"/>
+   <addaction name="separator"/>
+   <addaction name="actionDiscipline"/>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>492</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QMenuBar{
+color: #fff;
+background: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0, stop:0.115385 rgba(91, 71, 133, 0.6612), stop:1 rgba(23, 159, 168, 0.2088));
+}</string>
+   </property>
   </widget>
   <action name="actionShow_All_Teachers">
    <property name="icon">
@@ -1294,6 +1296,18 @@ background: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0, stop:0.115385 rg
    </property>
    <property name="shortcutContext">
     <enum>Qt::WindowShortcut</enum>
+   </property>
+  </action>
+  <action name="actionDiscipline">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/img/course.ico</normaloff>:/images/img/course.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Discipline</string>
+   </property>
+   <property name="toolTip">
+    <string>Add discipline</string>
    </property>
   </action>
  </widget>

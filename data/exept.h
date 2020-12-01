@@ -7,6 +7,7 @@ class Except: public std::exception
     std::string message;
 public:
     Except(const QString& msg);
+    ~Except();
     const char* what() const noexcept override;
 };
 

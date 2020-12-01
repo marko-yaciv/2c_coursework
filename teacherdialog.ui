@@ -148,6 +148,9 @@ color: #fff;
    </item>
    <item row="1" column="0">
     <layout class="QVBoxLayout" name="verticalLayout_2">
+     <property name="spacing">
+      <number>15</number>
+     </property>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="3,2">
        <item>
@@ -312,32 +315,100 @@ border-radius: 10px;
     </layout>
    </item>
    <item row="1" column="1">
-    <layout class="QVBoxLayout" name="verticalLayout">
+    <layout class="QVBoxLayout" name="verticalLayout" stretch="1,9">
      <property name="spacing">
       <number>14</number>
      </property>
      <item>
-      <widget class="QLabel" name="label_2">
-       <property name="font">
-        <font>
-         <family>Georgia</family>
-         <pointsize>14</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
+      <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="2,2,1">
+       <property name="topMargin">
+        <number>0</number>
        </property>
-       <property name="styleSheet">
-        <string notr="true">QLabel{
+       <item>
+        <widget class="QLabel" name="courseLabel">
+         <property name="font">
+          <font>
+           <family>Georgia</family>
+           <pointsize>14</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QLabel{
 color: #fff;
 }</string>
-       </property>
-       <property name="text">
-        <string>My Courses</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
+         </property>
+         <property name="text">
+          <string>My Courses</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QScrollArea" name="scrollArea">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="widgetResizable">
+          <bool>true</bool>
+         </property>
+         <widget class="QWidget" name="scrollAreaWidgetContents">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>118</width>
+            <height>48</height>
+           </rect>
+          </property>
+         </widget>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>Lucida Sans Unicode</family>
+           <pointsize>10</pointsize>
+           <weight>50</weight>
+           <italic>false</italic>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+color: #fff;
+font: 10pt &quot;Lucida Sans Unicode&quot;;
+background: rgba(47, 55, 99, 0.8);
+border: 1px solid rgba(72, 16, 16, 0.86);
+border-radius: 8px;
+}
+</string>
+         </property>
+         <property name="text">
+          <string>Add course</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
      <item>
       <widget class="QTableWidget" name="courses">

@@ -3,7 +3,7 @@
 
 extern const int COURSES;
 extern QVector<QVector<Discipline>> allDisciplines;
-//extern QVector<Teacher> allTeachers;
+extern QVector<Teacher> allTeachers;
 extern QVector<Student> allStudents;
 
 TeacherDialog::TeacherDialog(QWidget *parent, const Teacher& teacher) :
@@ -17,7 +17,7 @@ TeacherDialog::TeacherDialog(QWidget *parent, const Teacher& teacher) :
     ui->courses->setColumnWidth(0,224);
     ui->courses->setColumnWidth(1,112);
     setHeaders(headers,ui->courses);
-
+    ui->scrollArea->hide();
 
 
     headers = {"Initials","Group","Course"};
@@ -30,26 +30,12 @@ TeacherDialog::TeacherDialog(QWidget *parent, const Teacher& teacher) :
     minimiseStudentVect(myStudents);
     ui->CntOfVisits->setText("Subscribers: " + QString::number(myStudents.size()));
 
-    auto courses = pageOwner.getDisciplines();
-    ui->courses->setRowCount(courses.size());
-    int j = 0;
-    for(auto&i:courses){
-        if(!i.isEnabled()){
-            QTableWidgetItem * courseName = new QTableWidgetItem(i.getName() + "(Uavaliable)");
-            QTableWidgetItem * cntOfVisitors = new QTableWidgetItem("000");
-            ui->courses->setItem(j,0,courseName);
-            ui->courses->setItem(j++,1,cntOfVisitors);
-            continue;
-        }
-        QTableWidgetItem * courseName = new QTableWidgetItem(i.getName());
-        QTableWidgetItem * cntOfVisitors = new QTableWidgetItem(QString::number(pageOwner.getCourseVistors(i).size()));
-        ui->courses->setItem(j,0,courseName);
-        ui->courses->setItem(j++,1,cntOfVisitors);
-    }
+    showOwnerDisciplines();
 }
 
 TeacherDialog::~TeacherDialog()
 {
+    allTeachers.replace(allTeachers.indexOf(pageOwner),pageOwner);
     delete ui;
 }
 
@@ -83,7 +69,6 @@ void TeacherDialog::showStudentsList(const QVector<Student> &students)
         ui->students->setItem(ui->students->rowCount()-1,1,group);
         ui->students->setItem(ui->students->rowCount()-1,2,course);
     }
-
 }
 
 void TeacherDialog::setHeaders(const QList<QString> &name, QTableWidget *table)
@@ -94,15 +79,17 @@ void TeacherDialog::setHeaders(const QList<QString> &name, QTableWidget *table)
         table->setHorizontalHeaderItem(i,header);
     }
 }
+
 void TeacherDialog::on_logout_clicked()
 {
     ui->initials->clear();
     ui->CntOfVisits->clear();
     ui->courses->clear();
     ui->students->clear();
-
+    allTeachers.replace(allTeachers.indexOf(pageOwner),pageOwner);
     emit this->finished(1);
     this->close();
+
 }
 void TeacherDialog::minimiseStudentVect(QVector<Student>& teachers)
 {
@@ -115,6 +102,58 @@ void TeacherDialog::minimiseStudentVect(QVector<Student>& teachers)
         }
     }
 }
+
+void TeacherDialog::showDisciplinesToChoose()
+{
+    QVBoxLayout* layout = new QVBoxLayout(ui->scrollAreaWidgetContents);
+    layout->setMargin(0);
+    layout->setContentsMargins(1,0,0,1);
+    for(auto& courseDiscipls: allDisciplines){
+        for(auto& discipl: courseDiscipls){
+            QCheckBox* courseName = new QCheckBox;
+            courseName->setText(discipl.getName());
+            layout->addWidget(courseName);
+            layout->update();
+
+
+            connect(courseName,&QCheckBox::toggled,this,[&](bool checked){
+               if(checked){
+                    pageOwner.setDiscipline(discipl);
+                    showOwnerDisciplines();
+               }
+               else{
+                   pageOwner.removeDiscipline(discipl);
+                   showOwnerDisciplines();
+               }
+            });
+
+        }
+    }
+    ui->scrollAreaWidgetContents->setLayout(layout);
+}
+
+void TeacherDialog::showOwnerDisciplines()
+{
+    ui->courses->clear();
+    ui->courses->setRowCount(0);
+    auto courses = pageOwner.getDisciplines();
+    ui->courses->setRowCount(courses.size());
+    int j = 0;
+    for(auto&i:courses){
+        if(!i.isEnabled()){
+            QTableWidgetItem * courseName = new QTableWidgetItem(i.getName() + "(Uavaliable)");
+            QTableWidgetItem * cntOfVisitors = new QTableWidgetItem("000");
+            ui->courses->setItem(j,0,courseName);
+            ui->courses->setItem(j++,1,cntOfVisitors);
+            continue;
+        }
+        QTableWidgetItem * courseName = new QTableWidgetItem(i.getName());
+        QTableWidgetItem * cntOfVisitors = new QTableWidgetItem(QString::number(pageOwner.getCourseVistors(i).size()));
+        ui->courses->setItem(j,0,courseName);
+        ui->courses->setItem(j++,1,cntOfVisitors);
+    }
+}
+
 void TeacherDialog::on_showStudMode_activated(const QString &showMode)
 {
     QVector<Student> studentsToShow;
@@ -154,4 +193,25 @@ void TeacherDialog::on_courses_itemDoubleClicked(QTableWidgetItem *courseName)
     Discipline course(courseName->text());
     auto studentsToShow = pageOwner.getCourseVistors(course);
     showStudentsList(studentsToShow.toVector());
+}
+
+void TeacherDialog::on_pushButton_clicked()
+{
+    ui->courseLabel->hide();
+    ui->scrollArea->show();
+    showDisciplinesToChoose();
+}
+
+void TeacherDialog::on_scrollArea_customContextMenuRequested(const QPoint &pos)
+{
+    QMenu*menu = new QMenu;
+    menu->addAction(tr("Commit changes"), ui->scrollArea, &QScrollArea::hide);
+    menu->exec(cursor().pos());
+}
+
+void TeacherDialog::on_scrollAreaWidgetContents_customContextMenuRequested(const QPoint &pos)
+{
+    QMenu*menu = new QMenu;
+    menu->addAction(tr("Commit changes"), ui->scrollArea, &QScrollArea::hide);
+    menu->exec(cursor().pos());
 }

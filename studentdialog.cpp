@@ -48,7 +48,7 @@ StudentDialog::StudentDialog(QWidget *parent, const Student& stud) :
 
     const QMap<Discipline, Teacher> studyMap = pageOwner.getStudyMap();
 
-    for(auto &i:pageOwner.getDisciplines()){
+    for(auto &i : pageOwner.getDisciplines()){
 
         if(!i.isEnabled()) continue;
         QWidget* disciplWidget = new QWidget(ui->courseMap);

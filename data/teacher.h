@@ -39,6 +39,7 @@ public:
 
     void removeStudent(const Discipline& discipline,const Student& stud);
     void setDiscipline(const Discipline& discipline);
+    void removeDiscipline(const Discipline& discipline);
 
     bool hasDiscipline(const Discipline& discipl) const;
 

@@ -24,7 +24,7 @@ Student::Student(const QString &fname, const QString &lname, const QString &fthn
 
 Student::~Student()
 {
-    //delete this->m_studyMap;
+
 }
 
 void Student::setInitials(const QString fname, const QString lname, const QString fthname)
@@ -45,8 +45,8 @@ void Student::setStudyMap(const QMap<Discipline, Teacher> &map)
 
 void Student::addDiscipline(const Discipline &discipl)
 {
-    m_courses.push_back(discipl);
-    //m_studyMap.insert(discipl,Teacher());
+    if(!m_courses.contains(discipl))
+        m_courses.push_back(discipl);
 }
 
 void Student::setGroup(const QString group)
@@ -142,10 +142,10 @@ Student& Student::operator=(const Student &other)
 
 bool Student::operator==(const Student &other) const
 {
-    return (getFname() == other.getFname()) &&
-            (getLname() == other.getLname()) &&
-            (getFthName() == other.getFthName()) &&
-            (getPasword() == other.getPasword());
+    return (m_fName == other.m_fName) &&
+            (m_lName == other.m_lName) &&
+            (m_fthName == other.m_fthName) &&
+            (m_password == other.m_password);
     //return this->getId() == other.getId();
 }
 

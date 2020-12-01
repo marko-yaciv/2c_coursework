@@ -9,6 +9,11 @@ FlParser::FlParser()
 
 }
 
+FlParser::~FlParser()
+{
+
+}
+
 FlParser::FlParser(const QString& flname)
 {
     file.setFileName(flname);

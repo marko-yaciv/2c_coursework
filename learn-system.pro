@@ -19,6 +19,7 @@ SOURCES += \
     data/teacher.cpp \
     main.cpp \
     learnsystem.cpp \
+    newdiscipline.cpp \
     studentdialog.cpp \
     teacherdialog.cpp
 
@@ -33,12 +34,14 @@ HEADERS += \
     data/studyprocessdata.h \
     data/teacher.h \
     learnsystem.h \
+    newdiscipline.h \
     studentdialog.h \
     teacherdialog.h
 
 FORMS += \
     allmembers.ui \
     learnsystem.ui \
+    newdiscipline.ui \
     studentdialog.ui \
     teacherdialog.ui
 

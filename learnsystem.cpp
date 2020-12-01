@@ -25,33 +25,13 @@ LearnSystem::LearnSystem(QWidget *parent)
     ui->group->addItems(groups);
     ui->password->setEchoMode(QLineEdit::EchoMode::Password);
     ui->inLabel->setText("Sign Up");
-    auto name_validator = new QRegExpValidator( QRegExp( "[А-і-І-ї-я]{1,40}" )) ;
+    auto name_validator = new QRegExpValidator(QRegExp("[А-і-І-ї-я]{1,40}")) ;
     ui->Fname->setValidator(name_validator);
     ui->Lname->setValidator(name_validator);
     ui->FthName->setValidator(name_validator);
 
-    QVBoxLayout* layout = new QVBoxLayout;
-    layout->setMargin(0);
-    layout->setContentsMargins(1,0,0,1);
-    for(auto& courseDiscipls: allDisciplines){
-        for(auto& discipl: courseDiscipls){
-            QCheckBox* courseName = new QCheckBox;
-            courseName->setText(discipl.getName());
-            layout->addWidget(courseName);
-            layout->update();
+    showDisciplinesToChoose();
 
-            teacherCoursesWidg.append(courseName);
-
-            connect(courseName,&QCheckBox::toggled,this,[&](bool checked){
-               if(checked)
-                    addCourseToTeacher(discipl);
-               else{
-                   removeCourseFromTeacher(discipl);
-               }
-            });
-        }
-    }
-    ui->scrollAreaWidgetContents->setLayout(layout);
     postNames = decltype (postNames)({std::pair<short,QString>(0,"labAssist"),
                                       std::pair<short,QString>(1,"teacher"),
                                       std::pair<short,QString>(2,"seniorTeacher"),
@@ -100,6 +80,46 @@ LearnSystem::~LearnSystem()
     }  catch (Except& msg) {
         delete ui;
         QMessageBox::critical(nullptr,"Fatal",msg.what());
+    }
+}
+
+void LearnSystem::showDisciplinesToChoose()
+{
+    teacherCoursesWidg.clear();
+    qDeleteAll(ui->scrollAreaWidgetContents->children());
+
+    QVBoxLayout* layout = new QVBoxLayout(ui->scrollAreaWidgetContents);
+    layout->setMargin(0);
+    layout->setContentsMargins(1,0,0,1);
+    for(auto& courseDiscipls: allDisciplines){
+        for(auto& discipl: courseDiscipls){
+            QCheckBox* courseName = new QCheckBox;
+            courseName->setText(discipl.getName());
+            layout->addWidget(courseName);
+            layout->update();
+
+            teacherCoursesWidg.append(courseName);
+
+            connect(courseName,&QCheckBox::toggled,this,[&](bool checked){
+               if(checked)
+                    addCourseToTeacher(discipl);
+               else{
+                   removeCourseFromTeacher(discipl);
+               }
+            });
+        }
+    }
+    ui->scrollAreaWidgetContents->setLayout(layout);
+}
+
+void LearnSystem::updateStudentsWithDiscipline(const int course)
+{
+    for(auto&i:allStudents){
+        if(i.getCourse() == course){
+            for(auto &j: allDisciplines[course-1]){
+                i.addDiscipline(j);
+            }
+        }
     }
 }
 
@@ -156,12 +176,14 @@ void LearnSystem::validateDataForSignUp()
     }
 }
 
+
+
 void LearnSystem::addCourseToTeacher(const Discipline &course)
 {
     registrDiscipls.append(course);
 }
 
-void LearnSystem::removeCourseFromTeacher(const Discipline &course)
+void LearnSystem::removeCourseFromTeacher(const Discipline& course)
 {
     registrDiscipls.removeOne(course);
 }
@@ -238,6 +260,10 @@ void LearnSystem::on_signUpB_clicked()
                            ui->post->currentText(),
                            ui->stand->text().toInt(),
                            ui->password->text());
+        if(registrDiscipls.isEmpty()){
+            QMessageBox::warning(this,"Failed to Create","Plese choose disciplines");
+            return;
+        }
         for(auto &i : registrDiscipls){
             newTeacher.setDiscipline(i);
         }
@@ -292,7 +318,7 @@ void LearnSystem::on_enterB_clicked()
             QMessageBox::warning(this,"Entering failed",
                                  "The student with entered initials doesn't exist,"
                                  "or password is incorrect."
-                                 "Please, check the inputs and try again"
+                                 "Please, check the inputs and try again "
                                  "or sign up");
             return;
         }
@@ -365,4 +391,12 @@ void LearnSystem::on_showPassword_pressed()
 void LearnSystem::on_showPassword_released()
 {
     ui->password->setEchoMode(QLineEdit::EchoMode::Password);
+}
+
+void LearnSystem::on_actionDiscipline_triggered()
+{
+    createDisciplDialog = new NewDiscipline(this,&allDisciplines);
+    connect(createDisciplDialog,&NewDiscipline::finished,this,[&](){showDisciplinesToChoose();
+                                                                    updateStudentsWithDiscipline(createDisciplDialog->getNewDisciplineCourse());});
+    createDisciplDialog->open();
 }

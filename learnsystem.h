@@ -10,8 +10,10 @@
 #include "studentdialog.h"
 #include "teacherdialog.h"
 #include "allmembers.h"
+#include "newdiscipline.h"
 #include "data/exept.h"
 #include "data/flparser.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class LearnSystem; }
 QT_END_NAMESPACE
@@ -22,6 +24,7 @@ class LearnSystem : public QMainWindow
 StudentDialog* studDialog;
 TeacherDialog* teachDialog;
 AllMembers* membersWidget;
+NewDiscipline* createDisciplDialog;
 
 QList<Discipline> registrDiscipls;
 QVector<QCheckBox*> teacherCoursesWidg;
@@ -42,6 +45,8 @@ public:
 
     void validateNamesForEnter();
     void validateDataForSignUp();
+    void showDisciplinesToChoose();
+    void updateStudentsWithDiscipline(const int course);
 private slots:
 
     void on_signUpB_clicked();
@@ -63,6 +68,8 @@ private slots:
     void on_showPassword_pressed();
 
     void on_showPassword_released();
+
+    void on_actionDiscipline_triggered();
 
 private:
     Ui::LearnSystem *ui;

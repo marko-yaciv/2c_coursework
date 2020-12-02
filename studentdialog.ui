@@ -61,17 +61,22 @@ color: #fff;
        <number>11</number>
       </property>
       <property name="rightMargin">
-       <number>0</number>
+       <number>5</number>
       </property>
       <item>
        <widget class="QLabel" name="initials">
         <property name="font">
          <font>
-          <pointsize>10</pointsize>
+          <family>Montserrat</family>
+          <pointsize>12</pointsize>
+          <weight>50</weight>
+          <italic>false</italic>
+          <bold>false</bold>
          </font>
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel{
+font: 12pt &quot;Montserrat&quot;;
 color: #fff;
 }</string>
         </property>
@@ -87,11 +92,16 @@ color: #fff;
        <widget class="QLabel" name="group">
         <property name="font">
          <font>
-          <pointsize>10</pointsize>
+          <family>Montserrat</family>
+          <pointsize>12</pointsize>
+          <weight>50</weight>
+          <italic>false</italic>
+          <bold>false</bold>
          </font>
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel{
+font: 12pt &quot;Montserrat&quot;;
 color: #fff;
 }</string>
         </property>
@@ -107,11 +117,16 @@ color: #fff;
        <widget class="QLabel" name="course">
         <property name="font">
          <font>
-          <pointsize>10</pointsize>
+          <family>Montserrat</family>
+          <pointsize>12</pointsize>
+          <weight>50</weight>
+          <italic>false</italic>
+          <bold>false</bold>
          </font>
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel{
+font: 12pt &quot;Montserrat&quot;;
 color: #fff;
 }</string>
         </property>
@@ -127,16 +142,21 @@ color: #fff;
        <widget class="QLabel" name="date">
         <property name="font">
          <font>
-          <pointsize>10</pointsize>
+          <family>Montserrat</family>
+          <pointsize>12</pointsize>
+          <weight>50</weight>
+          <italic>false</italic>
+          <bold>false</bold>
          </font>
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel{
+font: 12pt &quot;Montserrat&quot;;
 color: #fff;
 }</string>
         </property>
         <property name="text">
-         <string>TextLabel</string>
+         <string>NULL</string>
         </property>
         <property name="textInteractionFlags">
          <set>Qt::NoTextInteraction</set>
@@ -151,10 +171,25 @@ color: #fff;
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>45</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>130</width>
+          <height>16777215</height>
+         </size>
+        </property>
         <property name="font">
          <font>
-          <pointsize>9</pointsize>
-          <italic>true</italic>
+          <family>Open Sans</family>
+          <pointsize>11</pointsize>
+          <weight>50</weight>
+          <italic>false</italic>
+          <bold>false</bold>
          </font>
         </property>
         <property name="cursor">
@@ -165,15 +200,19 @@ color: #fff;
         </property>
         <property name="styleSheet">
          <string notr="true">QCommandLinkButton{
+font: 11pt &quot;Open Sans&quot;;
 color: #fff;
-}</string>
+border: 1px solid rgba(72, 16, 16, 0.86);
+border-radius: 10px;
+}
+</string>
         </property>
         <property name="text">
          <string>Log out</string>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/rec/img/exit.png</normaloff>:/rec/img/exit.png</iconset>
+         <iconset resource="resources.qrc">
+          <normaloff>:/images/img/exit.png</normaloff>:/images/img/exit.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -224,11 +263,16 @@ color: #fff;
            <widget class="QLabel" name="label">
             <property name="font">
              <font>
-              <pointsize>10</pointsize>
+              <family>Montserrat</family>
+              <pointsize>11</pointsize>
+              <weight>50</weight>
+              <italic>false</italic>
+              <bold>false</bold>
              </font>
             </property>
             <property name="styleSheet">
              <string notr="true">QLabel{
+font: 11pt &quot;Montserrat&quot;;
 color: #fff;
 }</string>
             </property>
@@ -254,10 +298,10 @@ color: #fff;
             <property name="styleSheet">
              <string notr="true">QComboBox{
 color: #fff;
-font: 10pt &quot;Lucida Sans Unicode&quot;;
-background: rgba(47, 55, 99, 0.8);
+font: 11pt &quot;Montserrat&quot;;
+background: rgb(77, 106, 153);
 border: 1px solid rgba(72, 16, 16, 0.86);
-border-radius: 8px;
+border-radius: 3px;
 }</string>
             </property>
             <item>
@@ -285,13 +329,19 @@ border-radius: 8px;
               <height>36</height>
              </size>
             </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
             <property name="styleSheet">
              <string notr="true">QPushButton{
 color: #fff;
-font: 10pt &quot;Lucida Sans Unicode&quot;;
+font: 11pt &quot;Open Sans&quot;;
 background: rgba(47, 55, 99, 0.8);
 border: 1px solid rgba(72, 16, 16, 0.86);
 border-radius: 8px;
+}
+QPushButton:hover{
+background: rgba(77, 46, 107,0.8);
 }</string>
             </property>
             <property name="text">
@@ -323,13 +373,19 @@ border-radius: 8px;
               <height>35</height>
              </size>
             </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
             <property name="styleSheet">
              <string notr="true">QPushButton{
 color: #fff;
-font: 10pt &quot;Lucida Sans Unicode&quot;;
+font: 11pt &quot;Open Sans&quot;;
 background: rgba(47, 55, 99, 0.8);
 border: 1px solid rgba(72, 16, 16, 0.86);
 border-radius: 8px;
+}
+QPushButton:hover{
+background: rgba(77, 46, 107,0.8);
 }</string>
             </property>
             <property name="text">
@@ -355,12 +411,15 @@ border-radius: 8px;
               </property>
               <property name="font">
                <font>
-                <family>Lucida Sans Unicode</family>
-                <pointsize>10</pointsize>
+                <family>Open Sans</family>
+                <pointsize>11</pointsize>
                 <weight>50</weight>
                 <italic>false</italic>
                 <bold>false</bold>
                </font>
+              </property>
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
               </property>
               <property name="layoutDirection">
                <enum>Qt::LeftToRight</enum>
@@ -368,7 +427,7 @@ border-radius: 8px;
               <property name="styleSheet">
                <string notr="true">QRadioButton{
 color: #fff;
-font: 10pt &quot;Lucida Sans Unicode&quot;;
+font: 11pt &quot;Open Sans&quot;;
 background: rgba(47, 55, 99, 0.8);
 border: 1px solid rgba(72, 16, 16, 0.86);
 border-radius: 5px;
@@ -389,17 +448,20 @@ border-radius: 5px;
               </property>
               <property name="font">
                <font>
-                <family>Lucida Sans Unicode</family>
-                <pointsize>10</pointsize>
+                <family>Open Sans</family>
+                <pointsize>11</pointsize>
                 <weight>50</weight>
                 <italic>false</italic>
                 <bold>false</bold>
                </font>
               </property>
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
+              </property>
               <property name="styleSheet">
                <string notr="true">QRadioButton{
 color: #fff;
-font: 10pt &quot;Lucida Sans Unicode&quot;;
+font: 11pt &quot;Open Sans&quot;;
 background: rgba(47, 55, 99, 0.8);
 border: 1px solid rgba(72, 16, 16, 0.86);
 border-radius: 5px;
@@ -418,12 +480,15 @@ border-radius: 5px;
          <widget class="QTableWidget" name="teachers">
           <property name="font">
            <font>
-            <family>Open Sans</family>
-            <pointsize>10</pointsize>
+            <family>Montserrat</family>
+            <pointsize>11</pointsize>
             <weight>50</weight>
             <italic>false</italic>
             <bold>false</bold>
            </font>
+          </property>
+          <property name="cursor" stdset="0">
+           <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="tabletTracking">
            <bool>true</bool>
@@ -431,14 +496,23 @@ border-radius: 5px;
           <property name="styleSheet">
            <string notr="true">QTableWidget{
 color: #fff;
-font: 10pt &quot;Open Sans&quot;;
+font: 11pt &quot;Montserrat&quot;;
 background: rgb(77, 106, 153);
 border: 1px solid rgba(72, 16, 16, 0.86);
 border-radius: 10px;
 }</string>
           </property>
+          <property name="sizeAdjustPolicy">
+           <enum>QAbstractScrollArea::AdjustToContents</enum>
+          </property>
           <property name="editTriggers">
            <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <property name="showDropIndicator" stdset="0">
+           <bool>false</bool>
+          </property>
+          <property name="dragDropOverwriteMode">
+           <bool>false</bool>
           </property>
           <property name="textElideMode">
            <enum>Qt::ElideRight</enum>
@@ -449,8 +523,20 @@ border-radius: 10px;
           <property name="sortingEnabled">
            <bool>false</bool>
           </property>
+          <property name="cornerButtonEnabled">
+           <bool>false</bool>
+          </property>
+          <attribute name="horizontalHeaderMinimumSectionSize">
+           <number>100</number>
+          </attribute>
+          <attribute name="horizontalHeaderDefaultSectionSize">
+           <number>165</number>
+          </attribute>
           <attribute name="horizontalHeaderStretchLastSection">
            <bool>true</bool>
+          </attribute>
+          <attribute name="verticalHeaderDefaultSectionSize">
+           <number>50</number>
           </attribute>
          </widget>
         </item>
@@ -478,8 +564,8 @@ border-radius: 10px;
             </property>
             <property name="font">
              <font>
-              <family>Lucida Sans Unicode</family>
-              <pointsize>10</pointsize>
+              <family>Montserrat</family>
+              <pointsize>11</pointsize>
               <weight>50</weight>
               <italic>false</italic>
               <bold>false</bold>
@@ -496,7 +582,7 @@ border-radius: 10px;
             </property>
             <property name="styleSheet">
              <string notr="true">QCalendarWidget{
-font: 10pt &quot;Lucida Sans Unicode&quot;;
+font: 11pt &quot;Montserrat&quot;;
 background: rgba(47, 55, 99, 0.8);
 border: 1px solid rgba(72, 16, 16, 0.86);
 border-radius: 10px;
@@ -590,7 +676,7 @@ background: rgb(77, 106, 153);
              <x>0</x>
              <y>0</y>
              <width>364</width>
-             <height>592</height>
+             <height>588</height>
             </rect>
            </property>
            <property name="styleSheet">
@@ -647,7 +733,7 @@ background: rgb(77, 106, 153);
                  <x>0</x>
                  <y>0</y>
                  <width>340</width>
-                 <height>532</height>
+                 <height>528</height>
                 </rect>
                </property>
                <attribute name="label">

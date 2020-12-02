@@ -21,23 +21,23 @@ public:
     FlParser();
     ~FlParser();
     FlParser(const QString& flname);
-    void changeFilename(const QString& fname);
 
+    void changeFilename(const QString& fname);
     bool openWithValidation(QIODevice::OpenModeFlag openMode);
 
     void writeGroups(const QList<QString>& data);
-    void writeStudents(const QVector<Student>& students);
-    void writeTeachers(const QVector<Teacher>& teachers);
+    void writeStudents(const QList<Student>& students);
+    void writeTeachers(const QList<Teacher>& teachers);
     void writeDisciplines(const QVector<Discipline>& discipls);
-    void writeStudentStudyProcessData(const StudyProcessData& studentData);
-    void writeTeacherStudyProcessData(const StudyProcessData& teacherData);
+    void writeStudentStudyProcessData(const StudyProcessData* studentData);
+    void writeTeacherStudyProcessData(const StudyProcessData* teacherData);
 
     void readGroups(QList<QString>& data);
-    void readStudents(QVector<Student>& student);
-    void readTeachers(QVector<Teacher>& teacher);
+    void readStudents(QList<Student>& student, StudyProcessData* allData);
+    void readTeachers(QList<Teacher>& teacher, StudyProcessData* allData);
     void readDisciplines(QVector<Discipline>& discipl);
-    void readStudentStudyProcessData(StudyProcessData& studentData);
-    void readTeacherStudyProcessData(StudyProcessData& studentData);
+    void readStudentStudyProcessData(StudyProcessData* studentData);
+    void readTeacherStudyProcessData(StudyProcessData* studentData);
 };
 
 #endif // FLPARSER_H

@@ -21,13 +21,15 @@ QT_END_NAMESPACE
 class LearnSystem : public QMainWindow
 {
     Q_OBJECT
-StudentDialog* studDialog;
-TeacherDialog* teachDialog;
-AllMembers* membersWidget;
-NewDiscipline* createDisciplDialog;
+StudyProcessData* m_allStudyProcessData;
 
-QList<Discipline> registrDiscipls;
-QVector<QCheckBox*> teacherCoursesWidg;
+StudentDialog* m_studDialog;
+TeacherDialog* m_teachDialog;
+AllMembers* m_membersWidget;
+NewDiscipline* m_createDisciplDialog;
+
+QList<Discipline> m_registrDiscipls;
+QVector<QCheckBox*> m_teacherCoursesWidg;
 
 public:
     LearnSystem(QWidget *parent = nullptr);

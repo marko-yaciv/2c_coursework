@@ -92,15 +92,27 @@ background: qlineargradient(spread:pad, x1:1, y1:0.153, x2:1, y2:1, stop:0.02884
     <item row="2" column="0" alignment="Qt::AlignHCenter">
      <widget class="QCommandLinkButton" name="backToRegister">
       <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>150</width>
+        <height>16777215</height>
+       </size>
+      </property>
       <property name="font">
        <font>
-        <family>Lucida Sans Unicode</family>
-        <pointsize>10</pointsize>
+        <family>Open Sans</family>
+        <pointsize>11</pointsize>
         <weight>50</weight>
         <italic>false</italic>
         <bold>false</bold>
@@ -111,8 +123,10 @@ background: qlineargradient(spread:pad, x1:1, y1:0.153, x2:1, y2:1, stop:0.02884
       </property>
       <property name="styleSheet">
        <string notr="true">QCommandLinkButton{
+font: 11pt &quot;Open Sans&quot;;
 color: #fff;
-font: 10pt &quot;Lucida Sans Unicode&quot;;
+border: 1px solid rgba(72, 16, 16, 0.86);
+border-radius: 10px;
 }</string>
       </property>
       <property name="text">
@@ -161,8 +175,8 @@ font: 10pt &quot;Lucida Sans Unicode&quot;;
       <property name="styleSheet">
        <string notr="true">QLabel{
 color: #fff;
-border: 2px solid rgba(72, 16, 16, 0.86);
-border-radius: 3px;
+border: 1px solid rgba(72, 16, 16, 0.86);
+border-radius: 15px;
 }</string>
       </property>
       <property name="frameShape">
@@ -224,8 +238,8 @@ border-radius: 3px;
           <widget class="QRadioButton" name="iamstud">
            <property name="font">
             <font>
-             <family>Lucida Sans Unicode</family>
-             <pointsize>10</pointsize>
+             <family>Open Sans</family>
+             <pointsize>11</pointsize>
              <weight>50</weight>
              <italic>false</italic>
              <bold>false</bold>
@@ -234,7 +248,7 @@ border-radius: 3px;
            <property name="styleSheet">
             <string notr="true">QRadioButton{
 color: #fff;
-font: 10pt &quot;Lucida Sans Unicode&quot;;
+font: 11pt &quot;Open Sans&quot;;
 background: rgba(47, 55, 99, 0.8);
 border: 1px solid rgba(72, 16, 16, 0.86);
 border-radius: 5px;
@@ -249,8 +263,8 @@ border-radius: 5px;
           <widget class="QRadioButton" name="iamteach">
            <property name="font">
             <font>
-             <family>Lucida Sans Unicode</family>
-             <pointsize>10</pointsize>
+             <family>Open Sans</family>
+             <pointsize>11</pointsize>
              <weight>50</weight>
              <italic>false</italic>
              <bold>false</bold>
@@ -259,7 +273,7 @@ border-radius: 5px;
            <property name="styleSheet">
             <string notr="true">QRadioButton{
 color: #fff;
-font: 10pt &quot;Lucida Sans Unicode&quot;;
+font: 11pt &quot;Open Sans&quot;;
 background: rgba(47, 55, 99, 0.8);
 border: 1px solid rgba(72, 16, 16, 0.86);
 border-radius: 5px;
@@ -311,8 +325,8 @@ border-radius: 5px;
              <widget class="QLabel" name="label_18">
               <property name="font">
                <font>
-                <family>Lucida Sans Unicode</family>
-                <pointsize>10</pointsize>
+                <family>Montserrat</family>
+                <pointsize>12</pointsize>
                 <weight>50</weight>
                 <italic>false</italic>
                 <bold>false</bold>
@@ -320,7 +334,7 @@ border-radius: 5px;
               </property>
               <property name="styleSheet">
                <string notr="true">QLabel{
-	font: 10pt &quot;Lucida Sans Unicode&quot;;
+	font: 12pt &quot;Montserrat&quot;;
 }
 </string>
               </property>
@@ -339,8 +353,8 @@ border-radius: 5px;
               </property>
               <property name="font">
                <font>
-                <family>Lucida Sans Unicode</family>
-                <pointsize>10</pointsize>
+                <family>Montserrat</family>
+                <pointsize>11</pointsize>
                 <weight>50</weight>
                 <italic>false</italic>
                 <bold>false</bold>
@@ -352,9 +366,9 @@ border-radius: 5px;
               <property name="styleSheet">
                <string notr="true">QLineEdit{
 color: #fff;
-font: 10pt &quot;Lucida Sans Unicode&quot;;
+font: 11pt &quot;Montserrat&quot;;
 background: rgba(18, 108, 158, 0.49);
-border: 2px solid rgba(72, 16, 16, 0.56);
+border: 1px solid rgba(72, 16, 16, 0.56);
 border-radius: 5px;
 }</string>
               </property>
@@ -406,16 +420,19 @@ border-radius: 5px;
            </layout>
           </item>
           <item row="0" column="0" colspan="2">
-           <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,2">
+           <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="3,5">
             <property name="leftMargin">
              <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>50</number>
             </property>
             <item>
              <widget class="QLabel" name="label_2">
               <property name="font">
                <font>
-                <family>Lucida Sans Unicode</family>
-                <pointsize>10</pointsize>
+                <family>Montserrat</family>
+                <pointsize>12</pointsize>
                 <weight>50</weight>
                 <italic>false</italic>
                 <bold>false</bold>
@@ -423,7 +440,7 @@ border-radius: 5px;
               </property>
               <property name="styleSheet">
                <string notr="true">QLabel{
-	font: 10pt &quot;Lucida Sans Unicode&quot;;
+	font: 12pt &quot;Montserrat&quot;;
 }
 </string>
               </property>
@@ -442,8 +459,8 @@ border-radius: 5px;
               </property>
               <property name="font">
                <font>
-                <family>Lucida Sans Unicode</family>
-                <pointsize>10</pointsize>
+                <family>Montserrat</family>
+                <pointsize>11</pointsize>
                 <weight>50</weight>
                 <italic>false</italic>
                 <bold>false</bold>
@@ -452,9 +469,9 @@ border-radius: 5px;
               <property name="styleSheet">
                <string notr="true">QLineEdit{
 color: #fff;
-font: 10pt &quot;Lucida Sans Unicode&quot;;
+font: 11pt &quot;Montserrat&quot;;
 background: rgba(18, 108, 158, 0.49);
-border: 2px solid rgba(72, 16, 16, 0.56);
+border: 1px solid rgba(72, 16, 16, 0.56);
 border-radius: 5px;
 }</string>
               </property>
@@ -463,16 +480,19 @@ border-radius: 5px;
            </layout>
           </item>
           <item row="1" column="0" rowspan="2" colspan="2">
-           <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,2">
+           <layout class="QHBoxLayout" name="horizontalLayout" stretch="3,5">
             <property name="leftMargin">
              <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>50</number>
             </property>
             <item>
              <widget class="QLabel" name="label">
               <property name="font">
                <font>
-                <family>Lucida Sans Unicode</family>
-                <pointsize>10</pointsize>
+                <family>Montserrat</family>
+                <pointsize>12</pointsize>
                 <weight>50</weight>
                 <italic>false</italic>
                 <bold>false</bold>
@@ -480,7 +500,7 @@ border-radius: 5px;
               </property>
               <property name="styleSheet">
                <string notr="true">QLabel{
-	font: 10pt &quot;Lucida Sans Unicode&quot;;
+	font: 12pt &quot;Montserrat&quot;;
 }
 </string>
               </property>
@@ -499,8 +519,8 @@ border-radius: 5px;
               </property>
               <property name="font">
                <font>
-                <family>Lucida Sans Unicode</family>
-                <pointsize>10</pointsize>
+                <family>Montserrat</family>
+                <pointsize>11</pointsize>
                 <weight>50</weight>
                 <italic>false</italic>
                 <bold>false</bold>
@@ -509,9 +529,9 @@ border-radius: 5px;
               <property name="styleSheet">
                <string notr="true">QLineEdit{
 color: #fff;
-font: 10pt &quot;Lucida Sans Unicode&quot;;
+font: 11pt &quot;Montserrat&quot;;
 background: rgba(18, 108, 158, 0.49);
-border: 2px solid rgba(72, 16, 16, 0.56);
+border: 1px solid rgba(72, 16, 16, 0.56);
 border-radius: 5px;
 }</string>
               </property>
@@ -520,16 +540,19 @@ border-radius: 5px;
            </layout>
           </item>
           <item row="3" column="0" rowspan="2" colspan="2">
-           <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,2">
+           <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="3,5">
             <property name="leftMargin">
              <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>50</number>
             </property>
             <item>
              <widget class="QLabel" name="label_3">
               <property name="font">
                <font>
-                <family>Lucida Sans Unicode</family>
-                <pointsize>10</pointsize>
+                <family>Montserrat</family>
+                <pointsize>12</pointsize>
                 <weight>50</weight>
                 <italic>false</italic>
                 <bold>false</bold>
@@ -537,7 +560,7 @@ border-radius: 5px;
               </property>
               <property name="styleSheet">
                <string notr="true">QLabel{
-	font: 10pt &quot;Lucida Sans Unicode&quot;;
+	font: 12pt &quot;Montserrat&quot;;
 }
 </string>
               </property>
@@ -556,8 +579,8 @@ border-radius: 5px;
               </property>
               <property name="font">
                <font>
-                <family>Lucida Sans Unicode</family>
-                <pointsize>10</pointsize>
+                <family>Montserrat</family>
+                <pointsize>11</pointsize>
                 <weight>50</weight>
                 <italic>false</italic>
                 <bold>false</bold>
@@ -566,9 +589,9 @@ border-radius: 5px;
               <property name="styleSheet">
                <string notr="true">QLineEdit{
 color: #fff;
-font: 10pt &quot;Lucida Sans Unicode&quot;;
+font: 11pt &quot;Montserrat&quot;;
 background: rgba(18, 108, 158, 0.49);
-border: 2px solid rgba(72, 16, 16, 0.56);
+border: 1px solid rgba(72, 16, 16, 0.56);
 border-radius: 5px;
 }</string>
               </property>
@@ -627,8 +650,8 @@ border-radius: 5px;
              <widget class="QLabel" name="label_5">
               <property name="font">
                <font>
-                <family>Lucida Sans Unicode</family>
-                <pointsize>10</pointsize>
+                <family>Montserrat</family>
+                <pointsize>12</pointsize>
                 <weight>50</weight>
                 <italic>false</italic>
                 <bold>false</bold>
@@ -636,7 +659,7 @@ border-radius: 5px;
               </property>
               <property name="styleSheet">
                <string notr="true">QLabel{
-	font: 10pt &quot;Lucida Sans Unicode&quot;;
+	font: 12pt &quot;Montserrat&quot;;
 }
 </string>
               </property>
@@ -655,23 +678,23 @@ border-radius: 5px;
               </property>
               <property name="font">
                <font>
-                <family>Open Sans</family>
-                <pointsize>10</pointsize>
+                <family>Montserrat</family>
+                <pointsize>11</pointsize>
                 <weight>50</weight>
                 <italic>false</italic>
                 <bold>false</bold>
                </font>
               </property>
               <property name="cursor">
-               <cursorShape>SplitHCursor</cursorShape>
+               <cursorShape>PointingHandCursor</cursorShape>
               </property>
               <property name="styleSheet">
                <string notr="true">QComboBox{
 color: #fff;
-font: 10pt &quot;Open Sans&quot;;
+font: 11pt &quot;Montserrat&quot;;
 background: rgb(77, 106, 153);
 border: 1px solid rgba(72, 16, 16, 0.86);
-border-radius: 3px;
+border-radius: 5px;
 }</string>
               </property>
               <property name="currentIndex">
@@ -705,8 +728,8 @@ border-radius: 3px;
               </property>
               <property name="font">
                <font>
-                <family>Lucida Sans Unicode</family>
-                <pointsize>10</pointsize>
+                <family>Montserrat</family>
+                <pointsize>12</pointsize>
                 <weight>50</weight>
                 <italic>false</italic>
                 <bold>false</bold>
@@ -714,7 +737,7 @@ border-radius: 3px;
               </property>
               <property name="styleSheet">
                <string notr="true">QLabel{
-	font: 10pt &quot;Lucida Sans Unicode&quot;;
+	font: 12pt &quot;Montserrat&quot;;
 }
 </string>
               </property>
@@ -734,13 +757,13 @@ border-radius: 3px;
               <property name="minimumSize">
                <size>
                 <width>0</width>
-                <height>75</height>
+                <height>70</height>
                </size>
               </property>
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>55</height>
+                <height>85</height>
                </size>
               </property>
               <property name="styleSheet">
@@ -770,13 +793,16 @@ border-radius: 3px;
                  <x>0</x>
                  <y>0</y>
                  <width>264</width>
-                 <height>73</height>
+                 <height>68</height>
                 </rect>
+               </property>
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
                </property>
                <property name="styleSheet">
                 <string notr="true">QWidget{
 color: #fff;
-font: 9pt &quot;Open Sans&quot;;
+font: 10pt &quot;Montserrat&quot;;
 background: rgb(77, 106, 153);
 }</string>
                </property>
@@ -803,8 +829,8 @@ background: rgb(77, 106, 153);
              <widget class="QLabel" name="label_6">
               <property name="font">
                <font>
-                <family>Lucida Sans Unicode</family>
-                <pointsize>10</pointsize>
+                <family>Montserrat</family>
+                <pointsize>12</pointsize>
                 <weight>50</weight>
                 <italic>false</italic>
                 <bold>false</bold>
@@ -812,7 +838,7 @@ background: rgb(77, 106, 153);
               </property>
               <property name="styleSheet">
                <string notr="true">QLabel{
-	font: 10pt &quot;Lucida Sans Unicode&quot;;
+	font: 12pt &quot;Montserrat&quot;;
 }
 </string>
               </property>
@@ -834,17 +860,20 @@ background: rgb(77, 106, 153);
               </property>
               <property name="font">
                <font>
-                <family>Open Sans</family>
-                <pointsize>10</pointsize>
+                <family>Montserrat</family>
+                <pointsize>11</pointsize>
                 <weight>50</weight>
                 <italic>false</italic>
                 <bold>false</bold>
                </font>
               </property>
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
+              </property>
               <property name="styleSheet">
                <string notr="true">QSpinBox{
 color: #fff;
-font: 10pt &quot;Open Sans&quot;;
+font: 11pt &quot;Montserrat&quot;;
 background: rgb(77, 106, 153);
 border: 1px solid rgba(72, 16, 16, 0.86);
 border-radius: 3px;
@@ -859,8 +888,8 @@ border-radius: 3px;
              <widget class="QLabel" name="label_7">
               <property name="font">
                <font>
-                <family>Lucida Sans Unicode</family>
-                <pointsize>10</pointsize>
+                <family>Montserrat</family>
+                <pointsize>12</pointsize>
                 <weight>50</weight>
                 <italic>false</italic>
                 <bold>false</bold>
@@ -868,7 +897,7 @@ border-radius: 3px;
               </property>
               <property name="styleSheet">
                <string notr="true">QLabel{
-	font: 10pt &quot;Lucida Sans Unicode&quot;;
+	font: 12pt &quot;Montserrat&quot;;
 }
 </string>
               </property>
@@ -927,8 +956,8 @@ border-radius: 3px;
             </property>
             <property name="font">
              <font>
-              <family>Lucida Sans Unicode</family>
-              <pointsize>10</pointsize>
+              <family>Montserrat</family>
+              <pointsize>12</pointsize>
               <weight>50</weight>
               <italic>false</italic>
               <bold>false</bold>
@@ -936,7 +965,7 @@ border-radius: 3px;
             </property>
             <property name="styleSheet">
              <string notr="true">QLabel{
-	font: 10pt &quot;Lucida Sans Unicode&quot;;
+	font: 12pt &quot;Montserrat&quot;;
 }
 </string>
             </property>
@@ -955,12 +984,15 @@ border-radius: 3px;
             </property>
             <property name="font">
              <font>
-              <family>Open Sans</family>
-              <pointsize>10</pointsize>
+              <family>Montserrat</family>
+              <pointsize>11</pointsize>
               <weight>50</weight>
               <italic>false</italic>
               <bold>false</bold>
              </font>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
             </property>
             <property name="focusPolicy">
              <enum>Qt::WheelFocus</enum>
@@ -968,10 +1000,10 @@ border-radius: 3px;
             <property name="styleSheet">
              <string notr="true">QComboBox{
 color: #fff;
-font: 10pt &quot;Open Sans&quot;;
+font: 11pt &quot;Montserrat&quot;;
 background: rgb(77, 106, 153);
 border: 1px solid rgba(72, 16, 16, 0.86);
-border-radius: 3px;
+border-radius: 5px;
 }</string>
             </property>
             <property name="maxVisibleItems">
@@ -1021,8 +1053,8 @@ border-radius: 3px;
            </property>
            <property name="font">
             <font>
-             <family>Lucida Sans Unicode</family>
-             <pointsize>10</pointsize>
+             <family>Open Sans</family>
+             <pointsize>11</pointsize>
              <weight>50</weight>
              <italic>false</italic>
              <bold>false</bold>
@@ -1049,10 +1081,13 @@ border-radius: 3px;
            <property name="styleSheet">
             <string notr="true">QPushButton{
 color: #fff;
-font: 10pt &quot;Lucida Sans Unicode&quot;;
+font: 11pt &quot;Open Sans&quot;;
 background: rgba(47, 55, 99, 0.8);
 border: 1px solid rgba(72, 16, 16, 0.86);
 border-radius: 5px;
+}
+QPushButton:hover{
+background: rgba(77, 46, 107,0.8);
 }</string>
            </property>
            <property name="text">
@@ -1076,12 +1111,15 @@ border-radius: 5px;
            </property>
            <property name="font">
             <font>
-             <family>Lucida Sans Unicode</family>
-             <pointsize>10</pointsize>
+             <family>Open Sans</family>
+             <pointsize>11</pointsize>
              <weight>50</weight>
              <italic>false</italic>
              <bold>false</bold>
             </font>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
            </property>
            <property name="focusPolicy">
             <enum>Qt::StrongFocus</enum>
@@ -1089,10 +1127,13 @@ border-radius: 5px;
            <property name="styleSheet">
             <string notr="true">QPushButton{
 color: #fff;
-font: 10pt &quot;Lucida Sans Unicode&quot;;
+font: 11pt &quot;Open Sans&quot;;
 background: rgba(47, 55, 99, 0.8);
 border: 1px solid rgba(72, 16, 16, 0.86);
 border-radius: 5px;
+}
+QPushButton:hover{
+background: rgba(77, 46, 107,0.8);
 }</string>
            </property>
            <property name="text">
@@ -1127,8 +1168,8 @@ border-radius: 5px;
            <widget class="QLabel" name="label_8">
             <property name="font">
              <font>
-              <family>Lucida Sans Unicode</family>
-              <pointsize>9</pointsize>
+              <family>Montserrat</family>
+              <pointsize>10</pointsize>
               <weight>50</weight>
               <italic>false</italic>
               <bold>false</bold>
@@ -1136,7 +1177,7 @@ border-radius: 5px;
             </property>
             <property name="styleSheet">
              <string notr="true">QLabel{
-font: 9pt &quot;Lucida Sans Unicode&quot;;
+font: 10pt &quot;Montserrat&quot;;
 }</string>
             </property>
             <property name="text">
@@ -1160,20 +1201,26 @@ font: 9pt &quot;Lucida Sans Unicode&quot;;
             </property>
             <property name="font">
              <font>
-              <family>Lucida Sans Unicode</family>
-              <pointsize>9</pointsize>
+              <family>Open Sans</family>
+              <pointsize>11</pointsize>
               <weight>50</weight>
               <italic>false</italic>
               <bold>false</bold>
              </font>
             </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
             <property name="styleSheet">
              <string notr="true">QPushButton{
 color: #fff;
-font: 9pt &quot;Lucida Sans Unicode&quot;;
+font: 11pt &quot;Open Sans&quot;;
 background: rgba(47, 55, 99, 0.8);
 border: 1px solid rgba(72, 16, 16, 0.86);
 border-radius: 5px;
+}
+QPushButton:hover{
+background: rgba(77, 46, 107,0.8);
 }</string>
             </property>
             <property name="text">
@@ -1233,6 +1280,9 @@ border-radius: 5px;
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
    <property name="windowTitle">
     <string>toolBar</string>
    </property>

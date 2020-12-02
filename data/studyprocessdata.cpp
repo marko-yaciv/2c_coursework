@@ -1,16 +1,32 @@
 #include "studyprocessdata.h"
+StudyProcessData* StudyProcessData::allData = 0;
+const int StudyProcessData::COURSES = 4;
 
-extern QVector<Teacher> allTeachers;
-extern QVector<Student> allStudents;
-extern QVector<QVector<Discipline>> allDisciplines;
 StudyProcessData::StudyProcessData()
 {
+    m_allDisciplines.resize(COURSES);
+}
 
+StudyProcessData::StudyProcessData(const StudyProcessData &)
+{
+
+}
+
+StudyProcessData &StudyProcessData::operator=(StudyProcessData &)
+{
+    return *this;
 }
 
 StudyProcessData::~StudyProcessData()
 {
 
+}
+
+StudyProcessData *StudyProcessData::getInstance()
+{
+    if(!allData)
+        allData = new StudyProcessData();
+    return allData;
 }
 
 void StudyProcessData::updateMapForStudent(const Student &mapOwner, const QMap<Discipline, Teacher>& map)
@@ -20,36 +36,59 @@ void StudyProcessData::updateMapForStudent(const Student &mapOwner, const QMap<D
 
 void StudyProcessData::updateMapForTeacher(const Teacher &mapOwner, const QMultiMap<Discipline, Student>& map)
 {
-        m_teachersCourseMaps.insert(mapOwner,map);
+    m_teachersCourseMaps.insert(mapOwner,map);
 }
 
-const QMap<Discipline, Teacher> StudyProcessData::getMapOfStudent(const Student &mapOwner) const
+QList<Student>& StudyProcessData::getAllStudents()
 {
-    if(m_studentsStudyMaps.contains(mapOwner)){
-        return m_studentsStudyMaps[mapOwner];
-    }else{
-        throw nullptr;
-    }
+    return m_allStudents;
 }
 
-const QMultiMap<Discipline, Student> StudyProcessData::getMapOfTeacher(const Teacher &mapOwner) const
+QList<Teacher>& StudyProcessData::getAllTeachers()
 {
-    if(m_teachersCourseMaps.contains(mapOwner)){
-        return m_teachersCourseMaps[mapOwner];
-    }else{
-        throw nullptr;
-    }
+    return m_allTeachers;
 }
+
+QVector<QVector<Discipline>>& StudyProcessData::getAllDisciplines()
+{
+    return m_allDisciplines;
+}
+
+QMap<short, QString> &StudyProcessData::getPostNames()
+{
+    return m_postNames;
+}
+
+QList<QString> &StudyProcessData::getGroups()
+{
+    return m_groups;
+}
+
+void StudyProcessData::setAllDisciplines(const QVector<QVector<Discipline> >& disciplines)
+{
+    m_allDisciplines = disciplines;
+}
+
+void StudyProcessData::setPostNames(const QMap<short, QString>& names)
+{
+    m_postNames = names;
+}
+
+void StudyProcessData::setGroups(const QList<QString>& groups)
+{
+    m_groups = groups;
+}
+
+//---------writing functions---------
 
 void StudyProcessData::writeMapsForStudents(QJsonObject &owners) const
 {
-    for(auto i = m_studentsStudyMaps.begin();i != m_studentsStudyMaps.end();++i){
-        //QJsonArray ownerMap;
+    for(auto i = m_studentsStudyMaps.begin();i != m_studentsStudyMaps.end();++i)
+    {
         QJsonObject studyTarget;
-        for(auto j = i.value().begin();j != i.value().end();++j){
-
+        for(auto j = i.value().begin();j != i.value().end();++j)
+        {
             studyTarget[j.key().getName()] = (int)j.value().m_id;
-          //  ownerMap.append(studyTarget);
         }
         owners[QString::number(i.key().getId())] =  studyTarget;
     }
@@ -57,12 +96,16 @@ void StudyProcessData::writeMapsForStudents(QJsonObject &owners) const
 
 void StudyProcessData::writeMapsForTeachers(QJsonObject &owners) const
 {
-    for(auto i = m_teachersCourseMaps.begin(); i != m_teachersCourseMaps.end(); ++i){
+    for(auto i = m_teachersCourseMaps.begin(); i != m_teachersCourseMaps.end(); ++i)
+    {
         QJsonObject studyTarget;
         auto teacherCourses = i.value().keys();
-        for(auto j = teacherCourses.begin(); j != teacherCourses.end(); ++j){
+
+        for(auto j = teacherCourses.begin(); j != teacherCourses.end(); ++j)
+        {
             QJsonArray ownerMap;
             auto students = i.value().values(*j);
+
             for(auto &student : students)
                 ownerMap.append((int)student.m_id);
             studyTarget[j->getName()] = ownerMap;
@@ -71,83 +114,90 @@ void StudyProcessData::writeMapsForTeachers(QJsonObject &owners) const
     }
 }
 
+
+//------reading functions-----
+
 void StudyProcessData::readMapsOfStudents(const QJsonObject &owners)
 {
     m_studentsStudyMaps.clear();
 
-    for(auto i = allStudents.begin(); i != allStudents.end(); ++i)
+
+    for(auto& student : m_allStudents)
     {
-        QString ownerId = QString::number(i->m_id);
+        QString ownerId = QString::number(student.m_id);
 
         if(owners.contains(ownerId) && owners[ownerId].isObject())
         {
             QJsonObject ownerMap = owners[ownerId].toObject();
-            QMap<Discipline,Teacher> studyMap;
 
-            //loop for allDisciplines of student <i>
-            for(auto k = allDisciplines[i->m_course-1].begin(); k != allDisciplines[i->m_course-1].end(); ++k)
+            fetchTeachersWithDisciplines(student,ownerMap);
+
+            m_studentsStudyMaps.insert(student,student.m_studyMap);
+        }
+    }
+}
+void StudyProcessData::fetchTeachersWithDisciplines(Student& student, QJsonObject& ownerMap)
+{
+    for(auto disciplOfCourse = m_allDisciplines[student.m_course-1].begin();
+             disciplOfCourse != m_allDisciplines[student.m_course-1].end(); ++disciplOfCourse)
+    {
+        if(ownerMap.contains(disciplOfCourse->getName()))
+        {
+            int teacherId = ownerMap[disciplOfCourse->getName()].toInt();
+
+            //finding teacher in allteachers with needed ID <teacherId> and making appropriate map
+            for(auto& teacher : m_allTeachers)
             {
-
-                //check if we have a key in json with needed discipline
-                if(ownerMap.contains(k->getName()))
+                if(teacher.m_id == teacherId)
                 {
-                    int teacherId = ownerMap[k->getName()].toInt();
-                    //finding teacher in allteachers with needed ID <teacherId> and making appropriate map
-                    for(auto&j:allTeachers)
-                    {
-                        if(j.m_id == teacherId)
-                        {
-                            studyMap.insert(*k,j);
-                            break;
-                        }
-                    }
+                    student.m_studyMap.insert(*disciplOfCourse,teacher);
+                    break;
                 }
             }
-            i->m_studyMap = studyMap;
-            m_studentsStudyMaps.insert(*i,studyMap);
         }
-
     }
 }
 
+
 void StudyProcessData::readMapsOfTeachers(const QJsonObject &owners)
 {
-    for(auto i = allTeachers.begin(); i != allTeachers.end(); ++i)
+    m_teachersCourseMaps.clear();
+
+    for(auto& teacher : m_allTeachers)
     {
-        QString ownerId = QString::number(i->m_id);
+        QString ownerId = QString::number(teacher.m_id);
 
         if(owners.contains(ownerId) && owners[ownerId].isObject())
         {
             QJsonObject ownerMap = owners[ownerId].toObject();
-            QMultiMap<Discipline,Student> courseMap;
 
-            //loop for teacher's courses
-            for(auto course = i->m_courses.begin(); course != i->m_courses.end(); ++course)
+            fetchStudentsWithDisciplines(teacher,ownerMap);
+
+            m_teachersCourseMaps.insert(teacher,teacher.m_courseVisitors);
+        }
+    }
+}
+void StudyProcessData::fetchStudentsWithDisciplines(Teacher& teacherItr, QJsonObject& ownerMap)
+{
+    for(auto course = teacherItr.m_courses.begin(); course != teacherItr.m_courses.end(); ++course)
+    {
+        if(ownerMap.contains(course->getName()))
+        {
+            auto studentIds = ownerMap[course->getName()].toArray();
+            for(auto id : studentIds)
             {
-
-                //check if we have a key in json with needed discipline
-                if(ownerMap.contains(course->getName()))
+                //finding student in allStudents with needed ID and making appropriate map
+                for(auto &student : m_allStudents)
                 {
-
-                    auto studentIds = ownerMap[course->getName()].toArray();
-                    for(auto id : studentIds){
-                        //finding student in allStudents with needed ID and making appropriate map
-                        for(auto &student : allStudents)
-                        {
-                            if(student.m_id == id.toInt())
-                            {
-                                courseMap.insert(*course,student);
-                                break;
-                            }
-                        }
+                    if(student.m_id == id.toInt())
+                    {
+                        teacherItr.m_courseVisitors.insert(*course,student);
+                        break;
                     }
-
                 }
             }
-            i->m_courseVisitors = courseMap;
-            m_teachersCourseMaps.insert(*i,courseMap);
-        }
 
+        }
     }
 }
 

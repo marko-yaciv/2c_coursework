@@ -14,11 +14,14 @@ class StudentDialog;
 class StudentDialog : public QDialog
 {
     Q_OBJECT
-    QMap<Discipline, QWidget*> studCoursesWidgets;
-    Student pageOwner;
-    int course;
-    QMap<QWidget*, QPushButton*> noTeacherButtons;
-    QMap<QWidget*, QPushButton*> popularTeacherButtons;
+
+    int m_course;
+    Student m_pageOwner;
+    StudyProcessData* m_allStudyProcessData;
+
+    QMap<QWidget*, QPushButton*> m_noTeacherButtons;
+    QMap<Discipline, QWidget*>   m_studCoursesWidgets;
+    QMap<QWidget*, QPushButton*> m_popularTeacherButtons;
 public:
     explicit StudentDialog(QWidget *parent = nullptr, const Student& stud = Student());
     ~StudentDialog();
@@ -41,12 +44,12 @@ public:
 
     void on_discipl_contxtMenuRequested(const Discipline& discipl);
 
-    void addTeachersToTable(const QVector<Teacher>& teachers);
-    void minimiseTeachesVect(QVector<Teacher>& teachers);
+    void addTeachersToTable(const QList<Teacher>& teachers);
+    void minimiseTeachesVect(QList<Teacher>& teachers);
 
     void setHeaders(const QList<QString>& name, QTableWidget* table);
 
-    void findFreeTeachers(QVector<Teacher>& teachers, const QDate& selectedDate);
+    void findFreeTeachers(QList<Teacher>& teachers, const QDate& selectedDate);
 
     QMetaObject::Connection add_target_connection;
     QMetaObject::Connection change_target_connection;

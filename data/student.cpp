@@ -27,32 +27,13 @@ Student::~Student()
 
 }
 
-void Student::setInitials(const QString fname, const QString lname, const QString fthname)
-{
-    m_fName = fname;
-    m_lName  = lname;
-    m_fthName = fthname;
-}
 
-void Student::setStudyMap(const QMap<Discipline, Teacher> &map)
-{
-    for(auto i = map.begin(); i != map.end();++i){
-        if(m_studyMap.contains(i.key())){
-            m_studyMap[i.key()] = i.value();
-        }
-    }
-}
+//-----setters----
 
 void Student::addDiscipline(const Discipline &discipl)
 {
     if(!m_courses.contains(discipl))
         m_courses.push_back(discipl);
-}
-
-void Student::setGroup(const QString group)
-{
-    m_group = group;
-    m_course = m_group.at(3).unicode() - 48;
 }
 
 void Student::addStudyTarget(const Discipline discipline,const Teacher teacher)
@@ -62,10 +43,8 @@ void Student::addStudyTarget(const Discipline discipline,const Teacher teacher)
     else throw Except("This student doesn't have discipline, called \"" + discipline.getName() + "\"");
 }
 
-int Student::countDisciplines() const
-{
-    return m_studyMap.keys().size();
-}
+
+//---getters------
 
 const QList<Discipline> &Student::getDisciplines() const
 {
@@ -86,6 +65,9 @@ int Student::getCourse() const
 {
     return m_course;
 }
+
+
+//------write&read----------
 
 void Student::write(QJsonObject &json) const
 {
@@ -120,6 +102,9 @@ void Student::read(const QJsonObject json)
     if(json.contains("id")&& json["id"].isDouble())
         m_id = json["id"].toInt();
 }
+
+
+//---compare functions & overloaded operators----
 
 bool Student::lessThan(const Student &other) const
 {

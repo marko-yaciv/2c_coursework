@@ -10,6 +10,7 @@ protected:
 public:
     Account(const QString pw);
     ~Account();
+
     void setId(long id);
     void setPassword(const QString& pswrd);
 

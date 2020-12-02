@@ -12,10 +12,11 @@ protected:
 public:
     Human();
     Human(const QString fname, const QString lname, const QString fthname);
+    ~Human();
+
     const QString& getFname() const;
     const QString& getLname() const;
     const QString& getFthName() const;
-    ~Human();
 };
 
 #endif // HUMAN_H

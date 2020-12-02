@@ -18,19 +18,21 @@ class TeacherDialog : public QDialog
     Q_OBJECT
 
     Teacher pageOwner;
-
+    StudyProcessData* m_allStudyProcessData;
     QList<QString> headers;
 public:
     explicit TeacherDialog(QWidget *parent = nullptr, const Teacher& teacher = Teacher());
     ~TeacherDialog();
 
-    void showStudentsList(const QVector<Student>& students);
+    void showStudentsList(const QList<Student>& students);
     void setHeaders(const QList<QString>& name, QTableWidget* table);
 
-    void minimiseStudentVect(QVector<Student> &teachers);
+    void minimiseStudentVect(QList<Student> &teachers);
 
     void showDisciplinesToChoose();
     void showOwnerDisciplines();
+
+    void commitChanges();
 signals:
     void showMain();
 private slots:
@@ -44,8 +46,6 @@ private slots:
     void on_pushButton_clicked();
 
     void on_scrollArea_customContextMenuRequested(const QPoint &pos);
-
-    void on_scrollAreaWidgetContents_customContextMenuRequested(const QPoint &pos);
 
 private:
     Ui::TeacherDialog *ui;

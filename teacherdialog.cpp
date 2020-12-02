@@ -1,13 +1,10 @@
 #include "teacherdialog.h"
 #include "ui_teacherdialog.h"
 
-extern const int COURSES;
-extern QVector<QVector<Discipline>> allDisciplines;
-extern QVector<Teacher> allTeachers;
-extern QVector<Student> allStudents;
-
 TeacherDialog::TeacherDialog(QWidget *parent, const Teacher& teacher) :
     QDialog(parent),
+    pageOwner(teacher),
+    m_allStudyProcessData(StudyProcessData::getInstance()),
     ui(new Ui::TeacherDialog)
 {
     ui->setupUi(this);
@@ -19,14 +16,13 @@ TeacherDialog::TeacherDialog(QWidget *parent, const Teacher& teacher) :
     setHeaders(headers,ui->courses);
     ui->scrollArea->hide();
 
-
     headers = {"Initials","Group","Course"};
     ui->students->setColumnCount(3);
     setHeaders(headers,ui->students);
 
-    pageOwner = teacher;
     ui->initials->setText(pageOwner.getLname() + " " + pageOwner.getFname() + " " + pageOwner.getFthName());
-    auto myStudents = pageOwner.getCourseMap().values().toVector();
+
+    auto myStudents = pageOwner.getCourseMap().values();
     minimiseStudentVect(myStudents);
     ui->CntOfVisits->setText("Subscribers: " + QString::number(myStudents.size()));
 
@@ -35,17 +31,20 @@ TeacherDialog::TeacherDialog(QWidget *parent, const Teacher& teacher) :
 
 TeacherDialog::~TeacherDialog()
 {
+    auto& allTeachers = m_allStudyProcessData->getAllTeachers();
     allTeachers.replace(allTeachers.indexOf(pageOwner),pageOwner);
     delete ui;
 }
 
-void TeacherDialog::showStudentsList(const QVector<Student> &students)
+void TeacherDialog::showStudentsList(const QList<Student> &students)
 {
     ui->students->clear();
     ui->students->setRowCount(0);
     headers = {"Initials","Group","Course"};
     setHeaders(headers,ui->students);
-    if(!students.size()){
+
+    if(!students.size())
+    {
         QTableWidgetItem* itm = new QTableWidgetItem;
         itm->setText("No students");
         ui->students->setRowCount(ui->students->rowCount() + 1);
@@ -86,29 +85,36 @@ void TeacherDialog::on_logout_clicked()
     ui->CntOfVisits->clear();
     ui->courses->clear();
     ui->students->clear();
+
+    auto& allTeachers = m_allStudyProcessData->getAllTeachers();
+
     allTeachers.replace(allTeachers.indexOf(pageOwner),pageOwner);
     emit this->finished(1);
     this->close();
 
 }
-void TeacherDialog::minimiseStudentVect(QVector<Student>& teachers)
+void TeacherDialog::minimiseStudentVect(QList<Student>& students)
 {
-    std::sort(teachers.begin(),teachers.end(),[](Student& first, Student& sec){return first < sec;});
+    std::sort(students.begin(),students.end(),[](Student& first, Student& sec){return first < sec;});
 
-    for(int i = 0; i < teachers.size()-1;++i){
-        while(teachers[i] == teachers[i+1]){
-            teachers.remove(i+1);
-            if(i >= teachers.size()-1) break;
+    for(int i = 0; i < students.size()-1;++i)
+    {
+        while(students[i] == students[i+1])
+        {
+            students.removeAt(i+1);
+            if(i >= students.size()-1) break;
         }
     }
 }
 
 void TeacherDialog::showDisciplinesToChoose()
 {
+    if(ui->scrollAreaWidgetContents->children().size() > 0) return;
+
     QVBoxLayout* layout = new QVBoxLayout(ui->scrollAreaWidgetContents);
     layout->setMargin(0);
     layout->setContentsMargins(1,0,0,1);
-    for(auto& courseDiscipls: allDisciplines){
+    for(auto& courseDiscipls: m_allStudyProcessData->getAllDisciplines()){
         for(auto& discipl: courseDiscipls){
             QCheckBox* courseName = new QCheckBox;
             courseName->setText(discipl.getName());
@@ -118,7 +124,7 @@ void TeacherDialog::showDisciplinesToChoose()
 
             connect(courseName,&QCheckBox::toggled,this,[&](bool checked){
                if(checked){
-                    pageOwner.setDiscipline(discipl);
+                    pageOwner.addDiscipline(discipl);
                     showOwnerDisciplines();
                }
                else{
@@ -126,7 +132,6 @@ void TeacherDialog::showDisciplinesToChoose()
                    showOwnerDisciplines();
                }
             });
-
         }
     }
     ui->scrollAreaWidgetContents->setLayout(layout);
@@ -139,8 +144,10 @@ void TeacherDialog::showOwnerDisciplines()
     auto courses = pageOwner.getDisciplines();
     ui->courses->setRowCount(courses.size());
     int j = 0;
-    for(auto&i:courses){
-        if(!i.isEnabled()){
+    for(auto&i:courses)
+    {
+        if(!i.isEnabled())
+        {
             QTableWidgetItem * courseName = new QTableWidgetItem(i.getName() + "(Uavaliable)");
             QTableWidgetItem * cntOfVisitors = new QTableWidgetItem("000");
             ui->courses->setItem(j,0,courseName);
@@ -149,21 +156,27 @@ void TeacherDialog::showOwnerDisciplines()
         }
         QTableWidgetItem * courseName = new QTableWidgetItem(i.getName());
         QTableWidgetItem * cntOfVisitors = new QTableWidgetItem(QString::number(pageOwner.getCourseVistors(i).size()));
-        ui->courses->setItem(j,0,courseName);
-        ui->courses->setItem(j++,1,cntOfVisitors);
+        ui->courses->setItem(j, 0, courseName);
+        ui->courses->setItem(j++, 1, cntOfVisitors);
     }
 }
 
-void TeacherDialog::on_showStudMode_activated(const QString &showMode)
+void TeacherDialog::commitChanges()
 {
-    QVector<Student> studentsToShow;
+    ui->courseLabel->show();
+    ui->scrollArea->hide();
+}
+
+void TeacherDialog::on_showStudMode_activated(const QString& showMode)
+{
+    QList<Student> studentsToShow;
     if(showMode == "All Students")
     {
-       studentsToShow = allStudents;
+       studentsToShow = m_allStudyProcessData->getAllStudents();
     }
     else if(showMode == "My Students")
     {
-        studentsToShow = pageOwner.getCourseMap().values().toVector();
+        studentsToShow = pageOwner.getCourseMap().values();
         minimiseStudentVect(studentsToShow);
 
     }
@@ -172,18 +185,21 @@ void TeacherDialog::on_showStudMode_activated(const QString &showMode)
 
 void TeacherDialog::on_sortB_clicked()
 {
-    QVector<Student> studentsToSort;
-    if(ui->showStudMode->currentText() == "All Students"){
-        studentsToSort = allStudents;
+    QList<Student> studentsToSort;
+    if(ui->showStudMode->currentText() == "All Students")
+    {
+        studentsToSort = m_allStudyProcessData->getAllStudents();
     }
-    else if(ui->showStudMode->currentText() == "My Students"){
-        studentsToSort = pageOwner.getCourseMap().values().toVector();
+    else if(ui->showStudMode->currentText() == "My Students")
+    {
+        studentsToSort = pageOwner.getCourseMap().values();
+    }
+    std::sort(studentsToSort.begin(), studentsToSort.end(),
+              [](const Student& first,const Student& second)
+                {
+                  return first.lessThan(second);
+                });
 
-    }
-    std::sort(studentsToSort.begin(), studentsToSort.end(),[](const Student& first,
-                                                              const Student& second)
-                                                              {
-                                                                return first.lessThan(second); });
     minimiseStudentVect(studentsToSort);
     showStudentsList(studentsToSort);
 }
@@ -192,7 +208,7 @@ void TeacherDialog::on_courses_itemDoubleClicked(QTableWidgetItem *courseName)
 {
     Discipline course(courseName->text());
     auto studentsToShow = pageOwner.getCourseVistors(course);
-    showStudentsList(studentsToShow.toVector());
+    showStudentsList(studentsToShow);
 }
 
 void TeacherDialog::on_pushButton_clicked()
@@ -204,14 +220,7 @@ void TeacherDialog::on_pushButton_clicked()
 
 void TeacherDialog::on_scrollArea_customContextMenuRequested(const QPoint &pos)
 {
-    QMenu*menu = new QMenu;
-    menu->addAction(tr("Commit changes"), ui->scrollArea, &QScrollArea::hide);
-    menu->exec(cursor().pos());
-}
-
-void TeacherDialog::on_scrollAreaWidgetContents_customContextMenuRequested(const QPoint &pos)
-{
-    QMenu*menu = new QMenu;
-    menu->addAction(tr("Commit changes"), ui->scrollArea, &QScrollArea::hide);
+    QMenu *menu = new QMenu;
+    menu->addAction(tr("Commit changes"), this, [&](){commitChanges();});
     menu->exec(cursor().pos());
 }

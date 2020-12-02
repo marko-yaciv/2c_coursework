@@ -1,8 +1,7 @@
 #include "teacher.h"
 #include "discipline.h"
 #include "student.h"
-extern QMap<short,QString> postNames;
-extern QVector<QVector<Discipline>> allDisciplines;
+
 Teacher::Teacher():Account("None"), Human("None","None","None")
 {
     this->m_post = "None";
@@ -31,6 +30,7 @@ Teacher::~Teacher()
 
 }
 
+//----setters-----
 void Teacher::setInitials(const QString& fname, const QString& lname, const QString& fthname)
 {
     this->m_fName = fname;
@@ -48,9 +48,12 @@ void Teacher::setStage(const int stage)
     this->m_stage = stage;
 }
 
-void Teacher::setCourseVisitors(QMultiMap<Discipline, Student> map)
+void Teacher::addDiscipline(const Discipline& discipline)
 {
-    this->m_courseVisitors = map;
+    if(!m_courses.contains(discipline)){
+        m_courses.append(discipline);
+        ++m_populatity;
+    }
 }
 
 void Teacher::addCourseTarget(const Discipline discipline,const Student stud)
@@ -61,22 +64,7 @@ void Teacher::addCourseTarget(const Discipline discipline,const Student stud)
         }
 }
 
-void Teacher::removeStudent(const Discipline& discipline,const Student& stud)
-{
-    if(m_courseVisitors.contains(discipline,stud)){
-        m_courseVisitors.remove(discipline,stud);
-       --m_populatity;
-    }
-}
 
-
-void Teacher::setDiscipline(const Discipline& discipline)
-{
-    if(!m_courses.contains(discipline)){
-        m_courses.append(discipline);
-        ++m_populatity;
-    }
-}
 
 void Teacher::removeDiscipline(const Discipline &discipline)
 {
@@ -84,24 +72,19 @@ void Teacher::removeDiscipline(const Discipline &discipline)
         --m_populatity;
 }
 
-bool Teacher::hasDiscipline(const Discipline &discipl) const
+void Teacher::removeCourseTarget(const Discipline& discipline,const Student& stud)
 {
-    return m_courses.contains(discipl);
+    if(m_courseVisitors.contains(discipline,stud)){
+        m_courseVisitors.remove(discipline,stud);
+       --m_populatity;
+    }
 }
 
-const QString &Teacher::getPost() const
-{
-    return m_post;
-}
+//-----getters-----
 
-int Teacher::getStage() const
+const QList<Student> Teacher::getCourseVistors(const Discipline &dis) const
 {
-    return m_stage;
-}
-
-int Teacher::getPopularity() const
-{
-    return m_populatity;
+    return m_courseVisitors.values(dis);
 }
 
 const QMultiMap<Discipline, Student>& Teacher::getCourseMap() const
@@ -114,34 +97,30 @@ const QList<Discipline> &Teacher::getDisciplines() const
     return m_courses;
 }
 
-const QList<Student> Teacher::getCourseVistors(const Discipline &dis) const
+const QString &Teacher::getPost() const
 {
-    return m_courseVisitors.values(dis);
+    return m_post;
 }
 
-bool Teacher::operator==(const Teacher &other) const
+int Teacher::getPopularity() const
 {
-    return (this->getFname() == other.getFname()) &&
-            (this->getLname() == other.getLname()) &&
-            (this->getFthName() == other.getFthName()) &&
-            (this->getPasword() == other.getPasword());
-    //return this->getId() == other.getId();
+    return m_populatity;
 }
 
-bool Teacher::operator!=(const Teacher &other) const
+int Teacher::getStage() const
 {
-    return !(*this == other);
+    return m_stage;
 }
 
-bool Teacher::operator>(const Teacher &other) const
+
+
+bool Teacher::hasDiscipline(const Discipline &discipl) const
 {
-    return postNames.key(m_post) > postNames.key(other.m_post);
+    return m_courses.contains(discipl);
 }
 
-bool Teacher::operator<(const Teacher &other) const
-{
-    return m_lName < other.m_lName;
-}
+
+//----wrire & read functions---
 
 void Teacher::write(QJsonObject &json) const
 {
@@ -161,7 +140,7 @@ void Teacher::write(QJsonObject &json) const
 
 }
 
-void Teacher::read(const QJsonObject &json)
+void Teacher::read(const QJsonObject &json, const QVector<QVector<Discipline>>& allDisciplines)
 {
     if(json.contains("fname") && json["fname"].isString())
         m_fName = json["fname"].toString();
@@ -189,17 +168,53 @@ void Teacher::read(const QJsonObject &json)
 
     if(json.contains("courses") && json["courses"].isArray()){
         QJsonArray courses = json["courses"].toArray();
-        for(const auto &i : courses){
-           Discipline dis(i.toString());
-            for(auto &j : allDisciplines){
-                for(auto &discipline : j){
-                    if(discipline.getName() == i.toString()){
-                        m_courses.append(discipline);
-                    }
-                }
-            }
-        }
-
+        fetchDisciplines(courses,allDisciplines);
     }
 }
 
+
+void Teacher::fetchDisciplines(const QJsonArray &courses, const QVector<QVector<Discipline>>& allDisciplines)
+{
+    for(const auto &i : courses){
+        for(auto &j : allDisciplines){
+            for(auto &discipline : j){
+                if(discipline.getName() == i.toString()){
+                    m_courses.append(discipline);
+                    if(m_courses.size() == courses.size()) return;
+                }
+            }
+        }
+    }
+}
+
+
+//----overloaded operators--
+
+bool Teacher::compareByPost(const Teacher &other, const QMap<short,QString>& postNames) const
+{
+   return postNames.key(m_post) > postNames.key(other.m_post);
+}
+
+bool Teacher::operator==(const Teacher &other) const
+{
+    return (this->getFname() == other.getFname()) &&
+            (this->getLname() == other.getLname()) &&
+            (this->getFthName() == other.getFthName()) &&
+            (this->getPasword() == other.getPasword());
+
+}
+
+bool Teacher::operator!=(const Teacher &other) const
+{
+    return !(*this == other);
+}
+
+bool Teacher::operator>(const Teacher &other) const
+{
+    return m_lName > other.m_lName;
+}
+
+bool Teacher::operator<(const Teacher &other) const
+{
+    return m_lName < other.m_lName;
+}

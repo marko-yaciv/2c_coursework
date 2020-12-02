@@ -5,23 +5,27 @@
 #include <QMessageBox>
 #include <QDir>
 
-extern const int COURSES = 4;
-extern QList<QString> groups;
-
-extern QVector<Student> allStudents;
-extern QVector<Teacher> allTeachers;
-extern QVector<QVector<Discipline>> allDisciplines;
-
-extern StudyProcessData allStudyProcessData;
-
 int main(int argc, char *argv[])
 {
-    allDisciplines.resize(COURSES);
-
-    auto dir = QDir::currentPath();
-
     QApplication a(argc, argv);
     a.setWindowIcon(QIcon(":/images/img/graduation-hat.png"));
+
+
+    auto allStudyProcessData = StudyProcessData::getInstance();
+
+    auto& allTeachers = allStudyProcessData->getAllTeachers();
+    auto& allStudents = allStudyProcessData->getAllStudents();
+    auto& allDisciplines = allStudyProcessData->getAllDisciplines();
+    auto& groups = allStudyProcessData->getGroups();
+
+    QMap<short, QString>postNames({std::pair<short,QString>(0,"labAssist"),
+                                      std::pair<short,QString>(1,"teacher"),
+                                      std::pair<short,QString>(2,"seniorTeacher"),
+                                      std::pair<short,QString>(3,"docent"),
+                                      std::pair<short,QString>(4,"professor")});
+    auto dir = QDir::currentPath();
+
+    allStudyProcessData->setPostNames(postNames);
     FlParser dataReader;
     try {
 
@@ -41,10 +45,10 @@ int main(int argc, char *argv[])
         dataReader.readDisciplines(allDisciplines[3]);
 
         dataReader.changeFilename(dir + STUDENTS_FILE);
-        dataReader.readStudents(allStudents);
+        dataReader.readStudents(allStudents, allStudyProcessData);
 
         dataReader.changeFilename(dir + TEACHERS_FILE);
-        dataReader.readTeachers(allTeachers);
+        dataReader.readTeachers(allTeachers, allStudyProcessData);
 
         dataReader.changeFilename(dir + STUD_STUDY_PROCESS_FILE);
         dataReader.readStudentStudyProcessData(allStudyProcessData);
@@ -56,7 +60,7 @@ int main(int argc, char *argv[])
            QMessageBox::critical(nullptr,"Fatal",msg.what());
            return -1;
     }
-    LearnSystem w;
+    LearnSystem w(nullptr);
     w.setWindowIcon(QIcon(":/images/img/graduation-hat.png"));
     w.show();
     return a.exec();

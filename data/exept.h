@@ -8,6 +8,7 @@ class Except: public std::exception
 public:
     Except(const QString& msg);
     ~Except();
+
     const char* what() const noexcept override;
 };
 

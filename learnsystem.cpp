@@ -1,20 +1,10 @@
 #include "learnsystem.h"
 #include "ui_learnsystem.h"
 
-const int COURSES = 4;
-QList<QString> groups;
-
-QVector<Student> allStudents;
-QVector<Teacher> allTeachers;
-QVector<QVector<Discipline>> allDisciplines;
-
-QMap<short,QString> postNames;
-
-StudyProcessData allStudyProcessData;
-
 LearnSystem::LearnSystem(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::LearnSystem)
+    : QMainWindow(parent),
+      m_allStudyProcessData(StudyProcessData::getInstance()),
+      ui(new Ui::LearnSystem)
 {
     ui->setupUi(this);
 
@@ -22,7 +12,7 @@ LearnSystem::LearnSystem(QWidget *parent)
     ui->studGroup->hide();
     ui->enterB->hide();
     ui->backToRegister->hide();
-    ui->group->addItems(groups);
+    ui->group->addItems(m_allStudyProcessData->getGroups());
     ui->password->setEchoMode(QLineEdit::EchoMode::Password);
     ui->inLabel->setText("Sign Up");
     auto name_validator = new QRegExpValidator(QRegExp("[А-і-І-ї-я]{1,40}")) ;
@@ -32,22 +22,22 @@ LearnSystem::LearnSystem(QWidget *parent)
 
     showDisciplinesToChoose();
 
-    postNames = decltype (postNames)({std::pair<short,QString>(0,"labAssist"),
-                                      std::pair<short,QString>(1,"teacher"),
-                                      std::pair<short,QString>(2,"seniorTeacher"),
-                                      std::pair<short,QString>(3,"docent"),
-                                      std::pair<short,QString>(4,"professor")});
-    ui->post->addItems(postNames.values());
+
+    ui->post->addItems(m_allStudyProcessData->getPostNames().values());
 
 }
 LearnSystem::~LearnSystem()
 {
+    m_allStudyProcessData = StudyProcessData::getInstance();
+    auto& allDisciplines = m_allStudyProcessData->getAllDisciplines();
+    auto& allStudents = m_allStudyProcessData->getAllStudents();
+    auto& allTeachers = m_allStudyProcessData->getAllTeachers();
 
-    for(auto& j : allTeachers){
-        allStudyProcessData.updateMapForTeacher(j,j.getCourseMap());
+    for(auto& teacher : allTeachers){
+        m_allStudyProcessData->updateMapForTeacher(teacher,teacher.getCourseMap());
     }
-    for(auto& i : allStudents){
-        allStudyProcessData.updateMapForStudent(i,i.getStudyMap());
+    for(auto& student : allStudents){
+        m_allStudyProcessData->updateMapForStudent(student,student.getStudyMap());
     }
 
     auto dir = QDir::currentPath();
@@ -72,33 +62,36 @@ LearnSystem::~LearnSystem()
         dataSaver.writeTeachers(allTeachers);
 
         dataSaver.changeFilename(dir + STUD_STUDY_PROCESS_FILE);
-        dataSaver.writeStudentStudyProcessData(allStudyProcessData);
+        dataSaver.writeStudentStudyProcessData(m_allStudyProcessData);
 
         dataSaver.changeFilename(dir + TEACHER_STUDY_PROCESS_FILE);
-        dataSaver.writeTeacherStudyProcessData(allStudyProcessData);
+        dataSaver.writeTeacherStudyProcessData(m_allStudyProcessData);
 
     }  catch (Except& msg) {
         delete ui;
         QMessageBox::critical(nullptr,"Fatal",msg.what());
+        return;
     }
+    delete StudyProcessData::getInstance();
+    delete ui;
 }
 
 void LearnSystem::showDisciplinesToChoose()
 {
-    teacherCoursesWidg.clear();
+    m_teacherCoursesWidg.clear();
     qDeleteAll(ui->scrollAreaWidgetContents->children());
 
     QVBoxLayout* layout = new QVBoxLayout(ui->scrollAreaWidgetContents);
     layout->setMargin(0);
     layout->setContentsMargins(1,0,0,1);
-    for(auto& courseDiscipls: allDisciplines){
+    for(auto& courseDiscipls: m_allStudyProcessData->getAllDisciplines()){
         for(auto& discipl: courseDiscipls){
             QCheckBox* courseName = new QCheckBox;
             courseName->setText(discipl.getName());
             layout->addWidget(courseName);
             layout->update();
 
-            teacherCoursesWidg.append(courseName);
+            m_teacherCoursesWidg.append(courseName);
 
             connect(courseName,&QCheckBox::toggled,this,[&](bool checked){
                if(checked)
@@ -114,33 +107,38 @@ void LearnSystem::showDisciplinesToChoose()
 
 void LearnSystem::updateStudentsWithDiscipline(const int course)
 {
-    for(auto&i:allStudents){
-        if(i.getCourse() == course){
-            for(auto &j: allDisciplines[course-1]){
+    for(auto&i : m_allStudyProcessData->getAllStudents())
+    {
+        if(i.getCourse() == course)
+        {
+            for(auto &j: m_allStudyProcessData->getAllDisciplines()[course-1])
+            {
                 i.addDiscipline(j);
             }
         }
     }
 }
 
-void LearnSystem::makeNewMemberParticular(Student & membToCheck)
+void LearnSystem::makeNewMemberParticular(Student& membToCheck)
 {
-    for(auto student = allStudents.begin(); student != allStudents.end();){
-        if(student->getId() == membToCheck.getId()){
+    for(auto student = m_allStudyProcessData->getAllStudents().begin();
+             student != m_allStudyProcessData->getAllStudents().end();)
+    {
+        if(student->getId() == membToCheck.getId())
             membToCheck.setId(QRandomGenerator::global()->bounded(1001,8988));
-        }else{
+        else
             ++student;
-        }
     }
 }
 void LearnSystem::makeNewMemberParticular(Teacher & membToCheck)
 {
-    for(auto teacher = allTeachers.begin(); teacher!= allTeachers.end();){
-        if(teacher->getId() == membToCheck.getId()){
+    for(auto teacher = m_allStudyProcessData->getAllTeachers().begin();
+             teacher!= m_allStudyProcessData->getAllTeachers().end();)
+    {
+        if(teacher->getId() == membToCheck.getId())
             membToCheck.setId(QRandomGenerator::global()->bounded(1001,8988));
-        }else{
+        else
             ++teacher;
-        }
     }
 }
 
@@ -150,10 +148,10 @@ void LearnSystem::clearItems(){
     ui->FthName->clear();
     ui->password->clear();
     ui->stand->clear();
-    for(auto&i: teacherCoursesWidg){
+    for(auto&i: m_teacherCoursesWidg){
         i->setChecked(false);
     }
-    registrDiscipls.clear();
+    m_registrDiscipls.clear();
 }
 
 void LearnSystem::validateNamesForEnter()
@@ -180,12 +178,12 @@ void LearnSystem::validateDataForSignUp()
 
 void LearnSystem::addCourseToTeacher(const Discipline &course)
 {
-    registrDiscipls.append(course);
+    m_registrDiscipls.append(course);
 }
 
 void LearnSystem::removeCourseFromTeacher(const Discipline& course)
 {
-    registrDiscipls.removeOne(course);
+    m_registrDiscipls.removeOne(course);
 }
 
 void LearnSystem::on_iamstud_clicked()
@@ -230,6 +228,9 @@ void LearnSystem::on_signUpB_clicked()
         return;
     }
 
+    auto& allStudents = m_allStudyProcessData->getAllStudents();
+    auto& allTeachers = m_allStudyProcessData->getAllTeachers();
+
     if(ui->iamstud->isChecked()){
         Student newStudent(ui->Fname->text(),
                            ui->Lname->text(),
@@ -248,10 +249,10 @@ void LearnSystem::on_signUpB_clicked()
         allStudents.append(newStudent);
 
 //------------Shows student's window---------------------------------
-        studDialog = new StudentDialog(nullptr,allStudents.last());
-        connect(studDialog,&StudentDialog::finished,this,&QMainWindow::show);
+        m_studDialog = new StudentDialog(nullptr,allStudents.last());
+        connect(m_studDialog,&StudentDialog::finished,this,&QMainWindow::show);
         clearItems();
-        studDialog->open();
+        m_studDialog->open();
 
     }else if(ui->iamteach->isChecked()){
         Teacher newTeacher(ui->Fname->text(),
@@ -260,12 +261,12 @@ void LearnSystem::on_signUpB_clicked()
                            ui->post->currentText(),
                            ui->stand->text().toInt(),
                            ui->password->text());
-        if(registrDiscipls.isEmpty()){
+        if(m_registrDiscipls.isEmpty()){
             QMessageBox::warning(this,"Failed to Create","Plese choose disciplines");
             return;
         }
-        for(auto &i : registrDiscipls){
-            newTeacher.setDiscipline(i);
+        for(auto &i : m_registrDiscipls){
+            newTeacher.addDiscipline(i);
         }
         if(std::find(allTeachers.begin(),allTeachers.end(),newTeacher) != allTeachers.end()){
             QMessageBox::warning(this,"Failed to Create",
@@ -278,13 +279,13 @@ void LearnSystem::on_signUpB_clicked()
         allTeachers.append(newTeacher);
 
 //--------------------shows teacher's window--------------------------
-        teachDialog = new TeacherDialog(nullptr,allTeachers.last());
-        connect(teachDialog,&TeacherDialog::finished,this,&QMainWindow::show);
+        m_teachDialog = new TeacherDialog(nullptr,allTeachers.last());
+        connect(m_teachDialog,&TeacherDialog::finished,this,&QMainWindow::show);
         clearItems();
-        teachDialog->open();
+        m_teachDialog->open();
     }
     else{
-        QMessageBox::warning(this, "Registration failed", tr("Please, choose, who you are (teacher or student)")+
+        QMessageBox::warning(this, "Registration failed", tr("Please, choose, who you are (teacher or student) ")+
                                                     tr("And try again"));
         return;
     }
@@ -300,6 +301,9 @@ void LearnSystem::on_enterB_clicked()
         return;
     }
 
+    auto& allStudents = m_allStudyProcessData->getAllStudents();
+    auto& allTeachers = m_allStudyProcessData->getAllTeachers();
+
     if(ui->iamstud->isChecked()){
         Student studToEnter(ui->Fname->text(),
                             ui->Lname->text(),
@@ -309,11 +313,11 @@ void LearnSystem::on_enterB_clicked()
         auto studInList = std::find(allStudents.begin(),allStudents.end(),studToEnter);
 
         if(studInList != allStudents.end()){
-            studDialog = new StudentDialog(nullptr,*studInList);
+            m_studDialog = new StudentDialog(nullptr,*studInList);
 
-            connect(studDialog,&StudentDialog::finished,this,&QMainWindow::show);
+            connect(m_studDialog,&StudentDialog::finished,this,&QMainWindow::show);
             clearItems();
-            studDialog->open();
+            m_studDialog->open();
         }else{
             QMessageBox::warning(this,"Entering failed",
                                  "The student with entered initials doesn't exist,"
@@ -330,10 +334,10 @@ void LearnSystem::on_enterB_clicked()
         auto teachInList = std::find(allTeachers.begin(),allTeachers.end(),TeachToEnter);
 
         if(teachInList != allTeachers.end()){
-            teachDialog = new TeacherDialog(nullptr,*teachInList);
-            connect(teachDialog,&TeacherDialog::finished,this,&QMainWindow::show);
+            m_teachDialog = new TeacherDialog(nullptr,*teachInList);
+            connect(m_teachDialog,&TeacherDialog::finished,this,&QMainWindow::show);
             clearItems();
-            teachDialog->open();
+            m_teachDialog->open();
         }else{
             QMessageBox::warning(this,"Entering failed",
                                  "The teacher with entered initials doesn't exist,"
@@ -368,19 +372,19 @@ void LearnSystem::on_backToRegister_clicked()
     ui->logInWidget->show();
     ui->logInB->setEnabled(true);
     ui->backToRegister->hide();
-    ui->inLabel->setText("Gign Up");
+    ui->inLabel->setText("Sign Up");
 }
 
 void LearnSystem::on_actionShow_All_Teachers_triggered()
 {
-    membersWidget = new AllMembers(nullptr, allTeachers);
-    membersWidget->show();
+    m_membersWidget = new AllMembers(nullptr, m_allStudyProcessData->getAllTeachers());
+    m_membersWidget->show();
 }
 
 void LearnSystem::on_actionShow_All_Students_triggered()
 {
-    membersWidget = new AllMembers(nullptr, allStudents);
-    membersWidget->show();
+    m_membersWidget = new AllMembers(nullptr, m_allStudyProcessData->getAllStudents());
+    m_membersWidget->show();
 }
 
 void LearnSystem::on_showPassword_pressed()
@@ -395,8 +399,8 @@ void LearnSystem::on_showPassword_released()
 
 void LearnSystem::on_actionDiscipline_triggered()
 {
-    createDisciplDialog = new NewDiscipline(this,&allDisciplines);
-    connect(createDisciplDialog,&NewDiscipline::finished,this,[&](){showDisciplinesToChoose();
-                                                                    updateStudentsWithDiscipline(createDisciplDialog->getNewDisciplineCourse());});
-    createDisciplDialog->open();
+    m_createDisciplDialog = new NewDiscipline(this,m_allStudyProcessData->getAllDisciplines());
+    connect(m_createDisciplDialog,&NewDiscipline::finished,this,[&](){showDisciplinesToChoose();
+                                                                    updateStudentsWithDiscipline(m_createDisciplDialog->getNewDisciplineCourse());});
+    m_createDisciplDialog->open();
 }

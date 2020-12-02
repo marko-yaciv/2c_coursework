@@ -14,13 +14,12 @@ class NewDiscipline;
 class NewDiscipline : public QDialog
 {
     Q_OBJECT
-    QVector<QVector<Discipline>>* discipls;
+    QVector<QVector<Discipline>>& discipls;
     Discipline newDiscipline;
     QList<QString> days;
     int disciplineCourse;
 public:
-    explicit NewDiscipline(QWidget *parent = nullptr);
-    NewDiscipline(QWidget *parent, QVector<QVector<Discipline>>* allDiscipines);
+    explicit NewDiscipline(QWidget *parent, QVector<QVector<Discipline>>& allDiscipines);
     ~NewDiscipline();
 
     void fillDays();

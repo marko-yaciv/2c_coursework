@@ -1,14 +1,7 @@
 #include "newdiscipline.h"
 #include "ui_newdiscipline.h"
 
-NewDiscipline::NewDiscipline(QWidget *parent ) :
-    QDialog(parent),
-    ui(new Ui::NewDiscipline)
-{
-    ui->setupUi(this);
-}
-
-NewDiscipline::NewDiscipline(QWidget *parent, QVector<QVector<Discipline>>* allDiscipines):
+NewDiscipline::NewDiscipline(QWidget *parent, QVector<QVector<Discipline>>& allDiscipines):
     QDialog(parent),
     discipls(allDiscipines),
     ui(new Ui::NewDiscipline)
@@ -67,7 +60,7 @@ void NewDiscipline::checkInputValidity(QString& name, int course, QDate start, Q
 
 void NewDiscipline::checkDisciplPresence()
 {
-    for(auto& i : *discipls){
+    for(auto& i : discipls){
         if(i.contains(newDiscipline)){
             throw Except("That discipline already excists");
         }
@@ -98,7 +91,7 @@ void NewDiscipline::on_pushButton_clicked()
     newDiscipline.rename(name);
     newDiscipline.setConductRange(start,finish);
 
-    (*discipls)[course - 1].append(newDiscipline);
+    discipls[course - 1].append(newDiscipline);
 
     emit this->finished(1);
     this->close();

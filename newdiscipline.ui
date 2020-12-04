@@ -194,7 +194,7 @@ font: 11pt &quot;Montserrat&quot;;
 }</string>
          </property>
          <property name="text">
-          <string>Semester</string>
+          <string>Term</string>
          </property>
         </widget>
        </item>

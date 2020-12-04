@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>458</width>
-    <height>387</height>
+    <height>393</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -56,7 +56,7 @@ background: qlineargradient(spread:pad, x1:1, y1:0.153, x2:1, y2:1, stop:0.02884
     </widget>
    </item>
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,1,1,0">
+    <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,1,0,0">
      <property name="spacing">
       <number>6</number>
      </property>
@@ -72,8 +72,18 @@ background: qlineargradient(spread:pad, x1:1, y1:0.153, x2:1, y2:1, stop:0.02884
         <widget class="QLabel" name="label_2">
          <property name="font">
           <font>
-           <pointsize>10</pointsize>
+           <family>Montserrat</family>
+           <pointsize>11</pointsize>
+           <weight>50</weight>
+           <italic>false</italic>
+           <bold>false</bold>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QLabel{
+color: #fff;
+font: 11pt &quot;Montserrat&quot;;
+}</string>
          </property>
          <property name="text">
           <string>Name</string>
@@ -106,6 +116,9 @@ border-radius: 5px;
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="2,3">
+       <property name="spacing">
+        <number>100</number>
+       </property>
        <property name="leftMargin">
         <number>0</number>
        </property>
@@ -116,8 +129,18 @@ border-radius: 5px;
         <widget class="QLabel" name="label_6">
          <property name="font">
           <font>
-           <pointsize>10</pointsize>
+           <family>Montserrat</family>
+           <pointsize>11</pointsize>
+           <weight>50</weight>
+           <italic>false</italic>
+           <bold>false</bold>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QLabel{
+color: #fff;
+font: 11pt &quot;Montserrat&quot;;
+}</string>
          </property>
          <property name="text">
           <string>Course</string>
@@ -152,109 +175,47 @@ border-radius: 3px;
       </layout>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout">
+      <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="2,3">
        <property name="spacing">
-        <number>3</number>
+        <number>100</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
        </property>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="2,3">
-         <item>
-          <widget class="QLabel" name="label_3">
-           <property name="font">
-            <font>
-             <pointsize>10</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Start Date</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QDateEdit" name="beginDate">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="font">
-            <font>
-             <family>Montserrat</family>
-             <pointsize>11</pointsize>
-             <weight>50</weight>
-             <italic>false</italic>
-             <bold>false</bold>
-            </font>
-           </property>
-           <property name="cursor">
-            <cursorShape>IBeamCursor</cursorShape>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QDateEdit{
+        <widget class="QLabel" name="label_3">
+         <property name="styleSheet">
+          <string notr="true">QLabel{
 color: #fff;
 font: 11pt &quot;Montserrat&quot;;
-background: rgb(77, 106, 153);
-border: 1px solid rgba(72, 16, 16, 0.86);
-border-radius: 3px;
 }</string>
-           </property>
-           <property name="displayFormat">
-            <string>dd.MM</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
+         </property>
+         <property name="text">
+          <string>Semester</string>
+         </property>
+        </widget>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="2,3">
-         <item>
-          <widget class="QLabel" name="label_4">
-           <property name="font">
-            <font>
-             <pointsize>10</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>End Date</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QDateEdit" name="endDate">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="font">
-            <font>
-             <family>Montserrat</family>
-             <pointsize>11</pointsize>
-             <weight>50</weight>
-             <italic>false</italic>
-             <bold>false</bold>
-            </font>
-           </property>
-           <property name="cursor">
-            <cursorShape>IBeamCursor</cursorShape>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QDateEdit{
+        <widget class="QSpinBox" name="spinBox">
+         <property name="styleSheet">
+          <string notr="true">QSpinBox{
 color: #fff;
 font: 11pt &quot;Montserrat&quot;;
 background: rgb(77, 106, 153);
 border: 1px solid rgba(72, 16, 16, 0.86);
 border-radius: 3px;
 }</string>
-           </property>
-           <property name="displayFormat">
-            <string>dd.MM</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
+         </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>2</number>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
@@ -270,8 +231,18 @@ border-radius: 3px;
         <widget class="QLabel" name="label_5">
          <property name="font">
           <font>
-           <pointsize>10</pointsize>
+           <family>Montserrat</family>
+           <pointsize>11</pointsize>
+           <weight>50</weight>
+           <italic>false</italic>
+           <bold>false</bold>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QLabel{
+color: #fff;
+font: 11pt &quot;Montserrat&quot;;
+}</string>
          </property>
          <property name="text">
           <string>Conduct Days</string>
@@ -298,7 +269,7 @@ border-radius: 3px;
             <x>0</x>
             <y>0</y>
             <width>201</width>
-            <height>77</height>
+            <height>83</height>
            </rect>
           </property>
           <property name="cursor">

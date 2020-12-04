@@ -27,12 +27,10 @@ class StudyProcessData
   static StudyProcessData* allData;
   static const int COURSES;
 
+private:
   StudyProcessData();
   StudyProcessData(const StudyProcessData&);
   StudyProcessData& operator=(StudyProcessData&);
-
-
-private:
   void fetchTeachersWithDisciplines(Student& studentItr, QJsonObject& ownerMap);
   void fetchStudentsWithDisciplines(Teacher& studentItr, QJsonObject& ownerMap);
 

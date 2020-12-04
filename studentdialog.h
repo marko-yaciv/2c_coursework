@@ -45,11 +45,13 @@ public:
     void on_discipl_contxtMenuRequested(const Discipline& discipl);
 
     void addTeachersToTable(const QList<Teacher>& teachers);
-    void minimiseTeachesVect(QList<Teacher>& teachers);
+    void minimiseTeachersVect(QList<Teacher>& teachers);
 
     void setHeaders(const QList<QString>& name, QTableWidget* table);
 
     void findFreeTeachers(QList<Teacher>& teachers, const QDate& selectedDate);
+
+    QList<Teacher>::iterator findTeacherForTarget(const QTableWidgetItem*);
 
     QMetaObject::Connection add_target_connection;
     QMetaObject::Connection change_target_connection;

@@ -33,7 +33,7 @@ public:
 
     QString getName() const;
     const QList<QString>& getCourseDays() const;
-    const QPair<QDate,QDate>& getTeachRange() const;
+    const QPair<QDate,QDate>& getConductRange() const;
 
     void write(QJsonObject& json)const;
     void read(const QJsonObject& json);

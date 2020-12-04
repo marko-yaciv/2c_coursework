@@ -7,10 +7,6 @@ NewDiscipline::NewDiscipline(QWidget *parent, QVector<QVector<Discipline>>& allD
     ui(new Ui::NewDiscipline)
 {
      ui->setupUi(this);
-    ui->beginDate->setDate(QDate::currentDate());
-    ui->endDate->setDate(QDate::currentDate());
-    ui->beginDate->setDisplayFormat("dd.MM");
-    ui->endDate->setDisplayFormat("dd.MM");
 
     days = {"Пн","Вт","Ср","Чт","Пт"};
     fillDays();
@@ -47,14 +43,10 @@ void NewDiscipline::fillDays()
 
 }
 
-void NewDiscipline::checkInputValidity(QString& name, int course, QDate start, QDate finish)
+void NewDiscipline::checkInputValidity(QString& name, int course)
 {
     if(name.size() == 0 || course == 0){
         throw Except("Incorrect name or course of discipline");
-    }
-    if(start.month() > finish.month()){
-        throw Except(tr("The month of start teaching") +
-                     tr("should be smaller that moth of finish"));
     }
 }
 
@@ -75,14 +67,25 @@ int NewDiscipline::getNewDisciplineCourse()
 void NewDiscipline::on_pushButton_clicked()
 {
     auto name = ui->name->text();
-    QDate start = ui->beginDate->date();
-    QDate finish = ui->endDate->date();
     int course = ui->course->value();
+
+    QDate start;
+    QDate finish;
+    if(ui->spinBox->value()==1)
+    {
+        start = QDate(QDate::currentDate().year(),9,1);
+        finish = QDate(QDate::currentDate().year(),12,30);
+    }
+    else
+    {
+        start = QDate(QDate::currentDate().year(),2,1);
+        finish = QDate(QDate::currentDate().year(),5,30);
+    }
 
 
     try {
         checkDisciplPresence();
-        checkInputValidity(name,course, start, finish);
+        checkInputValidity(name,course);
     }  catch (Except& ex) {
         QMessageBox::warning(this,"Creation failed",ex.what());
         return;

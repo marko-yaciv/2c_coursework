@@ -57,7 +57,7 @@ QString Discipline::getName() const
     return this->m_name;
 }
 
-const QPair<QDate, QDate> &Discipline::getTeachRange() const
+const QPair<QDate, QDate> &Discipline::getConductRange() const
 {
     return m_range;
 }

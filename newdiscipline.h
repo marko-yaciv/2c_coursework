@@ -23,7 +23,7 @@ public:
     ~NewDiscipline();
 
     void fillDays();
-    void checkInputValidity(QString& name, int course, QDate start, QDate finish);
+    void checkInputValidity(QString& name, int course);
     void checkDisciplPresence();
 
     int getNewDisciplineCourse();

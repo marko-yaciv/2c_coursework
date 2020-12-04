@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.13.2, 2020-12-02T00:43:05. -->
+<!-- Written by QtCreator 4.13.2, 2020-12-04T04:06:15. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -325,7 +325,6 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">learn-system2</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:D:/Programing/QtProjects/2course/kursova/learn-system/learn-system.pro</value>
     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">D:/Programing/QtProjects/2course/kursova/learn-system/learn-system.pro</value>
     <value type="QString" key="RunConfiguration.Arguments"></value>

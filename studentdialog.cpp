@@ -142,7 +142,7 @@ void StudentDialog::findFreeTeachers(QList<Teacher> &freeTeachers, const QDate& 
 
         for(auto& course:courses)
         {
-            teachRange = course.getTeachRange();
+            teachRange = course.getConductRange();
 
             for(auto& day : course.getCourseDays())
             {
@@ -173,6 +173,7 @@ void StudentDialog::findFreeTeachers(QList<Teacher> &freeTeachers, const QDate& 
     }
 
 }
+
 
 void StudentDialog::on_discipl_contxtMenuRequested(const Discipline &discipl)
 {
@@ -218,7 +219,7 @@ void StudentDialog::addTeachersToTable(const QList<Teacher> &teachers)
     }
 }
 
-void StudentDialog::minimiseTeachesVect(QList<Teacher> &teachers)
+void StudentDialog::minimiseTeachersVect(QList<Teacher> &teachers)
 {
     std::sort(teachers.begin(),teachers.end(),[](Teacher& first, Teacher& sec){return first < sec;});
 
@@ -365,12 +366,8 @@ void StudentDialog::showTeacherUnderDiscipline(const Teacher teachItm, QWidget *
     teacherInfo->show();
 }
 
-void StudentDialog::addTeacherToTarget(const QTableWidgetItem* itm, const Discipline discipl, QWidget* where)
+QList<Teacher>::iterator StudentDialog::findTeacherForTarget(const QTableWidgetItem * itm)
 {
-    //finding correct teacher
-    disconnect(add_target_connection);
-    disconnect(change_target_connection);
-
     auto& allTeachers = m_allStudyProcessData->getAllTeachers();
 
     auto inits = itm->text().simplified().split(' ');
@@ -380,23 +377,26 @@ void StudentDialog::addTeacherToTarget(const QTableWidgetItem* itm, const Discip
                                                                                      teach.getLname() == teacherToFind.getLname() &&
                                                                                    teach.getFthName() == teacherToFind.getFthName();
                                                                               });
-
     if(teacherToChange == allTeachers.end()){
-        QMessageBox::information(this,"Fail","Canot find teacher.\n Maybe you clicked not on teacher's name))");
-        return;
+        throw Except("Canot find teacher.\n Maybe you clicked not on teacher's name))");
     }
+    return teacherToChange;
+}
 
+void StudentDialog::addTeacherToTarget(const QTableWidgetItem* itm, const Discipline discipl, QWidget* where)
+{
+    disconnect(add_target_connection);
+    disconnect(change_target_connection);
 
-    //changing data
-    teacherToChange->addCourseTarget(discipl,m_pageOwner);
-    showTeacherUnderDiscipline(*teacherToChange,where);
     try {
+        auto teacherToChange = findTeacherForTarget(itm);
+        teacherToChange->addCourseTarget(discipl,m_pageOwner);
+        showTeacherUnderDiscipline(*teacherToChange,where);
         m_pageOwner.addStudyTarget(discipl,*teacherToChange);
     }  catch (Except& ex) {
-        QMessageBox::information(this,"Attach failed", ex.what());
+        QMessageBox::information(this,"Fail",ex.what());
         return;
     }
-
 }
 
 void StudentDialog::on_logout_clicked()
@@ -436,7 +436,7 @@ void StudentDialog::on_sortB_clicked()
         for(auto i = begin; i != end; ++i)
             teachersToSort.append(i.value());
 
-        minimiseTeachesVect(teachersToSort);
+        minimiseTeachersVect(teachersToSort);
 
         if(ui->sortByName->isChecked())
         {
@@ -527,7 +527,7 @@ void StudentDialog::on_showTeachMode_activated(const QString &arg)
         {
             teachersToPrint.append(i.value());
         }
-        minimiseTeachesVect(teachersToPrint);
+        minimiseTeachersVect(teachersToPrint);
     }
     else if(arg == "Teachers with 1 course"){
         for(const auto &j : allTeachers){

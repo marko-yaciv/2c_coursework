@@ -15,7 +15,7 @@
 
 class FlParser
 {
-    QString filename;
+
     QFile file;
 public:
     FlParser();

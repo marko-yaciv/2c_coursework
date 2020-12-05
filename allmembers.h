@@ -8,7 +8,8 @@
 namespace Ui {
 class allMembers;
 }
-
+/*This class created for opening widget to
+view all members that have been registered*/
 class AllMembers : public QWidget
 {
     Q_OBJECT

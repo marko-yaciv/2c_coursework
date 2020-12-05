@@ -2,6 +2,9 @@
 #define ACCOUNT_H
 #include <QString>
 
+
+/*This class represents accouni in system.
+As every account is has it's ID and Password*/
 class Account
 {
 protected:

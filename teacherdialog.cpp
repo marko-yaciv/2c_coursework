@@ -144,18 +144,18 @@ void TeacherDialog::showOwnerDisciplines()
     auto courses = pageOwner.getDisciplines();
     ui->courses->setRowCount(courses.size());
     int j = 0;
-    for(auto&i:courses)
+    for(auto& discipline : courses)
     {
-        if(!i.isEnabled())
+        if(!discipline.isEnabled())
         {
-            QTableWidgetItem * courseName = new QTableWidgetItem(i.getName() + "(Uavaliable)");
+            QTableWidgetItem * courseName = new QTableWidgetItem(discipline.getName() + "(Unavaliable)");
             QTableWidgetItem * cntOfVisitors = new QTableWidgetItem("000");
             ui->courses->setItem(j,0,courseName);
             ui->courses->setItem(j++,1,cntOfVisitors);
             continue;
         }
-        QTableWidgetItem * courseName = new QTableWidgetItem(i.getName());
-        QTableWidgetItem * cntOfVisitors = new QTableWidgetItem(QString::number(pageOwner.getCourseVistors(i).size()));
+        QTableWidgetItem * courseName = new QTableWidgetItem(discipline.getName());
+        QTableWidgetItem * cntOfVisitors = new QTableWidgetItem(QString::number(pageOwner.getCourseVistors(discipline).size()));
         ui->courses->setItem(j, 0, courseName);
         ui->courses->setItem(j++, 1, cntOfVisitors);
     }
@@ -194,13 +194,13 @@ void TeacherDialog::on_sortB_clicked()
     {
         studentsToSort = pageOwner.getCourseMap().values();
     }
+    minimiseStudentVect(studentsToSort);
     std::sort(studentsToSort.begin(), studentsToSort.end(),
               [](const Student& first,const Student& second)
                 {
                   return first.lessThan(second);
                 });
 
-    minimiseStudentVect(studentsToSort);
     showStudentsList(studentsToSort);
 }
 

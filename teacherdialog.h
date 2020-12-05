@@ -13,6 +13,7 @@ namespace Ui {
 class TeacherDialog;
 }
 
+/*This class is for Teacher's personal cabinet*/
 class TeacherDialog : public QDialog
 {
     Q_OBJECT
@@ -24,17 +25,17 @@ public:
     explicit TeacherDialog(QWidget *parent = nullptr, const Teacher& teacher = Teacher());
     ~TeacherDialog();
 
+    /*functions to show students*/
     void showStudentsList(const QList<Student>& students);
     void setHeaders(const QList<QString>& name, QTableWidget* table);
-
     void minimiseStudentVect(QList<Student> &teachers);
 
+    /*helper functions to set enviroment*/
     void showDisciplinesToChoose();
     void showOwnerDisciplines();
 
     void commitChanges();
-signals:
-    void showMain();
+
 private slots:
     void on_logout_clicked();
     void on_showStudMode_activated(const QString &arg1);

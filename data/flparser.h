@@ -13,6 +13,9 @@
 #define STUD_STUDY_PROCESS_FILE "/datafiles/studstudyproc.json"
 #define TEACHER_STUDY_PROCESS_FILE "/datafiles/teachstudyproc.json"
 
+/*This class represents reading&writing
+all data from .json files,
+located in <file> path(projectDir/datafiles)*/
 class FlParser
 {
 

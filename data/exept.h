@@ -2,6 +2,8 @@
 #define EXEPT_H
 #include <exception>
 #include <QString>
+
+/*Litle class for throwing exceptions*/
 class Except: public std::exception
 {
     std::string message;

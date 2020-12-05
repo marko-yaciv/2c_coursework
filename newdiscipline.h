@@ -11,6 +11,7 @@ namespace Ui {
 class NewDiscipline;
 }
 
+/*Class for dialog for addding new discipline*/
 class NewDiscipline : public QDialog
 {
     Q_OBJECT

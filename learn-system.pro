@@ -20,7 +20,7 @@ SOURCES += \
     main.cpp \
     learnsystem.cpp \
     newdiscipline.cpp \
-    studentdialog.cpp \
+    studentwindow.cpp \
     teacherdialog.cpp
 
 HEADERS += \
@@ -35,14 +35,14 @@ HEADERS += \
     data/teacher.h \
     learnsystem.h \
     newdiscipline.h \
-    studentdialog.h \
+    studentwindow.h \
     teacherdialog.h
 
 FORMS += \
     allmembers.ui \
     learnsystem.ui \
     newdiscipline.ui \
-    studentdialog.ui \
+    studentwindow.ui \
     teacherdialog.ui
 
 TRANSLATIONS += \

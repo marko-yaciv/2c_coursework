@@ -188,7 +188,7 @@ void Teacher::fetchDisciplines(const QJsonArray &courses, const QVector<QVector<
 }
 
 
-//----overloaded operators--
+//----overloaded operators and compare functions--
 
 bool Teacher::compareByPost(const Teacher &other, const QMap<short,QString>& postNames) const
 {

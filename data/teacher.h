@@ -12,6 +12,9 @@
 class Discipline;
 class Student;
 
+/*Class for representing
+teacher in learm system context.
+Every teacher has it's own <courseMap>*/
 class Teacher : public Account, public Human
 {
     int m_stage;

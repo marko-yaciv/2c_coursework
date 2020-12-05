@@ -9,8 +9,9 @@
 #include "exept.h"
 
 /*
-This class contains studet's and
-teacher's data about their courses.
+This class contains studets' and
+teachers' data about their courses, and
+subjects
 */
 class StudyProcessData
 {

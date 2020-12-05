@@ -7,7 +7,7 @@
 #include <QCheckBox>
 #include <QMessageBox>
 #include <QRandomGenerator>
-#include "studentdialog.h"
+#include "studentwindow.h"
 #include "teacherdialog.h"
 #include "allmembers.h"
 #include "newdiscipline.h"
@@ -18,6 +18,8 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class LearnSystem; }
 QT_END_NAMESPACE
 
+
+/* Class for  registration  start window*/
 class LearnSystem : public QMainWindow
 {
     Q_OBJECT
@@ -34,6 +36,7 @@ QVector<QCheckBox*> m_teacherCoursesWidg;
 public:
     LearnSystem(QWidget *parent = nullptr);
     ~LearnSystem();
+
     bool isAccountExist(const Student&);
     bool isAccountExist(const Teacher&);
     void makeNewMemberParticular(Student&);

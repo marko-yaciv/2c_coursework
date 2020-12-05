@@ -6,6 +6,10 @@
 #include <QJsonArray>
 #include <QDate>
 #include "exept.h"
+
+/*This class represents discipline in every learning system
+discipline has it's name? conduct range and
+days when it is being conducted*/
 class Discipline
 {
     QString m_name;

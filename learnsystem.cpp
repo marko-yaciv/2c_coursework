@@ -15,7 +15,7 @@ LearnSystem::LearnSystem(QWidget *parent)
     ui->group->addItems(m_allStudyProcessData->getGroups());
     ui->password->setEchoMode(QLineEdit::EchoMode::Password);
     ui->inLabel->setText("Sign Up");
-    auto name_validator = new QRegExpValidator(QRegExp("[А-і-І-ї-я]{1,40}")) ;
+    auto name_validator = new QRegExpValidator(QRegExp("[А-І-і-ї-Є-є-я]{1,40}")) ;
     ui->Fname->setValidator(name_validator);
     ui->Lname->setValidator(name_validator);
     ui->FthName->setValidator(name_validator);

@@ -12,6 +12,9 @@
 class Discipline;
 class Teacher;
 
+/*Class for representing
+student in learm system context.
+Every student has it's own <studyMap>*/
 class Student: public Account, public Human
 {
     int m_course;

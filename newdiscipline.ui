@@ -170,6 +170,12 @@ border: 1px solid rgba(72, 16, 16, 0.86);
 border-radius: 3px;
 }</string>
          </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>4</number>
+         </property>
         </widget>
        </item>
       </layout>

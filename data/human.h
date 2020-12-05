@@ -2,6 +2,7 @@
 #define HUMAN_H
 
 #include<QString>
+/*Class for representing basic human charscteristics*/
 class Human
 {
 protected:

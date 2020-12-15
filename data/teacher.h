@@ -44,8 +44,8 @@ public:
     void removeCourseTarget(const Discipline& discipline,const Student& stud);
     void removeDiscipline(const Discipline& discipline);
 
-    const QList<Student> getCourseVistors(const Discipline& dis) const;
-    const QMultiMap<Discipline,Student>& getCourseMap() const;
+    //std::unique_ptr<QList<Student>> getCourseVistors(const Discipline& dis) const;
+    QMultiMap<Discipline,Student>& getCourseMap();
     const QList<Discipline>& getDisciplines() const;
     const QString& getPost() const;
     int getPopularity() const;

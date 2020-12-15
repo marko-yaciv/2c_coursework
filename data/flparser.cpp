@@ -38,7 +38,7 @@ void FlParser::writeGroups(const QList<QString>& data)
 {
     if(!openWithValidation(QIODevice::WriteOnly)){
         file.close();
-        throw Except("Can't open file " + file.fileName() + " for writing");
+        throw Except("Не вдалося відкрити файл " + file.fileName() + " для запису");
     }
     file.flush();
     QJsonArray groups;
@@ -54,7 +54,7 @@ void FlParser::writeStudents(const QList<Student>& students)
 {
     if(!openWithValidation(QIODevice::WriteOnly)){
         file.close();
-        throw Except("Can't open file " + file.fileName() + " for writing");
+        throw Except("Не вдалося відкрити файл " + file.fileName() + " для запису");
     }
 
     file.flush();
@@ -75,7 +75,7 @@ void FlParser::writeTeachers(const QList<Teacher>& teachers)
 {
     if(!openWithValidation(QIODevice::WriteOnly)){
         file.close();
-        throw Except("Can't open file " + file.fileName() + " for writing");
+        throw Except("Не вдалося відкрити файл " + file.fileName() + " для запису");
     }
 
     file.flush();
@@ -96,7 +96,7 @@ void FlParser::writeStudentStudyProcessData(const StudyProcessData* studentData)
 {
     if(!openWithValidation(QIODevice::WriteOnly)){
         file.close();
-        throw Except("Can't open file " + file.fileName() + " for writing");
+        throw Except("Не вдалося відкрити файл " + file.fileName() + " для запису");
     }
 
     file.flush();
@@ -111,7 +111,7 @@ void FlParser::writeTeacherStudyProcessData(const StudyProcessData* teacherData)
 {
     if(!openWithValidation(QIODevice::WriteOnly)){
         file.close();
-        throw Except("Can't open file " + file.fileName() + " for writing");
+        throw Except("Не вдалося відкрити файл " + file.fileName() + " для запису");
     }
 
     file.flush();
@@ -127,7 +127,7 @@ void FlParser::writeDisciplines(const QVector<Discipline>& discipls)
 {
     if(!openWithValidation(QIODevice::WriteOnly)){
         file.close();
-        throw Except("Can't open file " + file.fileName() + " for writing");
+        throw Except("Не вдалося відкрити файл " + file.fileName() + " для запису");
     }
 
     QJsonArray arr;
@@ -149,14 +149,14 @@ void FlParser::readGroups(QList<QString>& data)
     if(!openWithValidation(QIODevice::ReadOnly))
     {
         file.close();
-        throw Except("Can't open file " + file.fileName() + " for reading");
+        throw Except("Не вдалося відкрити файл " + file.fileName() + " для зчитування");
     }
 
     QByteArray grps = file.readAll();
     QJsonDocument readDoc(QJsonDocument::fromJson(grps));
     if(readDoc.isNull() || !readDoc.isArray())
     {
-        throw Except("Incorrect json in" + file.fileName());
+        throw Except("Пошкоджений файл" + file.fileName());
     }
 
     QJsonArray groups = readDoc.array();
@@ -171,13 +171,13 @@ void FlParser::readStudents(QList<Student>& students, StudyProcessData* allData)
 {
     if(!openWithValidation(QIODevice::ReadOnly)){
         file.close();
-        throw Except("Can't open file " + file.fileName() + " for reading");
+        throw Except("Не вдалося відкрити файл " + file.fileName() + " для зчитування");
     }
 
     QByteArray data = file.readAll();
     QJsonDocument readDoc(QJsonDocument::fromJson(data));
     if(readDoc.isNull() || !readDoc.isArray()){
-        throw Except("Incorrect json in" + file.fileName());
+        throw Except("Пошкоджений файл" + file.fileName());
     }
 
     QJsonArray studs = readDoc.array();
@@ -199,13 +199,13 @@ void FlParser::readTeachers(QList<Teacher>& teachers, StudyProcessData* allData)
 {
     if(!openWithValidation(QIODevice::ReadOnly)){
         file.close();
-        throw Except("Can't open file " + file.fileName() + " for reading");
+        throw Except("Не вдалося відкрити файл " + file.fileName() + " для зчитування");
     }
 
     QByteArray data = file.readAll();
     QJsonDocument readDoc(QJsonDocument::fromJson(data));
     if(readDoc.isNull() || !readDoc.isArray()){
-        throw Except("Incorrect json in" + file.fileName());
+        throw Except("Пошкоджений файл" + file.fileName());
     }
     QJsonArray tchrs = readDoc.array();
     for(int i  = 0; i < tchrs.size(); ++i){
@@ -222,13 +222,13 @@ void FlParser::readStudentStudyProcessData(StudyProcessData* studentData)
 
     if(!openWithValidation(QIODevice::ReadOnly)){
         file.close();
-        throw Except("Can't open file " + file.fileName() + " for reading");
+        throw Except("Не вдалося відкрити файл " + file.fileName() + " для зчитування");
     }
 
     QByteArray data = file.readAll();
     QJsonDocument readDoc(QJsonDocument::fromJson(data));
     if(readDoc.isNull() || !readDoc.isObject()){
-        throw Except("Incorrect json in" + file.fileName());
+        throw Except("Пошкоджений файл" + file.fileName());
     }
     QJsonObject procObg = readDoc.object();
     studentData->readMapsOfStudents(procObg);
@@ -240,13 +240,13 @@ void FlParser::readTeacherStudyProcessData(StudyProcessData* teacherData)
 {
     if(!openWithValidation(QIODevice::ReadOnly)){
         file.close();
-        throw Except("Can't open file " + file.fileName() + " for reading");
+        throw Except("Не вдалося відкрити файл " + file.fileName() + " для зчитування");
     }
 
     QByteArray data = file.readAll();
     QJsonDocument readDoc(QJsonDocument::fromJson(data));
     if(readDoc.isNull() || !readDoc.isObject()){
-        throw Except("Incorrect json in" + file.fileName());
+        throw Except("Пошкоджений файл" + file.fileName());
     }
     QJsonObject procObg = readDoc.object();
     teacherData->readMapsOfTeachers(procObg);
@@ -260,13 +260,13 @@ void FlParser::readDisciplines(QVector<Discipline>& courses)
 {
     if(!openWithValidation(QIODevice::ReadOnly)){
         file.close();
-        throw Except("Can't open file " + file.fileName() + " for reading");
+        throw Except("Не вдалося відкрити файл " + file.fileName() + " для зчитування");
     }
 
     QByteArray data = file.readAll();
     QJsonDocument readDoc(QJsonDocument::fromJson(data));
     if(readDoc.isNull() || !readDoc.isArray()){
-        throw Except("Incorrect json in" + file.fileName());
+        throw Except("Пошкоджений файл " + file.fileName());
     }
         QJsonArray discipls = readDoc.array();
         for(int i  = 0; i < discipls.size(); ++i){

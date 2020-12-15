@@ -19,8 +19,8 @@ class StudyProcessData
   QList<Teacher> m_allTeachers;
   QVector<QVector<Discipline>> m_allDisciplines;
 
-  QMap<Teacher, QMultiMap<Discipline, Student>> m_teachersCourseMaps;
   QMap<Student, QMap<Discipline, Teacher>> m_studentsStudyMaps;
+  QMap<Teacher, QMultiMap<Discipline, Student>> m_teachersCourseMaps;
 
   QList<QString> m_groups;
   QMap<short,QString> m_postNames;
@@ -32,8 +32,9 @@ private:
   StudyProcessData();
   StudyProcessData(const StudyProcessData&);
   StudyProcessData& operator=(StudyProcessData&);
-  void fetchTeachersWithDisciplines(Student& studentItr, QJsonObject& ownerMap);
-  void fetchStudentsWithDisciplines(Teacher& studentItr, QJsonObject& ownerMap);
+
+  void fetchTeachersWithDisciplinesForStudent(Student& studentItr, QJsonObject& ownerMap);
+  void fetchStudentsWithDisciplinesForTeacher(Teacher& studentItr, QJsonObject& ownerMap);
 
 public:
     ~StudyProcessData();
@@ -42,17 +43,16 @@ public:
     void updateMapForStudent(const Student& mapOwner,const QMap<Discipline,Teacher>& map);
     void updateMapForTeacher(const Teacher& mapOwner,const QMultiMap<Discipline,Student>& map);
 
+    QList<QString>& getGroups();
     QList<Student>& getAllStudents();
     QList<Teacher>& getAllTeachers();
-
-    QVector<QVector<Discipline>>& getAllDisciplines();
     QMap<short, QString>& getPostNames();
-    QList<QString>& getGroups();
+    QVector<QVector<Discipline>>& getAllDisciplines();
 
 
-    void setAllDisciplines(const QVector<QVector<Discipline>>& disciplines);
-    void setPostNames(const QMap<short,QString>& names);
     void setGroups(const QList<QString>& groups);
+    void setPostNames(const QMap<short,QString>& names);
+    //void setAllDisciplines(const QVector<QVector<Discipline>>& disciplines);
 
     void writeMapsForStudents(QJsonObject& json) const;
     void writeMapsForTeachers(QJsonObject& json) const;

@@ -19,22 +19,26 @@ class TeacherDialog : public QDialog
     Q_OBJECT
 
     Teacher pageOwner;
+
+    QMultiMap<Discipline, Student>& pageOwnerMap;
+
     StudyProcessData* m_allStudyProcessData;
     QList<QString> headers;
 public:
-    explicit TeacherDialog(QWidget *parent = nullptr, const Teacher& teacher = Teacher());
+    explicit TeacherDialog(QWidget *parent = nullptr,const Teacher& teacher = Teacher());
     ~TeacherDialog();
 
     /*functions to show students*/
+    void removeTargets(const Discipline& discipline);
     void showStudentsList(const QList<Student>& students);
     void setHeaders(const QList<QString>& name, QTableWidget* table);
-    void minimiseStudentVect(QList<Student> &teachers);
+    void minimiseStudentsList(QList<Student> &students);
 
     /*helper functions to set enviroment*/
     void showDisciplinesToChoose();
     void showOwnerDisciplines();
 
-    void commitChanges();
+    void commitChangesInDisciplines();
 
 private slots:
     void on_logout_clicked();

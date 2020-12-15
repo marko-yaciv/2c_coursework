@@ -34,8 +34,9 @@ public:
     ~Student();
 
     void addDiscipline(const Discipline& discipl);
-    void addStudyTarget(const Discipline discipline,const Teacher Teacher);
+    void addStudyTarget(const Discipline& discipline,const Teacher& Teacher);
 
+    void removeStudyTarget(const Discipline& discipline);
 
 
     const QList<Discipline> &getDisciplines() const;

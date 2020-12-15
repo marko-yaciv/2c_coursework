@@ -7,7 +7,7 @@
 #include <QCheckBox>
 #include <QMessageBox>
 #include <QRandomGenerator>
-#include "studentwindow.h"
+#include "studentdialog.h"
 #include "teacherdialog.h"
 #include "allmembers.h"
 #include "newdiscipline.h"
@@ -28,7 +28,7 @@ StudyProcessData* m_allStudyProcessData;
 StudentDialog* m_studDialog;
 TeacherDialog* m_teachDialog;
 AllMembers* m_membersWidget;
-NewDiscipline* m_createDisciplDialog;
+NewDiscipline* m_newDisciplDialog;
 
 QList<Discipline> m_registrDiscipls;
 QVector<QCheckBox*> m_teacherCoursesWidg;
@@ -41,8 +41,6 @@ public:
     bool isAccountExist(const Teacher&);
     void makeNewMemberParticular(Student&);
     void makeNewMemberParticular(Teacher&);
-    bool isStudentDataCorrect(const QVector<QString>& studentDataToEnter, QString accountPassword);
-    bool isTeacherDataCorrect(const QVector<QString>& teacherDataToEnter, QString accountPassword);
 
     void addCourseToTeacher(const Discipline& course);
     void removeCourseFromTeacher(const Discipline& course);

@@ -30,17 +30,26 @@ Student::~Student()
 
 //-----setters----
 
-void Student::addDiscipline(const Discipline &discipl)
+void Student::addDiscipline(const Discipline& discipl)
 {
     if(!m_courses.contains(discipl))
         m_courses.push_back(discipl);
 }
 
-void Student::addStudyTarget(const Discipline discipline,const Teacher teacher)
+void Student::addStudyTarget(const Discipline& discipline,const Teacher& teacher)
 {
     if(m_courses.contains(discipline))
         m_studyMap.insert(discipline,teacher);
     else throw Except("This student doesn't have discipline, called \"" + discipline.getName() + "\"");
+}
+
+void Student::removeStudyTarget(const Discipline& discipline)
+{
+    if(m_studyMap.contains(discipline)){
+        m_studyMap.remove(discipline);
+        m_courses.removeOne(discipline);
+    }
+    //else throw Except("This student doesn't have discipline, called \"" + discipline.getName() + "\"");
 }
 
 

@@ -34,20 +34,20 @@ void AllMembers::showMembersData(QString lname, QString fname, int id)
 
     ui->members->setRowCount(ui->members->rowCount()+1);
 
-    ui->members->setItem(ui->members->rowCount()-1,0,fnameW);
-    ui->members->setItem(ui->members->rowCount()-1,1,lnameW);
+    ui->members->setItem(ui->members->rowCount()-1,0,lnameW);
+    ui->members->setItem(ui->members->rowCount()-1,1,fnameW);
     ui->members->setItem(ui->members->rowCount()-1,2,idW);
 }
 
 void AllMembers::setHeaders()
 {
     ui->members->setColumnCount(3);
-    QTableWidgetItem*fname = new QTableWidgetItem("First Name");
-    QTableWidgetItem*lname = new QTableWidgetItem("Last Name");
+    QTableWidgetItem*lname = new QTableWidgetItem("Прізвище");
+    QTableWidgetItem*fname = new QTableWidgetItem("Ім'я");
     QTableWidgetItem* id = new QTableWidgetItem("ID");
 
-    ui->members->setHorizontalHeaderItem(0,fname);
-    ui->members->setHorizontalHeaderItem(1,lname);
+    ui->members->setHorizontalHeaderItem(0,lname);
+    ui->members->setHorizontalHeaderItem(1,fname);
     ui->members->setHorizontalHeaderItem(2,id);
 }
 

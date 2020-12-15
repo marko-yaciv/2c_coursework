@@ -29,9 +29,9 @@ class StudentDialog : public QDialog
     Student m_pageOwner;
     StudyProcessData* m_allStudyProcessData;
 
+    QList<QString> headers;
     QMap<QWidget*, QPushButton*> m_noTeacherButtons;
     QMap<Discipline, QWidget*>   m_studCoursesWidgets;
-    QMap<QWidget*, QPushButton*> m_popularTeacherButtons;
 public:
     explicit StudentDialog(QWidget *parent = nullptr, const Student& stud = Student());
     ~StudentDialog();
@@ -63,7 +63,7 @@ public:
 
     /*functions that consolidate
     teachers to show or to sort*/
-    void minimiseTeachersVect(QList<Teacher>& teachers);
+    void minimiseTeachersList(QList<Teacher>& teachers);
     void sortTeachers(QList<Teacher>& teacherList);
     void findFreeTeachers(QList<Teacher>& teachers, const QDate& selectedDate);
     void findTheMostPopularTeacher(Teacher& teacher, const Discipline& discipl);

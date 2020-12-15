@@ -18,11 +18,11 @@ int main(int argc, char *argv[])
     auto& allDisciplines = allStudyProcessData->getAllDisciplines();
     auto& groups = allStudyProcessData->getGroups();
 
-    QMap<short, QString>postNames({std::pair<short,QString>(0,"labAssist"),
-                                      std::pair<short,QString>(1,"teacher"),
-                                      std::pair<short,QString>(2,"seniorTeacher"),
-                                      std::pair<short,QString>(3,"docent"),
-                                      std::pair<short,QString>(4,"professor")});
+    QMap<short, QString>postNames({std::pair<short,QString>(0,"Асистент"),
+                                      std::pair<short,QString>(1,"Викладач"),
+                                      std::pair<short,QString>(2,"Старший викладач"),
+                                      std::pair<short,QString>(3,"Доцент"),
+                                      std::pair<short,QString>(4,"Професор")});
     auto dir = QDir::currentPath();
 
     allStudyProcessData->setPostNames(postNames);
@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
         dataReader.readTeacherStudyProcessData(allStudyProcessData);
 
     }  catch (Except& msg) {
-           QMessageBox::critical(nullptr,"Fatal",msg.what());
+           QMessageBox::critical(nullptr,"Помилка зчитування даних",msg.what());
            return -1;
     }
     LearnSystem w(nullptr);

@@ -208,7 +208,7 @@ border-radius: 10px;
 </string>
         </property>
         <property name="text">
-         <string>Log out</string>
+         <string>Вийти</string>
         </property>
         <property name="icon">
          <iconset resource="resources.qrc">
@@ -277,7 +277,7 @@ color: #fff;
 }</string>
             </property>
             <property name="text">
-             <string>Show Mode</string>
+             <string>Режим показу</string>
             </property>
            </widget>
           </item>
@@ -306,17 +306,17 @@ border-radius: 3px;
             </property>
             <item>
              <property name="text">
-              <string>All Teachers</string>
+              <string>Усі викладачі</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>My Teachers</string>
+              <string>Мої викладачі</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>Teachers with 1 course</string>
+              <string>Викладачі з 1 курсом</string>
              </property>
             </item>
            </widget>
@@ -345,7 +345,7 @@ background: rgba(77, 46, 107,0.8);
 }</string>
             </property>
             <property name="text">
-             <string>Show by date</string>
+             <string>Показати вільних викладачів</string>
             </property>
            </widget>
           </item>
@@ -389,7 +389,7 @@ background: rgba(77, 46, 107,0.8);
 }</string>
             </property>
             <property name="text">
-             <string>Sort by</string>
+             <string>Посортувати</string>
             </property>
            </widget>
           </item>
@@ -434,7 +434,7 @@ border-radius: 5px;
 }</string>
               </property>
               <property name="text">
-               <string>Name</string>
+               <string>За прізвищем</string>
               </property>
              </widget>
             </item>
@@ -468,7 +468,7 @@ border-radius: 5px;
 }</string>
               </property>
               <property name="text">
-               <string>Post</string>
+               <string>За посадою</string>
               </property>
              </widget>
             </item>
@@ -648,7 +648,7 @@ color: #fff;
 }</string>
           </property>
           <property name="text">
-           <string>Course Map</string>
+           <string>Мапа Курсів</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -675,7 +675,7 @@ background: rgb(77, 106, 153);
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>364</width>
+             <width>274</width>
              <height>588</height>
             </rect>
            </property>
@@ -732,7 +732,7 @@ background: rgb(77, 106, 153);
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>340</width>
+                 <width>250</width>
                  <height>528</height>
                 </rect>
                </property>

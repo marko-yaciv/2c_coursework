@@ -110,7 +110,7 @@ color: #fff;
 }</string>
         </property>
         <property name="text">
-         <string>Subscribers: </string>
+         <string>Відвідувачі: </string>
         </property>
        </widget>
       </item>
@@ -159,7 +159,7 @@ border-radius: 10px;
 </string>
         </property>
         <property name="text">
-         <string>Log out</string>
+         <string>Вийти</string>
         </property>
         <property name="icon">
          <iconset resource="resources.qrc">
@@ -209,7 +209,7 @@ color: #fff;
 }</string>
            </property>
            <property name="text">
-            <string>Show Mode</string>
+            <string>Режим показу</string>
            </property>
           </widget>
          </item>
@@ -241,12 +241,12 @@ border-radius: 5px;
            </property>
            <item>
             <property name="text">
-             <string>All Students</string>
+             <string>Усі студенти</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>My Students</string>
+             <string>Мої студенти</string>
             </property>
            </item>
           </widget>
@@ -289,7 +289,7 @@ background: rgba(77, 46, 107,0.8);
 }</string>
          </property>
          <property name="text">
-          <string>Sort</string>
+          <string>Посортувати</string>
          </property>
         </widget>
        </item>
@@ -393,7 +393,7 @@ color: #fff;
 }</string>
          </property>
          <property name="text">
-          <string>My Courses</string>
+          <string>Мої курси</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -438,7 +438,7 @@ background: rgb(77, 106, 153);
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>135</width>
+            <width>136</width>
             <height>109</height>
            </rect>
           </property>
@@ -475,7 +475,7 @@ background: rgba(77, 46, 107,0.8);
 }</string>
          </property>
          <property name="text">
-          <string>Add course</string>
+          <string>Додати курс</string>
          </property>
         </widget>
        </item>

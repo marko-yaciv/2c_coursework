@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Members</string>
+   <string>Користувачі</string>
   </property>
   <property name="windowIcon">
    <iconset resource="resources.qrc">

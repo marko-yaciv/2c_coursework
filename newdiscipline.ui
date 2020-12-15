@@ -86,7 +86,7 @@ font: 11pt &quot;Montserrat&quot;;
 }</string>
          </property>
          <property name="text">
-          <string>Name</string>
+          <string>Назва</string>
          </property>
         </widget>
        </item>
@@ -143,7 +143,7 @@ font: 11pt &quot;Montserrat&quot;;
 }</string>
          </property>
          <property name="text">
-          <string>Course</string>
+          <string>Курс</string>
          </property>
         </widget>
        </item>
@@ -200,7 +200,7 @@ font: 11pt &quot;Montserrat&quot;;
 }</string>
          </property>
          <property name="text">
-          <string>Term</string>
+          <string>Семестр</string>
          </property>
         </widget>
        </item>
@@ -251,7 +251,7 @@ font: 11pt &quot;Montserrat&quot;;
 }</string>
          </property>
          <property name="text">
-          <string>Conduct Days</string>
+          <string>Дні проведення</string>
          </property>
         </widget>
        </item>
@@ -348,7 +348,7 @@ background: rgba(77, 46, 107,0.8);
 }</string>
        </property>
        <property name="text">
-        <string>Add Discipline</string>
+        <string>Створити диципліну</string>
        </property>
       </widget>
      </item>

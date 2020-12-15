@@ -1,15 +1,15 @@
 #include "newdiscipline.h"
 #include "ui_newdiscipline.h"
 
-NewDiscipline::NewDiscipline(QWidget *parent, QVector<QVector<Discipline>>& allDiscipines):
+NewDiscipline::NewDiscipline(QWidget *parent):
     QDialog(parent),
-    discipls(allDiscipines),
+    disciplines(StudyProcessData::getInstance()->getAllDisciplines()),
     ui(new Ui::NewDiscipline)
 {
      ui->setupUi(this);
 
     days = {"Пн","Вт","Ср","Чт","Пт"};
-    fillDays();
+    showDaysToChoose();
 }
 
 NewDiscipline::~NewDiscipline()
@@ -17,7 +17,7 @@ NewDiscipline::~NewDiscipline()
     delete ui;
 }
 
-void NewDiscipline::fillDays()
+void NewDiscipline::showDaysToChoose()
 {
 
     QVBoxLayout* layout = new QVBoxLayout;
@@ -46,15 +46,15 @@ void NewDiscipline::fillDays()
 void NewDiscipline::checkInputValidity(QString& name, int course)
 {
     if(name.size() == 0 || course == 0){
-        throw Except("Incorrect name or course of discipline");
+        throw Except("Неправильне ім'я дисципліни або курс");
     }
 }
 
-void NewDiscipline::checkDisciplPresence()
+void NewDiscipline::checkDisciplinePresence()
 {
-    for(auto& i : discipls){
+    for(auto& i : disciplines){
         if(i.contains(newDiscipline)){
-            throw Except("That discipline already excists");
+            throw Except("Ця дисципліна вже існує");
         }
     }
 }
@@ -84,17 +84,17 @@ void NewDiscipline::on_pushButton_clicked()
 
 
     try {
-        checkDisciplPresence();
+        checkDisciplinePresence();
         checkInputValidity(name,course);
     }  catch (Except& ex) {
-        QMessageBox::warning(this,"Creation failed",ex.what());
+        QMessageBox::warning(this,"Не вдалося створити",ex.what());
         return;
     }
     disciplineCourse = course;
     newDiscipline.rename(name);
     newDiscipline.setConductRange(start,finish);
 
-    discipls[course - 1].append(newDiscipline);
+    disciplines[course - 1].append(newDiscipline);
 
     emit this->finished(1);
     this->close();

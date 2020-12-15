@@ -1,7 +1,5 @@
-#include "studentwindow.h"
-#include "ui_studentwindow.h"
-
-QList<QString> headers({"Initials","Post","Stage","Popularity"});
+#include "studentdialog.h"
+#include "ui_studentdialog.h"
 
 StudentDialog::StudentDialog(QWidget *parent, const Student& stud) :
     QDialog(parent),
@@ -15,6 +13,7 @@ StudentDialog::StudentDialog(QWidget *parent, const Student& stud) :
 
     ui->calendarWidget->hide();
 
+    headers = {"ПІБ","Посада","Стаж","Популярність"};
     ui->teachers->setColumnCount(4);
     setHeaders(headers,ui->teachers);
     ui->teachers->setColumnWidth(2,20);
@@ -23,10 +22,12 @@ StudentDialog::StudentDialog(QWidget *parent, const Student& stud) :
     showOwnerInfo();
     ui->toolBox->removeItem(0);
 
+
     if(m_pageOwner.getDisciplines().size() == 0)
         updateOwnersMap(m_course);
 
     showCourseMap();
+
 }
 
 StudentDialog::~StudentDialog()
@@ -76,9 +77,9 @@ void StudentDialog::showOwnerInfo()
     ui->initials->setText(m_pageOwner.getFname() + "  " +
                           m_pageOwner.getLname() + "  " +
                           m_pageOwner.getFthName());
-    ui->course->setText("Course: " + QString::number(m_course));
-    ui->group->setText("Group: " + m_pageOwner.getGroup());
-    ui->date->setText("Today is: " + QDate::currentDate().toString("dddd MM.yyyy"));
+    ui->course->setText("Курс: " + QString::number(m_course));
+    ui->group->setText("Група: " + m_pageOwner.getGroup());
+    ui->date->setText("Сьогодні: " + QDate::currentDate().toString("dddd MM.yyyy"));
 }
 
 
@@ -90,7 +91,7 @@ void StudentDialog::updateOwnersMap(int course){
 
 void StudentDialog::showNoTeacherButton(QPushButton* noTeacherBut)
 {
-    noTeacherBut->setGeometry(5,5,140,40);
+    noTeacherBut->setGeometry(5,5,180,40);
     noTeacherBut->setStyleSheet("color: #fff;\
                                 font: 11pt \"Open Sans\";\
                                 background: rgba(47, 55, 99, 0.8);\
@@ -99,7 +100,7 @@ void StudentDialog::showNoTeacherButton(QPushButton* noTeacherBut)
 
     noTeacherBut->setIcon(QIcon(":/images/img/add-friend.png"));
     noTeacherBut->setIconSize(QSize(25,25));
-    noTeacherBut->setText("Add Teacher");
+    noTeacherBut->setText("Додати викладача");
 
     noTeacherBut->show();
 }
@@ -159,8 +160,8 @@ void StudentDialog::showTeachersToChange(const Discipline &discipl)
     }
     else
     {
-        QMessageBox::information(this,"Canot change", tr("You should add teacher first\n ") +
-                                                      tr("to be able to change him"));
+        QMessageBox::information(this,"Не вдалося змінити викладача", tr("Спочатку варто додати викладача\n") +
+                                                      tr(" щоб мати змогу змінити його"));
         return;
     }
 
@@ -173,7 +174,7 @@ void StudentDialog::showTheMostPopularTeacher(const Discipline &discipl)
 
     if(theMostPopular.getPasword() == "None"){
         QTableWidgetItem*itm = new QTableWidgetItem;
-        itm->setText("There is no teacher with that discipline yet");
+        itm->setText("Ще немає викладача з такою дисципліною");
         ui->teachers->clearContents();
         ui->teachers->setItem(0,0,itm);
         return;
@@ -222,11 +223,11 @@ void StudentDialog::showTeacherUnderDiscipline(const Teacher teachItm, QWidget *
 
     QLabel* teacherInfo = new QLabel(where);
     teacherInfo->setObjectName("info");
-    teacherInfo->setText("Teacher: " + teachItm.getLname() + " " +
+    teacherInfo->setText("ПІБ: " + teachItm.getLname() + " " +
                          teachItm.getFname() + " " +
                          teachItm.getFthName() +
-                         "\nPost: " + teachItm.getPost() +
-                         "\nPopularity = " + QString::number(teachItm.getPopularity()));
+                         "\nПосада: " + teachItm.getPost() +
+                         "\nПопулярність = " + QString::number(teachItm.getPopularity()));
     teacherInfo->setFont(this->font());
     teacherInfo->show();
 }
@@ -243,7 +244,7 @@ QList<Teacher>::iterator StudentDialog::findTeacherForTarget(const QTableWidgetI
                                                                                    teach.getFthName() == teacherToFind.getFthName();
                                                                               });
     if(teacherToChange == allTeachers.end()){
-        throw Except("Canot find teacher.\n Maybe you clicked not on teacher's name))");
+        throw Except("Не вдалося знайти викладача.\n Можливо ви не натиснули на його ініціали))");
     }
     return teacherToChange;
 }
@@ -319,7 +320,7 @@ void StudentDialog::addTeachersToTable(const QList<Teacher> &teachers)
 
 
 
-void StudentDialog::minimiseTeachersVect(QList<Teacher> &teachers)
+void StudentDialog::minimiseTeachersList(QList<Teacher> &teachers)
 {
     std::sort(teachers.begin(),teachers.end(),[](Teacher& first, Teacher& sec){return first < sec;});
 
@@ -348,7 +349,7 @@ void StudentDialog::sortTeachers(QList<Teacher>& teachersToSort)
                                                         });
     }
     else
-        throw Except("Please, choose  the type of sorting");
+        throw Except("Будь ласка, виберіть спосіб сортування");
 }
 
 void StudentDialog::findFreeTeachers(QList<Teacher> &freeTeachers, const QDate& selectedDate)
@@ -421,7 +422,7 @@ void StudentDialog::findPageOwnerTeachers(QList<Teacher> &teachersToFind)
     auto begin  = m_pageOwner.getStudyMap().begin();
     auto end = m_pageOwner.getStudyMap().end();
     if((begin + 1) == end){
-        throw Except("There are no teachers");
+        throw Except("Немає викладачів");
     }
     for(auto i = begin; i != end; ++i)
         teachersToFind.append(i.value());
@@ -440,8 +441,8 @@ void StudentDialog::findTeachersWithOneCourse(QList<Teacher>& teachersToFind, co
 void StudentDialog::on_discipl_contxtMenuRequested(const Discipline &discipl)
 {
     QMenu* menu = new QMenu;
-    menu->addAction(tr("Show the most popular teacher"), this, [=](){showTheMostPopularTeacher(discipl);});
-    menu->addAction(tr("Change Teacher"), this, [=](){showTeachersToChange(discipl);});
+    menu->addAction(tr("Показати найпопулярнішого викладача"), this, [=](){showTheMostPopularTeacher(discipl);});
+    menu->addAction(tr("Змінити викладача"), this, [=](){showTeachersToChange(discipl);});
     menu->exec(cursor().pos());
 }
 
@@ -455,35 +456,35 @@ void StudentDialog::on_sortB_clicked()
     auto& allTeachers = m_allStudyProcessData->getAllTeachers();
     const QString teacherGroupToSort = ui->showTeachMode->currentText();
 
-    if(teacherGroupToSort == "My Teachers")
+    if(teacherGroupToSort == "Мої викладачі")
     {
         try {
             findPageOwnerTeachers(teachersToSort);
-            minimiseTeachersVect(teachersToSort);
+            minimiseTeachersList(teachersToSort);
             sortTeachers(teachersToSort);
         }  catch (Except& ex) {
-            QMessageBox::warning(this, "Sort failed",ex.what());
+            QMessageBox::warning(this, "Помилка сортування",ex.what());
             return;
         }
     }
-    else if(teacherGroupToSort == "All Teachers")
+    else if(teacherGroupToSort == "Усі викладачі")
     {
         teachersToSort = allTeachers;
         try {
             sortTeachers(teachersToSort);
         }  catch (Except& ex) {
-            QMessageBox::warning(this, "Sort failed",ex.what());
+            QMessageBox::warning(this, "Помилка сортування",ex.what());
             return;
         }
 
     }
-    else if(teacherGroupToSort == "Teachers with 1 course")
+    else if(teacherGroupToSort == "Викладачі з 1 курсом")
     {   
         try {
             findTeachersWithOneCourse(teachersToSort, allTeachers);
             sortTeachers(teachersToSort);
         }  catch (Except& ex) {
-            QMessageBox::warning(this, "Sort failed",ex.what());
+            QMessageBox::warning(this, "Помилка сортування",ex.what());
             return;
         }
     }
@@ -494,17 +495,17 @@ void StudentDialog::on_showTeachMode_activated(const QString &arg)
 {
     QList<Teacher> teachersToPrint;
     auto& allTeachers = m_allStudyProcessData->getAllTeachers();
-    if(arg == "All Teachers")
+    if(arg == "Усі викладачі")
     {
         addTeachersToTable(allTeachers);
         return;
     }
-    else if(arg == "My Teachers")
+    else if(arg == "Мої викладачі")
     {
         findPageOwnerTeachers(teachersToPrint);
-        minimiseTeachersVect(teachersToPrint);
+        minimiseTeachersList(teachersToPrint);
     }
-    else if(arg == "Teachers with 1 course")
+    else if(arg == "Викладачі з 1 курсом")
     {
         findTeachersWithOneCourse(teachersToPrint, allTeachers);
     }
@@ -544,6 +545,6 @@ void StudentDialog::on_calendarWidget_activated(const QDate& selectedDate)
 void StudentDialog::on_calendarWidget_customContextMenuRequested(const QPoint &)
 {
     QMenu* menu = new QMenu;
-    menu->addAction("Hide Calendar",[&](){ui->calendarWidget->hide();});
+    menu->addAction("Сховати календар",[&](){ui->calendarWidget->hide();});
     menu->exec(cursor().pos());
 }

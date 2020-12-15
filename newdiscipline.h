@@ -5,6 +5,7 @@
 #include <QCheckBox>
 #include <QVBoxLayout>
 #include <QMessageBox>
+#include "data/studyprocessdata.h"
 #include "data/discipline.h"
 #include "data/exept.h"
 namespace Ui {
@@ -15,17 +16,17 @@ class NewDiscipline;
 class NewDiscipline : public QDialog
 {
     Q_OBJECT
-    QVector<QVector<Discipline>>& discipls;
+    QVector<QVector<Discipline>>& disciplines;
     Discipline newDiscipline;
     QList<QString> days;
     int disciplineCourse;
 public:
-    explicit NewDiscipline(QWidget *parent, QVector<QVector<Discipline>>& allDiscipines);
+    explicit NewDiscipline(QWidget *parent);
     ~NewDiscipline();
 
-    void fillDays();
+    void showDaysToChoose();
     void checkInputValidity(QString& name, int course);
-    void checkDisciplPresence();
+    void checkDisciplinePresence();
 
     int getNewDisciplineCourse();
 private slots:

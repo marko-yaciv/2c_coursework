@@ -64,10 +64,10 @@ QList<QString> &StudyProcessData::getGroups()
     return m_groups;
 }
 
-void StudyProcessData::setAllDisciplines(const QVector<QVector<Discipline> >& disciplines)
-{
-    m_allDisciplines = disciplines;
-}
+//void StudyProcessData::setAllDisciplines(const QVector<QVector<Discipline> >& disciplines)
+//{
+//    m_allDisciplines = disciplines;
+//}
 
 void StudyProcessData::setPostNames(const QMap<short, QString>& names)
 {
@@ -116,27 +116,7 @@ void StudyProcessData::writeMapsForTeachers(QJsonObject &owners) const
 
 
 //------reading functions-----
-
-void StudyProcessData::readMapsOfStudents(const QJsonObject &owners)
-{
-    m_studentsStudyMaps.clear();
-
-
-    for(auto& student : m_allStudents)
-    {
-        QString ownerId = QString::number(student.m_id);
-
-        if(owners.contains(ownerId) && owners[ownerId].isObject())
-        {
-            QJsonObject ownerMap = owners[ownerId].toObject();
-
-            fetchTeachersWithDisciplines(student,ownerMap);
-
-            m_studentsStudyMaps.insert(student,student.m_studyMap);
-        }
-    }
-}
-void StudyProcessData::fetchTeachersWithDisciplines(Student& student, QJsonObject& ownerMap)
+void StudyProcessData::fetchTeachersWithDisciplinesForStudent(Student& student, QJsonObject& ownerMap)
 {
     for(auto disciplOfCourse = m_allDisciplines[student.m_course-1].begin();
              disciplOfCourse != m_allDisciplines[student.m_course-1].end(); ++disciplOfCourse)
@@ -157,27 +137,30 @@ void StudyProcessData::fetchTeachersWithDisciplines(Student& student, QJsonObjec
         }
     }
 }
-
-
-void StudyProcessData::readMapsOfTeachers(const QJsonObject &owners)
+void StudyProcessData::readMapsOfStudents(const QJsonObject &owners)
 {
-    m_teachersCourseMaps.clear();
+    m_studentsStudyMaps.clear();
 
-    for(auto& teacher : m_allTeachers)
+
+    for(auto& student : m_allStudents)
     {
-        QString ownerId = QString::number(teacher.m_id);
+        QString ownerId = QString::number(student.m_id);
 
         if(owners.contains(ownerId) && owners[ownerId].isObject())
         {
             QJsonObject ownerMap = owners[ownerId].toObject();
 
-            fetchStudentsWithDisciplines(teacher,ownerMap);
+            fetchTeachersWithDisciplinesForStudent(student,ownerMap);
 
-            m_teachersCourseMaps.insert(teacher,teacher.m_courseVisitors);
+            m_studentsStudyMaps.insert(student,student.m_studyMap);
         }
     }
 }
-void StudyProcessData::fetchStudentsWithDisciplines(Teacher& teacherItr, QJsonObject& ownerMap)
+
+
+
+
+void StudyProcessData::fetchStudentsWithDisciplinesForTeacher(Teacher& teacherItr, QJsonObject& ownerMap)
 {
     for(auto course = teacherItr.m_courses.begin(); course != teacherItr.m_courses.end(); ++course)
     {
@@ -197,6 +180,25 @@ void StudyProcessData::fetchStudentsWithDisciplines(Teacher& teacherItr, QJsonOb
                 }
             }
 
+        }
+    }
+}
+
+void StudyProcessData::readMapsOfTeachers(const QJsonObject &owners)
+{
+    m_teachersCourseMaps.clear();
+
+    for(auto& teacher : m_allTeachers)
+    {
+        QString teacherId = QString::number(teacher.m_id);
+
+        if(owners.contains(teacherId) && owners[teacherId].isObject())
+        {
+            QJsonObject ownerMap = owners[teacherId].toObject();
+
+            fetchStudentsWithDisciplinesForTeacher(teacher,ownerMap);
+
+            m_teachersCourseMaps.insert(teacher,teacher.m_courseVisitors);
         }
     }
 }

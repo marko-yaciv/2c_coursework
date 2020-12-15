@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>492</width>
+    <width>500</width>
     <height>730</height>
    </rect>
   </property>
@@ -41,7 +41,7 @@
    <enum>Qt::StrongFocus</enum>
   </property>
   <property name="windowTitle">
-   <string>LearnSystem</string>
+   <string>Приватна школа</string>
   </property>
   <property name="windowIcon">
    <iconset resource="resources.qrc">
@@ -130,7 +130,7 @@ border-radius: 10px;
 }</string>
       </property>
       <property name="text">
-       <string>Back</string>
+       <string>Назад</string>
       </property>
       <property name="icon">
        <iconset resource="resources.qrc">
@@ -189,7 +189,7 @@ border-radius: 15px;
        <number>1</number>
       </property>
       <property name="text">
-       <string>Software Private School</string>
+       <string>Приватна Школа ПЗ</string>
       </property>
       <property name="textFormat">
        <enum>Qt::AutoText</enum>
@@ -255,7 +255,7 @@ border-radius: 5px;
 }</string>
            </property>
            <property name="text">
-            <string>I am Student</string>
+            <string>Я Студент</string>
            </property>
           </widget>
          </item>
@@ -280,7 +280,7 @@ border-radius: 5px;
 }</string>
            </property>
            <property name="text">
-            <string>I am Teacher</string>
+            <string>Я Викладач</string>
            </property>
           </widget>
          </item>
@@ -326,7 +326,7 @@ border-radius: 5px;
               <property name="font">
                <font>
                 <family>Montserrat</family>
-                <pointsize>12</pointsize>
+                <pointsize>10</pointsize>
                 <weight>50</weight>
                 <italic>false</italic>
                 <bold>false</bold>
@@ -334,12 +334,12 @@ border-radius: 5px;
               </property>
               <property name="styleSheet">
                <string notr="true">QLabel{
-	font: 12pt &quot;Montserrat&quot;;
-}
-</string>
+font: 10pt &quot;Montserrat&quot;;
+color: #fff;
+}</string>
               </property>
               <property name="text">
-               <string>Password</string>
+               <string>Пароль</string>
               </property>
              </widget>
             </item>
@@ -432,7 +432,7 @@ border-radius: 5px;
               <property name="font">
                <font>
                 <family>Montserrat</family>
-                <pointsize>12</pointsize>
+                <pointsize>10</pointsize>
                 <weight>50</weight>
                 <italic>false</italic>
                 <bold>false</bold>
@@ -440,12 +440,12 @@ border-radius: 5px;
               </property>
               <property name="styleSheet">
                <string notr="true">QLabel{
-	font: 12pt &quot;Montserrat&quot;;
-}
-</string>
+font: 10pt &quot;Montserrat&quot;;
+color: #fff;
+}</string>
               </property>
               <property name="text">
-               <string>Last name</string>
+               <string>Прізвище</string>
               </property>
              </widget>
             </item>
@@ -492,7 +492,7 @@ border-radius: 5px;
               <property name="font">
                <font>
                 <family>Montserrat</family>
-                <pointsize>12</pointsize>
+                <pointsize>10</pointsize>
                 <weight>50</weight>
                 <italic>false</italic>
                 <bold>false</bold>
@@ -500,12 +500,12 @@ border-radius: 5px;
               </property>
               <property name="styleSheet">
                <string notr="true">QLabel{
-	font: 12pt &quot;Montserrat&quot;;
-}
-</string>
+font: 10pt &quot;Montserrat&quot;;
+color: #fff;
+}</string>
               </property>
               <property name="text">
-               <string>First name</string>
+               <string>Ім'я</string>
               </property>
              </widget>
             </item>
@@ -552,7 +552,7 @@ border-radius: 5px;
               <property name="font">
                <font>
                 <family>Montserrat</family>
-                <pointsize>12</pointsize>
+                <pointsize>10</pointsize>
                 <weight>50</weight>
                 <italic>false</italic>
                 <bold>false</bold>
@@ -560,12 +560,12 @@ border-radius: 5px;
               </property>
               <property name="styleSheet">
                <string notr="true">QLabel{
-	font: 12pt &quot;Montserrat&quot;;
-}
-</string>
+font: 10pt &quot;Montserrat&quot;;
+color: #fff;
+}</string>
               </property>
               <property name="text">
-               <string>Father's name</string>
+               <string>По Батькові</string>
               </property>
              </widget>
             </item>
@@ -651,7 +651,7 @@ border-radius: 5px;
               <property name="font">
                <font>
                 <family>Montserrat</family>
-                <pointsize>12</pointsize>
+                <pointsize>10</pointsize>
                 <weight>50</weight>
                 <italic>false</italic>
                 <bold>false</bold>
@@ -659,12 +659,12 @@ border-radius: 5px;
               </property>
               <property name="styleSheet">
                <string notr="true">QLabel{
-	font: 12pt &quot;Montserrat&quot;;
-}
-</string>
+font: 10pt &quot;Montserrat&quot;;
+color: #fff;
+}</string>
               </property>
               <property name="text">
-               <string>Post</string>
+               <string>Посада</string>
               </property>
              </widget>
             </item>
@@ -729,7 +729,7 @@ border-radius: 5px;
               <property name="font">
                <font>
                 <family>Montserrat</family>
-                <pointsize>12</pointsize>
+                <pointsize>10</pointsize>
                 <weight>50</weight>
                 <italic>false</italic>
                 <bold>false</bold>
@@ -737,12 +737,12 @@ border-radius: 5px;
               </property>
               <property name="styleSheet">
                <string notr="true">QLabel{
-	font: 12pt &quot;Montserrat&quot;;
-}
-</string>
+font: 10pt &quot;Montserrat&quot;;
+color: #fff;
+}</string>
               </property>
               <property name="text">
-               <string>Discipline</string>
+               <string>Курси</string>
               </property>
              </widget>
             </item>
@@ -792,7 +792,7 @@ border-radius: 5px;
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>264</width>
+                 <width>269</width>
                  <height>68</height>
                 </rect>
                </property>
@@ -830,7 +830,7 @@ background: rgb(77, 106, 153);
               <property name="font">
                <font>
                 <family>Montserrat</family>
-                <pointsize>12</pointsize>
+                <pointsize>10</pointsize>
                 <weight>50</weight>
                 <italic>false</italic>
                 <bold>false</bold>
@@ -838,12 +838,12 @@ background: rgb(77, 106, 153);
               </property>
               <property name="styleSheet">
                <string notr="true">QLabel{
-	font: 12pt &quot;Montserrat&quot;;
-}
-</string>
+font: 10pt &quot;Montserrat&quot;;
+color: #fff;
+}</string>
               </property>
               <property name="text">
-               <string>Experience</string>
+               <string>Стаж:</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -889,7 +889,7 @@ border-radius: 3px;
               <property name="font">
                <font>
                 <family>Montserrat</family>
-                <pointsize>12</pointsize>
+                <pointsize>10</pointsize>
                 <weight>50</weight>
                 <italic>false</italic>
                 <bold>false</bold>
@@ -897,12 +897,12 @@ border-radius: 3px;
               </property>
               <property name="styleSheet">
                <string notr="true">QLabel{
-	font: 12pt &quot;Montserrat&quot;;
-}
-</string>
+font: 10pt &quot;Montserrat&quot;;
+color: #fff;
+}</string>
               </property>
               <property name="text">
-               <string>  years</string>
+               <string>  років</string>
               </property>
              </widget>
             </item>
@@ -957,7 +957,7 @@ border-radius: 3px;
             <property name="font">
              <font>
               <family>Montserrat</family>
-              <pointsize>12</pointsize>
+              <pointsize>10</pointsize>
               <weight>50</weight>
               <italic>false</italic>
               <bold>false</bold>
@@ -965,12 +965,12 @@ border-radius: 3px;
             </property>
             <property name="styleSheet">
              <string notr="true">QLabel{
-	font: 12pt &quot;Montserrat&quot;;
-}
-</string>
+font: 10pt &quot;Montserrat&quot;;
+color: #fff;
+}</string>
             </property>
             <property name="text">
-             <string>Group</string>
+             <string>Група</string>
             </property>
            </widget>
           </item>
@@ -1091,7 +1091,7 @@ background: rgba(77, 46, 107,0.8);
 }</string>
            </property>
            <property name="text">
-            <string>Sign up</string>
+            <string>Зареєструватися</string>
            </property>
           </widget>
          </item>
@@ -1137,7 +1137,7 @@ background: rgba(77, 46, 107,0.8);
 }</string>
            </property>
            <property name="text">
-            <string>Enter</string>
+            <string>Увійти</string>
            </property>
            <property name="flat">
             <bool>false</bool>
@@ -1178,10 +1178,11 @@ background: rgba(77, 46, 107,0.8);
             <property name="styleSheet">
              <string notr="true">QLabel{
 font: 10pt &quot;Montserrat&quot;;
+color: #fff;
 }</string>
             </property>
             <property name="text">
-             <string>Alredy signed up?</string>
+             <string>Вже зареєстровані?</string>
             </property>
            </widget>
           </item>
@@ -1224,7 +1225,7 @@ background: rgba(77, 46, 107,0.8);
 }</string>
             </property>
             <property name="text">
-             <string>Log In</string>
+             <string>Увійти</string>
             </property>
             <property name="flat">
              <bool>false</bool>
@@ -1310,7 +1311,7 @@ background: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0, stop:0.115385 rg
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>492</width>
+     <width>500</width>
      <height>25</height>
     </rect>
    </property>
@@ -1327,10 +1328,10 @@ background: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0, stop:0.115385 rg
      <normaloff>:/images/img/teacher.png</normaloff>:/images/img/teacher.png</iconset>
    </property>
    <property name="text">
-    <string>Show All Teachers</string>
+    <string>Показати усіх викладачів</string>
    </property>
    <property name="whatsThis">
-    <string>Show All Teachers</string>
+    <string>Показати усіх викладачів</string>
    </property>
   </action>
   <action name="actionShow_All_Students">
@@ -1339,10 +1340,10 @@ background: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0, stop:0.115385 rg
      <normaloff>:/images/img/student.png</normaloff>:/images/img/student.png</iconset>
    </property>
    <property name="text">
-    <string>Show All Students</string>
+    <string>Показати усіх студентів</string>
    </property>
    <property name="whatsThis">
-    <string>Show All Teachers</string>
+    <string>Показати усіх студентів</string>
    </property>
    <property name="shortcutContext">
     <enum>Qt::WindowShortcut</enum>
@@ -1354,10 +1355,10 @@ background: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0, stop:0.115385 rg
      <normaloff>:/images/img/course.ico</normaloff>:/images/img/course.ico</iconset>
    </property>
    <property name="text">
-    <string>Discipline</string>
+    <string>Нова дисципліна</string>
    </property>
    <property name="toolTip">
-    <string>Add discipline</string>
+    <string>Нова дисципліна</string>
    </property>
   </action>
  </widget>

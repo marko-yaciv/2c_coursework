@@ -1,30 +1,31 @@
 #include "teacherdialog.h"
 #include "ui_teacherdialog.h"
 
-TeacherDialog::TeacherDialog(QWidget *parent, const Teacher& teacher) :
+TeacherDialog::TeacherDialog(QWidget *parent,const Teacher& teacher) :
     QDialog(parent),
     pageOwner(teacher),
+    pageOwnerMap(pageOwner.getCourseMap()),
     m_allStudyProcessData(StudyProcessData::getInstance()),
     ui(new Ui::TeacherDialog)
 {
     ui->setupUi(this);
 
-    headers = {"Course Name","Visitors number"};
+    headers = {"Назва курсу","Кількість відвідувачів"};
     ui->courses->setColumnCount(2);
     ui->courses->setColumnWidth(0,224);
     ui->courses->setColumnWidth(1,112);
     setHeaders(headers,ui->courses);
     ui->scrollArea->hide();
 
-    headers = {"Initials","Group","Course"};
+    headers = {"ПІБ","Група","Курс"};
     ui->students->setColumnCount(3);
     setHeaders(headers,ui->students);
 
     ui->initials->setText(pageOwner.getLname() + " " + pageOwner.getFname() + " " + pageOwner.getFthName());
 
-    auto myStudents = pageOwner.getCourseMap().values();
-    minimiseStudentVect(myStudents);
-    ui->CntOfVisits->setText("Subscribers: " + QString::number(myStudents.size()));
+    auto myStudents = pageOwnerMap.values();
+    minimiseStudentsList(myStudents);
+    ui->CntOfVisits->setText("Відвідувачі: " + QString::number(myStudents.size()));
 
     showOwnerDisciplines();
 }
@@ -36,17 +37,19 @@ TeacherDialog::~TeacherDialog()
     delete ui;
 }
 
+
+
 void TeacherDialog::showStudentsList(const QList<Student> &students)
 {
     ui->students->clear();
     ui->students->setRowCount(0);
-    headers = {"Initials","Group","Course"};
+    headers = {"ПІБ","Група","Курс"};
     setHeaders(headers,ui->students);
 
     if(!students.size())
     {
         QTableWidgetItem* itm = new QTableWidgetItem;
-        itm->setText("No students");
+        itm->setText("Немає студентів");
         ui->students->setRowCount(ui->students->rowCount() + 1);
         ui->students->setItem(ui->students->rowCount()-1,0,itm);
         return;
@@ -89,11 +92,12 @@ void TeacherDialog::on_logout_clicked()
     auto& allTeachers = m_allStudyProcessData->getAllTeachers();
 
     allTeachers.replace(allTeachers.indexOf(pageOwner),pageOwner);
+
     emit this->finished(1);
     this->close();
 
 }
-void TeacherDialog::minimiseStudentVect(QList<Student>& students)
+void TeacherDialog::minimiseStudentsList(QList<Student>& students)
 {
     std::sort(students.begin(),students.end(),[](Student& first, Student& sec){return first < sec;});
 
@@ -107,6 +111,25 @@ void TeacherDialog::minimiseStudentVect(QList<Student>& students)
     }
 }
 
+
+//void TeacherDialog::removeTargets(const Discipline &discipline)
+//{
+//    auto& allTeachers = m_allStudyProcessData->getAllTeachers();
+//    int pos = allTeachers.indexOf(pageOwner);
+//    auto& map = allTeachers[pos].getCourseMap();
+
+//    for(auto i = map.begin(); i != map.end();++i){
+
+//        i->removeStudyTarget(discipline);
+
+//        try {
+//            pageOwner.removeCourseTarget(discipline, *i);
+//        }  catch (const Except& ex) {
+//            pageOwner.removeDiscipline(discipline);
+//        }
+//    }
+//}
+
 void TeacherDialog::showDisciplinesToChoose()
 {
     if(ui->scrollAreaWidgetContents->children().size() > 0) return;
@@ -116,6 +139,9 @@ void TeacherDialog::showDisciplinesToChoose()
     layout->setContentsMargins(1,0,0,1);
     for(auto& courseDiscipls: m_allStudyProcessData->getAllDisciplines()){
         for(auto& discipl: courseDiscipls){
+            if(!pageOwner.hasDiscipline(discipl))
+                continue;
+
             QCheckBox* courseName = new QCheckBox;
             courseName->setText(discipl.getName());
             layout->addWidget(courseName);
@@ -128,8 +154,8 @@ void TeacherDialog::showDisciplinesToChoose()
                     showOwnerDisciplines();
                }
                else{
-                   pageOwner.removeDiscipline(discipl);
-                   showOwnerDisciplines();
+                   //removeTargets(discipl);
+                   //showOwnerDisciplines();
                }
             });
         }
@@ -148,20 +174,20 @@ void TeacherDialog::showOwnerDisciplines()
     {
         if(!discipline.isEnabled())
         {
-            QTableWidgetItem * courseName = new QTableWidgetItem(discipline.getName() + "(Unavaliable)");
+            QTableWidgetItem * courseName = new QTableWidgetItem(discipline.getName() + "(Недоступна)");
             QTableWidgetItem * cntOfVisitors = new QTableWidgetItem("000");
             ui->courses->setItem(j,0,courseName);
             ui->courses->setItem(j++,1,cntOfVisitors);
             continue;
         }
         QTableWidgetItem * courseName = new QTableWidgetItem(discipline.getName());
-        QTableWidgetItem * cntOfVisitors = new QTableWidgetItem(QString::number(pageOwner.getCourseVistors(discipline).size()));
+        QTableWidgetItem * cntOfVisitors = new QTableWidgetItem(QString::number(pageOwnerMap.values(discipline).size()));
         ui->courses->setItem(j, 0, courseName);
         ui->courses->setItem(j++, 1, cntOfVisitors);
     }
 }
 
-void TeacherDialog::commitChanges()
+void TeacherDialog::commitChangesInDisciplines()
 {
     ui->courseLabel->show();
     ui->scrollArea->hide();
@@ -170,14 +196,14 @@ void TeacherDialog::commitChanges()
 void TeacherDialog::on_showStudMode_activated(const QString& showMode)
 {
     QList<Student> studentsToShow;
-    if(showMode == "All Students")
+    if(showMode == "Усі студенти")
     {
        studentsToShow = m_allStudyProcessData->getAllStudents();
     }
-    else if(showMode == "My Students")
+    else if(showMode == "Мої студенти")
     {
         studentsToShow = pageOwner.getCourseMap().values();
-        minimiseStudentVect(studentsToShow);
+        minimiseStudentsList(studentsToShow);
 
     }
     showStudentsList(studentsToShow);
@@ -186,15 +212,15 @@ void TeacherDialog::on_showStudMode_activated(const QString& showMode)
 void TeacherDialog::on_sortB_clicked()
 {
     QList<Student> studentsToSort;
-    if(ui->showStudMode->currentText() == "All Students")
+    if(ui->showStudMode->currentText() == "Усі студенти")
     {
         studentsToSort = m_allStudyProcessData->getAllStudents();
     }
-    else if(ui->showStudMode->currentText() == "My Students")
+    else if(ui->showStudMode->currentText() == "Мої студенти")
     {
         studentsToSort = pageOwner.getCourseMap().values();
     }
-    minimiseStudentVect(studentsToSort);
+    minimiseStudentsList(studentsToSort);
     std::sort(studentsToSort.begin(), studentsToSort.end(),
               [](const Student& first,const Student& second)
                 {
@@ -207,7 +233,7 @@ void TeacherDialog::on_sortB_clicked()
 void TeacherDialog::on_courses_itemDoubleClicked(QTableWidgetItem *courseName)
 {
     Discipline course(courseName->text());
-    auto studentsToShow = pageOwner.getCourseVistors(course);
+    auto studentsToShow = pageOwnerMap.values(course);
     showStudentsList(studentsToShow);
 }
 
@@ -221,6 +247,6 @@ void TeacherDialog::on_pushButton_clicked()
 void TeacherDialog::on_scrollArea_customContextMenuRequested(const QPoint &pos)
 {
     QMenu *menu = new QMenu;
-    menu->addAction(tr("Commit changes"), this, [&](){commitChanges();});
+    menu->addAction(tr("Зберегти зміни"), this, [&](){commitChangesInDisciplines();});
     menu->exec(cursor().pos());
 }

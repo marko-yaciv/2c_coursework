@@ -8,20 +8,22 @@ LearnSystem::LearnSystem(QWidget *parent)
 {
     ui->setupUi(this);
 
+
     ui->teachInfo->hide();
     ui->studGroup->hide();
     ui->enterB->hide();
     ui->backToRegister->hide();
     ui->group->addItems(m_allStudyProcessData->getGroups());
     ui->password->setEchoMode(QLineEdit::EchoMode::Password);
-    ui->inLabel->setText("Sign Up");
+    ui->inLabel->setText("Реєстрація");
     auto name_validator = new QRegExpValidator(QRegExp("[А-І-і-ї-Є-є-я]{1,40}")) ;
     ui->Fname->setValidator(name_validator);
     ui->Lname->setValidator(name_validator);
     ui->FthName->setValidator(name_validator);
 
-    showDisciplinesToChoose();
+    ui->actionDiscipline->setVisible(false);
 
+    showDisciplinesToChoose();
 
     ui->post->addItems(m_allStudyProcessData->getPostNames().values());
 
@@ -69,7 +71,7 @@ LearnSystem::~LearnSystem()
 
     }  catch (Except& msg) {
         delete ui;
-        QMessageBox::critical(nullptr,"Fatal",msg.what());
+        QMessageBox::critical(nullptr,"Помилка запису даних",msg.what());
         return;
     }
     delete StudyProcessData::getInstance();
@@ -160,17 +162,17 @@ void LearnSystem::validateNamesForEnter()
             ui->Lname->text().isEmpty() ||
             ui->FthName->text().isEmpty() ||
             ui->password->text().isEmpty()){
-        throw Except("Please, fill all fields and try again)");
+        throw Except("Будь ласка, заповніть усі поля)");
     }
 }
 
 void LearnSystem::validateDataForSignUp()
 {
     if(ui->teachInfo->isHidden() && ui->iamteach->isChecked()){
-        throw Except("Please, choose all data and try again)");
+        throw Except("Будь ласка, заповніть усі поля)");
     }
     if(ui->studGroup->isHidden() && ui->iamstud->isChecked()){
-        throw Except("Please, choose all data and try again)");
+        throw Except("Будь ласка, заповніть усі поля)");
     }
 }
 
@@ -189,6 +191,7 @@ void LearnSystem::removeCourseFromTeacher(const Discipline& course)
 void LearnSystem::on_iamstud_clicked()
 {
     if(ui->logInB->isEnabled()){
+        ui->actionDiscipline->setVisible(false);
         ui->teachInfo->hide();
         ui->studGroup->show();
         ui->signUpB->show();
@@ -199,6 +202,7 @@ void LearnSystem::on_iamstud_clicked()
 void LearnSystem::on_iamteach_clicked()
 {
     if(ui->logInB->isEnabled()){
+        ui->actionDiscipline->setVisible(true);
         ui->studGroup->hide();
         ui->teachInfo->show();
         ui->signUpB->show();
@@ -208,6 +212,7 @@ void LearnSystem::on_iamteach_clicked()
 
 void LearnSystem::on_logInB_clicked()
 {
+    ui->actionDiscipline->setVisible(false);
     ui->studGroup->hide();
     ui->teachInfo->hide();
     ui->signUpB->hide();
@@ -215,7 +220,7 @@ void LearnSystem::on_logInB_clicked()
     ui->logInWidget->hide();
     ui->logInB->setEnabled(false);
     ui->backToRegister->show();
-    ui->inLabel->setText("Log In");
+    ui->inLabel->setText("Вхід");
 }
 
 void LearnSystem::on_signUpB_clicked()
@@ -224,7 +229,7 @@ void LearnSystem::on_signUpB_clicked()
         validateNamesForEnter();
         validateDataForSignUp();
     }  catch (Except& ex) {
-        QMessageBox::warning(this,"Registration failed", ex.what());
+        QMessageBox::warning(this,"Помилка реєстрації", ex.what());
         return;
     }
 
@@ -239,10 +244,10 @@ void LearnSystem::on_signUpB_clicked()
                            ui->password->text());
 
         if(std::find(allStudents.begin(),allStudents.end(),newStudent) != allStudents.end()){
-            QMessageBox::warning(this,"Failed to Create",
-                                 "Failed to create account."
-                                 "It is already exists. "
-                                 "Try to log In your account");
+            QMessageBox::warning(this,"Помилка реєстрації",
+                                 "Не вдалося творити акаунт"
+                                 "Він вже існує. "
+                                 "Спробуйте зайти.");
             return;
         }
         makeNewMemberParticular(newStudent);
@@ -262,17 +267,17 @@ void LearnSystem::on_signUpB_clicked()
                            ui->stand->text().toInt(),
                            ui->password->text());
         if(m_registrDiscipls.isEmpty()){
-            QMessageBox::warning(this,"Failed to Create","Plese choose disciplines");
+            QMessageBox::warning(this,"Помилка реєстрації","Будь ласка, виберіть дисципліни");
             return;
         }
         for(auto &i : m_registrDiscipls){
             newTeacher.addDiscipline(i);
         }
         if(std::find(allTeachers.begin(),allTeachers.end(),newTeacher) != allTeachers.end()){
-            QMessageBox::warning(this,"Failed to Create",
-                                 "Failed to create account."
-                                 "It is already exists. "
-                                 "Try to log In your account");
+            QMessageBox::warning(this,"Помилка реєстрації",
+                                 "Не вдалося творити акаунт"
+                                 "Він вже існує. "
+                                 "Спробуйте зайти.");
             return;
         }
         makeNewMemberParticular(newTeacher);
@@ -285,8 +290,8 @@ void LearnSystem::on_signUpB_clicked()
         m_teachDialog->open();
     }
     else{
-        QMessageBox::warning(this, "Registration failed", tr("Please, choose, who you are (teacher or student) ")+
-                                                    tr("And try again"));
+        QMessageBox::warning(this, "Помилка реєстрації", tr("Будь ласка виберіть, хто ви (викладач чи студент) ")+
+                                                    tr("Та спробуйте ще раз"));
         return;
     }
     this->close();
@@ -297,7 +302,7 @@ void LearnSystem::on_enterB_clicked()
     try {
         validateNamesForEnter();
     }  catch (Except& ex) {
-        QMessageBox::warning(this,"Logging in failed", ex.what());
+        QMessageBox::warning(this,"Помилка входу", ex.what());
         return;
     }
 
@@ -319,11 +324,11 @@ void LearnSystem::on_enterB_clicked()
             clearItems();
             m_studDialog->open();
         }else{
-            QMessageBox::warning(this,"Entering failed",
-                                 "The student with entered initials doesn't exist,"
-                                 "or password is incorrect."
-                                 "Please, check the inputs and try again "
-                                 "or sign up");
+            QMessageBox::warning(this,"Помилка входу",
+                                 "Такого студента не існує, "
+                                 "або неправильний пароль."
+                                 "Будь ласка,\n перевірте дані та спробуйте ще раз\n"
+                                 " або зареєструйтеся");
             return;
         }
     }else if(ui->iamteach->isChecked()){
@@ -331,26 +336,26 @@ void LearnSystem::on_enterB_clicked()
                             ui->Lname->text(),
                             ui->FthName->text(),
                             ui->password->text());
-        auto teachInList = std::find(allTeachers.begin(),allTeachers.end(),TeachToEnter);
+        auto teacherInList = std::find(allTeachers.begin(),allTeachers.end(),TeachToEnter);
 
-        if(teachInList != allTeachers.end()){
-            m_teachDialog = new TeacherDialog(nullptr,*teachInList);
+        if(teacherInList != allTeachers.end()){
+            m_teachDialog = new TeacherDialog(nullptr,*teacherInList);
             connect(m_teachDialog,&TeacherDialog::finished,this,&QMainWindow::show);
             clearItems();
             m_teachDialog->open();
         }else{
-            QMessageBox::warning(this,"Entering failed",
-                                 "The teacher with entered initials doesn't exist,"
-                                 "or password is incorrect."
-                                 "Please, check the inputs and try again"
-                                 "or sign up");
+            QMessageBox::warning(this,"Помилка входу",
+                                 "Такого викладача не існує, "
+                                 "або неправильний пароль."
+                                 "Будь ласка,\n перевірте дані та спробуйте ще раз\n"
+                                 " або зареєструйтеся");
             return;
         }
 
     }
     else {
-        QMessageBox::warning(this, "Log in failed", tr("Please, choose, who you are (teacher or student)")+
-                                                    tr("And try again"));
+        QMessageBox::warning(this, "Помилка входу", tr("Будь ласка виберіть, хто ви (викладач чи студент) ")+
+                                                    tr("Та спробуйте ще раз"));
         return;
     }
     this->close();
@@ -359,11 +364,13 @@ void LearnSystem::on_enterB_clicked()
 void LearnSystem::on_backToRegister_clicked()
 {
     if(ui->iamstud->isChecked()){
+        ui->actionDiscipline->setVisible(false);
         ui->teachInfo->hide();
         ui->studGroup->show();
         ui->signUpB->show();
         ui->enterB->hide();
     }else if(ui->iamteach->isChecked()){
+        ui->actionDiscipline->setVisible(true);
         ui->studGroup->hide();
         ui->teachInfo->show();
         ui->signUpB->show();
@@ -372,7 +379,7 @@ void LearnSystem::on_backToRegister_clicked()
     ui->logInWidget->show();
     ui->logInB->setEnabled(true);
     ui->backToRegister->hide();
-    ui->inLabel->setText("Sign Up");
+    ui->inLabel->setText("Вхід");
 }
 
 void LearnSystem::on_actionShow_All_Teachers_triggered()
@@ -399,8 +406,8 @@ void LearnSystem::on_showPassword_released()
 
 void LearnSystem::on_actionDiscipline_triggered()
 {
-    m_createDisciplDialog = new NewDiscipline(this,m_allStudyProcessData->getAllDisciplines());
-    connect(m_createDisciplDialog,&NewDiscipline::finished,this,[&](){showDisciplinesToChoose();
-                                                                    updateStudentsWithDiscipline(m_createDisciplDialog->getNewDisciplineCourse());});
-    m_createDisciplDialog->open();
+    m_newDisciplDialog = new NewDiscipline(this);
+    connect(m_newDisciplDialog,&NewDiscipline::finished,this,[&](){showDisciplinesToChoose();
+                                                                    updateStudentsWithDiscipline(m_newDisciplDialog->getNewDisciplineCourse());});
+    m_newDisciplDialog->open();
 }

@@ -75,19 +75,23 @@ void Teacher::removeDiscipline(const Discipline &discipline)
 void Teacher::removeCourseTarget(const Discipline& discipline,const Student& stud)
 {
     if(m_courseVisitors.contains(discipline,stud)){
-        m_courseVisitors.remove(discipline,stud);
-       --m_populatity;
+       m_courseVisitors.remove(discipline,stud);
+       m_courses.removeOne(discipline);
+        --m_populatity;
+    }
+    else {
+        throw Except("");
     }
 }
 
 //-----getters-----
 
-const QList<Student> Teacher::getCourseVistors(const Discipline &dis) const
-{
-    return m_courseVisitors.values(dis);
-}
+//std::unique_ptr<QList<Student>> Teacher::getCourseVistors(const Discipline &dis) const
+//{
+//    return std::unique_ptr<QList<Student>>(new QList<Student>(m_courseVisitors.values(dis)));
+//}
 
-const QMultiMap<Discipline, Student>& Teacher::getCourseMap() const
+QMultiMap<Discipline, Student>& Teacher::getCourseMap()
 {
     return m_courseVisitors;
 }
